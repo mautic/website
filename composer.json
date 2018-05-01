@@ -1,15 +1,15 @@
 {
-    "name": "tabler/tabler",
-    "description": "Premium and Open Source dashboard template with responsive and high quality UI. For Free!",
-    "type": "library",
-    "license": "MIT",
+	"name": "therealkevinard/oc-theme-mautic-org",
+	"description": "October theme for mautic.org. Based on tabler/tabler",
+	"type": "october-theme",
+	"license": "MIT",
 	"require": {},
 	"require-dev": {},
 	"autoload": {},
 	"authors": [
 		{
-			"name": "codecalm",
-			"email": "codecalm@gmail.com"
+			"name": "Kevin Ard",
+			"email": "ard.kevin.84@gmail.com"
 		}
 	]
 }
