@@ -1,0 +1,27 @@
+description = "Default layout"
+==
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+	{% partial 'site/assets-common' %}
+	{% partial 'site/site-meta-common' %}
+</head>
+<body class="">
+<div class="page">
+	<div class="page-main">
+		{% partial 'site/header' %}
+		<div class="my-3 my-md-5">
+			<div class="container">
+				<div class="page-header">
+					<h1 class="page-title">
+						{{ this.page.title }}
+					</h1>
+				</div>
+				{% page %}
+			</div>
+		</div>
+	</div>
+	{% partial 'site/footer' %}
+</div>
+</body>
+</html>

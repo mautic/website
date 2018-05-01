@@ -60,6 +60,8 @@ $lime: #7bd235;
 $green: #5eba00;
 $teal: #2bcbba;
 $cyan: #17a2b8;
+$brand-purple: #454F8C;
+$brand-gold: #FEB939;
 
 $text-muted: #9aa0ac;
 $text-muted-dark: #6e7687;
@@ -90,7 +92,9 @@ $colors: (
 	"cyan": $cyan,
 	"white": $white,
 	"gray": $gray-600,
-	"gray-dark": $gray-800
+	"gray-dark": $gray-800,
+	"brand-purple": $brand-purple,
+	"brand-gold": $brand-gold,
 );
 
 $theme-colors: (
@@ -101,7 +105,9 @@ $theme-colors: (
 	"warning": $warning,
 	"danger": $danger,
 	"light": $light,
-	"dark": $dark
+	"dark": $dark,
+	"brand-purple": $brand-purple,
+	"brand-gold": $brand-gold,
 );
 
 $social-colors: (
