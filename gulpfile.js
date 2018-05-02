@@ -17,6 +17,7 @@ gulp.task('styles', function () {
         }))
         .pipe(rename('dashboard.css'))
         .pipe(gulp.dest('src/assets/css/'))
+		.pipe(gulp.dest('dist/assets/css/'))
 
         .pipe(rtlcss())
         .pipe(rename('dashboard.rtl.css'))

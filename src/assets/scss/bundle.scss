@@ -1,38 +1,48 @@
 /**
 Dashboard UI
  */
+
+@function gridvals($numgrids) {
+	@return $numgrids * 8px;
+}
+
 @import 'variables';
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import 'dashboard/dashboard';
 
+div.header {
+	a.nav-link.icon {
+		@extend .text-gray-dark;
+	}
+
+	ul.nav.nav-tabs {
+		li {
+			a.nav-link {
+				//@extend .text-brand-purple;
+			}
+			a.nav-link.active {
+				@extend .text-brand-purple;
+				border-color: $brand-purple;
+			}
+		}
+	}
+}
+
 div.footer {
 	ul.list-unstyled {
 		& > li > a {
-			@extend .text-white;
+			@extend .text-brand-purple;
 		}
 	}
 }
 
 footer.footer {
 	a:not([class*="btn"]) {
-		@extend .text-brand-gold;
+		@extend .text-brand-purple;
 	}
 }
 
-div.header {
-	a.nav-link.icon {
-		@extend .text-white
-	}
-
-	ul.nav.nav-tabs {
-		li {
-			a.nav-link {
-				@extend .text-white;
-			}
-			a.nav-link.active {
-				@extend .text-brand-gold;
-				border-color: $brand-gold;
-			}
-		}
-	}
+section {
+	padding-top: gridvals(5);
+	padding-bottom: gridvals(8);
 }
