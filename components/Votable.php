@@ -36,6 +36,9 @@ class Votable extends \Cms\Classes\ComponentBase
                 $post = ForumPost::where('id', $item)
                     ->first();
                 $post->modVotes($mutate);
+                return [
+                    '#votesCnt' => $post->mtcorg_points
+                ];
                 break;
 
         }
