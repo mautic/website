@@ -1,0 +1,46 @@
+name: 'Top Nav: Marketing'
+items:
+    -
+        title: Home
+        type: cms-page
+        code: ''
+        reference: mktg-home
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fa fa-home'
+            isExternal: '0'
+    -
+        title: Forum
+        type: cms-page
+        code: ''
+        reference: forum/home
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fa fa-comments'
+            isExternal: '0'
+    -
+        title: Documentation
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: support/documentation
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fa fa-book'
+            isExternal: '0'
+    -
+        title: Recipes
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: support/recipes
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fa fa-flask'
+            isExternal: '0'

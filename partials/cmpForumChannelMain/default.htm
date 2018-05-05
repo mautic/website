@@ -1,0 +1,7 @@
+<div class="rainlab-forum">
+	{% partial cmpForumChannelMain ~ "::topics" %}
+	{% if topics %}
+		{% partial cmpForumChannelMain ~ "::pagination" %}
+	{% endif %}
+</div>
+

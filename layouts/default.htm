@@ -1,8 +1,16 @@
 description = "Default layout"
+
+[session]
+security = "all"
+
+[staticPage]
+useContent = 1
+default = 0
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
+	{% component 'session' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
 </head>
@@ -12,16 +20,23 @@ description = "Default layout"
 		{% partial 'site/header' %}
 		<div class="my-3 my-md-5">
 			<div class="container">
-				<div class="page-header">
-					<h1 class="page-title">
-						{{ this.page.title }}
-					</h1>
+				<div class="row page-header text-center">
+					<h1 class="col-12">{{ this.page.title }}</h1>
 				</div>
 				{% page %}
+				{% component 'staticPage' %}
 			</div>
 		</div>
 	</div>
 	{% partial 'site/footer' %}
 </div>
+
+<!-- scripts -->
+<script
+	src="https://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+{% framework extras %}
+{% scripts %}
 </body>
 </html>

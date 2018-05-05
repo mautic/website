@@ -1,0 +1,75 @@
+name: 'User Menu'
+items:
+    -
+        title: Profile
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: register
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fe fe-user'
+            isExternal: '0'
+    -
+        title: Settings
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: home
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fe fe-settings'
+            isExternal: '0'
+    -
+        title: Inbox
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: home
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fe fe-mail'
+            isExternal: '0'
+    -
+        title: Message
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: home
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fe fe-send'
+            isExternal: '0'
+    -
+        title: Divider
+        type: header
+        code: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: dropdown-divider
+            isExternal: '0'
+    -
+        title: 'Need help?'
+        nesting: ''
+        type: cms-page
+        url: ''
+        code: ''
+        reference: home
+        cmsPage: ''
+        replace: ''
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fe fe-help-circle'
+            isExternal: '0'

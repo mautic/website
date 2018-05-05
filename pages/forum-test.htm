@@ -1,0 +1,24 @@
+title = "Forum Test"
+url = "/forum-test"
+layout = "default"
+is_hidden = 0
+
+[forumTopics]
+memberPage = "home"
+topicPage = "home"
+topicsPerPage = 20
+
+[forumChannels]
+memberPage = "forum-test"
+channelPage = "single-channel"
+topicPage = "forum-test"
+==
+<section id="sxn-forum">
+<h2>Forum Channels</h2>
+{% component "forumChannels" %}
+
+<h2>Forum Topics</h2>
+{% component 'forumTopics' %}
+
+
+</section>

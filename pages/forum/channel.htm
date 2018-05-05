@@ -1,0 +1,14 @@
+title = "Forum Channel"
+url = "/forum/channel/:slug"
+layout = "default"
+
+[forumChannel cmpForumChannelMain]
+memberPage = "forum/member"
+topicPage = "forum/topic"
+==
+function onEnd()
+{
+	$this->page->title = 'Channel: ' . $this['channel']['title'];
+}
+==
+{% component 'cmpForumChannelMain' %}
