@@ -10,7 +10,6 @@ class AddPointFieldToUsersTable extends Migration
         Schema::table('users', function ($table) {
             $table->mediumInteger('mtcorg_points')
                 ->default(0)
-                ->unsigned()
                 ->nullable();
         });
     }

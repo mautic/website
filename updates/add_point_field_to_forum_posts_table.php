@@ -10,7 +10,6 @@ class AddPointFieldToForumPostsTable extends Migration
         Schema::table('rainlab_forum_posts', function ($table) {
             $table->mediumInteger('mtcorg_points')
                 ->default(0)
-                ->unsigned()
                 ->nullable();
         });
     }
