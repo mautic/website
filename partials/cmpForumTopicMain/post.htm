@@ -1,4 +1,5 @@
-<div class="media-object avatar avatar-md mr-4" style="background-image: url({{ post.member.user.avatarThumb(50) }})"></div>
+<div class="media-object avatar avatar-md mr-4"
+	 style="background-image: url({{ post.member.user.avatarThumb(50) }})"></div>
 <div class="media-body">
 	<div class="media-heading">
 		<small class="float-right text-muted">{% partial __SELF__ ~ "::timestamp" date=post.created_at %}</small>
@@ -78,12 +79,17 @@
 			<a href="javascript;"
 			   class="vote upvote"
 			   data-request="onVote"
-			   data-request-data="vote:'up', item:{{ post.id }}, itemtype:'rainlab.forum.post'">Upvote</a>
+			   data-request-update="'cmpForumTopicMain/post-voterow': '#votesCnt'"
+			   data-request-data="vote:'up', item:{{ post.id }}, itemtype:'rainlab.forum.post'">^</a>
 
 			<a href="javascript;"
-			   class="vote downvote"
+			   class="vote upvote"
 			   data-request="onVote"
-			   data-request-data="vote:'down', item:{{ post.id }}, itemtype:'rainlab.forum.post'">Downvote</a>
+			   data-request-update="'cmpForumTopicMain/post-voterow': '#votesCnt'"
+			   data-request-data="vote:'down', item:{{ post.id }}, itemtype:'rainlab.forum.post'">V</a>
+
+			<span id="votesCnt">Current Votes: {{ post.mtcorg_points }}</span>
+
 
 			{% if topic.canPost %}
 				<a href="javascript:;"
