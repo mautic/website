@@ -3,3 +3,6 @@
 1.0.2:
     - Add point profile field to users table.
     - add_point_field_to_users_table.php
+1.0.3:
+    - Add point field to forum posts table.
+    - add_point_field_to_forum_posts_table.php
