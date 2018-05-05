@@ -75,6 +75,16 @@
 			{% endif %}
 		</div>
 		<div class="actions">
+			<a href="javascript;"
+			   class="vote upvote"
+			   data-request="onVote"
+			   data-request-data="vote:'up', item:{{ post.id }}, itemtype:'rainlab.forum.post'">Upvote</a>
+
+			<a href="javascript;"
+			   class="vote downvote"
+			   data-request="onVote"
+			   data-request-data="vote:'down', item:{{ post.id }}, itemtype:'rainlab.forum.post'">Downvote</a>
+
 			{% if topic.canPost %}
 				<a href="javascript:;"
 				   class="quote"
