@@ -7,4 +7,8 @@
         'points' => 'User Points',
         'tab' => 'Mautician Status',
     ],
+    'votable' => [
+        'votable' => 'Votable',
+        'votable_description' => 'Allows handlers for arbitrarily up/downvoting items'
+    ]
 ];

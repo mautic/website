@@ -29,6 +29,18 @@ class Plugin extends PluginBase
             ]);
         });
 
+        ForumPostModel::extend(function ($model) {
+            /**
+             * $value will be an arbitrary number to mutate by.
+             *  upvotes are +1 (or more)
+             *  downvotes are -1 (or more)
+             */
+            $model->addDynamicMethod('modVotes', function ($value) use ($model) {
+                $model->mtcorg_points = $model->value + $value;
+                $model->save();
+            });
+        });
+
 
         /**
          * Add controls to backend Users forms
@@ -48,8 +60,16 @@ class Plugin extends PluginBase
         });
     }
 
+
+    /**
+     * Provide components
+     * @return array
+     */
     public function registerComponents()
     {
+        return [
+            \trka\MauticdotorgExtensions\Components\Votable::class => 'votable'
+        ];
     }
 
     public function registerSettings()
