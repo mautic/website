@@ -11,32 +11,24 @@ class Plugin extends PluginBase
 {
     public function boot()
     {
-        /**
-         * Add fields to user model
-         */
         UserModel::extend(function ($model) {
             $model->addFillable([
                 'mtcorg_points'
             ]);
         });
 
-        /**
-         * Add fields to Forum Posts model
-         */
         ForumPostModel::extend(function ($model) {
             $model->addFillable([
                 'mtcorg_points',
             ]);
+            $model->addVisible([
+                'mtcorg_points'
+            ]);
         });
 
         ForumPostModel::extend(function ($model) {
-            /**
-             * $value will be an arbitrary number to mutate by.
-             *  upvotes are +1 (or more)
-             *  downvotes are -1 (or more)
-             */
             $model->addDynamicMethod('modVotes', function ($value) use ($model) {
-                $model->mtcorg_points = $model->value + $value;
+                $model->mtcorg_points = $model->mtcorg_points + $value;
                 $model->save();
             });
         });

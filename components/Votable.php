@@ -35,7 +35,7 @@ class Votable extends \Cms\Classes\ComponentBase
             case 'rainlab.forum.post':
                 $post = ForumPost::where('id', $item)
                     ->first();
-                $post->modVotes(1);
+                $post->modVotes($mutate);
                 break;
 
         }
