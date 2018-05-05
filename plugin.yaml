@@ -1,0 +1,6 @@
+plugin:
+    name: 'trka.mauticdotorgextensions::lang.plugin.name'
+    description: 'trka.mauticdotorgextensions::lang.plugin.description'
+    author: 'Kevin Ard'
+    icon: oc-icon-bolt
+    homepage: 'https://www.mautic.org/'
