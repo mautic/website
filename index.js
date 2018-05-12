@@ -60,14 +60,29 @@ const main = async () => {
         let cid = await connect();
         let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
         let pages = await fetches.fetch(fetches.queries.getPublishedContentByType('page'), connection);
+        // @todo: the routines for pages and posts are nearly identical. abstract that to make CPD happy.
         pages.forEach(async (page, index) => {
+            // get page meta keys;
+            let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
+            page.wpmeta = {}
+            pagemeta.forEach(meta=>{
+                page.wpmeta[meta.meta_key] = meta.meta_value
+            });
+
             let mutatedPage = mutators.mutatePage(page);
             await fwrite(mutatedPage.fcontent, path.resolve(paths.outPages, mutatedPage.fname));
         })
 
         let posts = await fetches.fetch(fetches.queries.getPublishedContentByType('post'), connection);
-        posts.forEach(async (page, index) => {
-            let mutatedPosts = mutators.mutatePage(page);
+        posts.forEach(async (post, index) => {
+            // get page meta keys;
+            let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(post.ID), connection);
+            post.wpmeta = {}
+            pagemeta.forEach(meta=>{
+                post.wpmeta[meta.meta_key] = meta.meta_value
+            });
+            //
+            let mutatedPosts = mutators.mutatePage(post);
             await fwrite(mutatedPosts.fcontent, path.resolve(paths.outPosts, mutatedPosts.fname));
         })
 
