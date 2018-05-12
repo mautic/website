@@ -1,0 +1,7 @@
+<ul class="list-group card-list-group">
+	{% for post in posts %}
+		<li class="list-group-item py-5 media forum-post" data-post-id="{{ post.id }}" id="post-{{ post.id }}">
+			{% partial __SELF__ ~ "::post" post=post %}
+		</li>
+	{% endfor %}
+</ul>

@@ -1,0 +1,45 @@
+[viewBag]
+title = "Getting Started"
+url = "/platform-docs/getting-started"
+layout = "default-sp"
+is_hidden = 0
+navigation_hidden = 0
+localeUrl[de] = "/platform-docs/getting-started-001"
+==
+<p>Awesome! You've downloaded a marketing automation tool. That's a great first step, but now you wonder where to go from here. Follow this very simple guide to get started using your shiny new toy!</p>
+
+<h2>Step 1: Install Mautic</h2>
+
+<p>If you have already downloaded the zip from the download page or have installed Mautic through some other source (Softaculous, Bitnami, Digital Ocean etc...) then you have already completed the first step. If not then you will need to upload the Mautic package (a zip file) to your server; unzip the files; and then navigate to that location in your browser. You will find Mautic has a very easy to follow on-screen installation process.</p>
+
+<h2>Step 2: Add Cron Jobs</h2>
+
+<p>Once you've installed Mautic you will need to create a few standard cron jobs to have your software process various tasks. These cron jobs can be created through a cPanel or added through command line. If you are unfamiliar or uncomfortable with this step then we'd recommend asking in the forums or in the live Slack chat. Here is a list of the cron jobs you'll need to create. (Please note: "/path/to/mautic..." will reflect the directory where your version of Mautic is installed.)</p>
+
+<p><strong>Updating Segments</strong></p>
+
+<p><code>php /path/to/mautic/app/console mautic:segments:update</code></p>
+
+<p><strong>Update Campaigns</strong></p>
+
+<p><code>php /path/to/mautic/app/console mautic:campaigns:update</code></p>
+
+<p><strong>Execute Campaign Actions</strong></p>
+
+<p><code>php /path/to/mautic/app/console mautic:campaigns:trigger</code></p>
+
+<p>Review <a href="https://www.mautic.org/docs/en/setup/cron_jobs.html">Cron Jobs</a><span>&nbsp;</span>for more information on these and other optional cron jobs.</p>
+
+<h2>Step 3: Download the IP lookup service database</h2>
+
+<p>By default, Mautic installs set to use MaxMind's free GeoLite2 IP lookup database. Due to the licensing of the database, it cannot be included with Mautic's installation package and thus must be downloaded. Click on the cogwheel in the upper right hand of Mautic to view the Admin menu then click Configuration. On the System Settings tab, scroll down to find the IP lookup service option and click the "Fetch IP Lookup Data Store."</p>
+
+<p>You could also choose another supported IP lookup service if you prefer.</p>
+
+<h2>Step 4: Install the Tracking Javascript</h2>
+
+<p>After installation and setup of the cron jobs you're ready to begin tracking contacts. You will need to add a simple javascript to the websites for each site you wish to track via Mautic. This is a very simple process and you can add this tracking script to your website template file, or install a Mautic integration for the more common CMS platforms. Here is an example of the tracking javascript:</p>
+
+<p>You'll need to change the site URL (replace yourmautic.com with your own URL) in the above script.</p>
+
+<p>Checkout <a href="https://www.mautic.org/docs/en/contacts/contact_monitoring.html">Contact Monitoring</a><span>&nbsp;</span>for more details.</p>

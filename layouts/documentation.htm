@@ -1,0 +1,62 @@
+description = "Docs layout"
+
+[session]
+security = "all"
+
+[votable]
+==
+function onStart()
+{
+if($this->param('contentfile') && $this->param('contentfile') !== ''){
+$this['loadcontent'] = 'docs/' . $this->param('contentfile') . '.md';
+}
+}
+==
+
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    {% component 'session' %}
+    {% partial 'site/assets-common' %}
+    {% partial 'site/site-meta-common' %}
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        {% partial 'site/header' %}
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3">left-drawer</div>
+                    <div class="col-sm-12 col-md-9">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div>breadcrumb</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 py-2 py-md-6">{% page %}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div>pagination</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% partial 'site/footer' %}
+</div>
+
+<!-- scripts -->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+{% framework extras %}
+{% scripts %}
+</body>
+</html>

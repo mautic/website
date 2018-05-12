@@ -1,0 +1,11 @@
+title = "Forum User"
+url = "/forum/member/:slug"
+layout = "default"
+
+[forumMember]
+channelPage = "forum/channel"
+topicPage = "forum/topic"
+==
+
+<h1>{{ member.username }}</h1>
+{% component 'forumMember' %}

@@ -1,3 +1,10 @@
-<li class="nav-item">
-	<a href="{{ 'mktg-home'|page }}" class="nav-link {% if this.page.id=='mktg-home' %}active{% endif %}"><i class="fe fe-home"></i> Home</a>
-</li>
+[staticMenu cmpNavTopnav]
+code = "top-nav-marketing"
+
+[viewBag]
+==
+{% for item in cmpNavTopnav.menuItems %}
+	<li class="nav-item">
+		<a href="{{ item.url }}" class="nav-link {% if item.isActive or item.isChildActive %}active{% endif %}"><i class="{{ item.viewBag['cssClass'] }}"></i> {{ item.title }}</a>
+	</li>
+{% endfor %}

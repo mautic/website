@@ -1,0 +1,8 @@
+<p><a href="{{ 'forum/home'|page }}"><i class="fa fa-arrow-circle-o-left"></i> Back to Channels</a></p>
+<div class="rainlab-forum">
+	{% partial cmpForumChannelMain ~ "::topics" %}
+	{% if topics %}
+		{% partial cmpForumChannelMain ~ "::pagination" %}
+	{% endif %}
+</div>
+

@@ -1,0 +1,20 @@
+name: 'Header CTA Bar'
+items:
+    -
+        title: Home
+        type: cms-page
+        code: ''
+        reference: mktg-home
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fa fa-home'
+            isExternal: '0'
+    -
+        title: Community
+        type: cms-page
+        code: ''
+        reference: forum/home
+        viewBag:
+            isHidden: '0'
+            cssClass: 'fa fa-comments'
+            isExternal: '0'
