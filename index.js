@@ -79,22 +79,11 @@ const main = async () => {
 
         //-----------
         await handlers.handlePages(connection);
-        progress.pages = true;
-        if (tryComplete()) {
-            resolve()
-        }
-
         await handlers.handlePosts(connection);
-        progress.posts = true;
-        if (tryComplete()) {
-            resolve()
-        }
-
         await handlers.handleNavs(connection);
-        progress.navs = true;
-        if (tryComplete()) {
-            resolve()
-        }
+        await handlers.handleTopics(connection);
+        debugger;
+        resolve()
     })
 };
 

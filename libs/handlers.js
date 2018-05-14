@@ -84,8 +84,16 @@ const handleNavs = async (connection) => {
     })
 };
 
+const handleTopics = async (connection) => {
+    let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
+    let replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
+
+    debugger;
+}
+
 module.exports = {
     handlePages,
     handlePosts,
     handleNavs,
+    handleTopics,
 };
