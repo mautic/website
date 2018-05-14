@@ -23,13 +23,28 @@ const queries = {
             from mwp_posts posts
             LEFT JOIN mwp_postmeta meta ON meta.post_id = posts.ID
             where posts.ID = ${id};`;
+    },
+    getAllNavMenus: `SELECT *
+        FROM mwp_terms AS t
+          LEFT JOIN mwp_term_taxonomy AS tt ON tt.term_id = t.term_id
+        WHERE tt.taxonomy = 'nav_menu'`,
+    getNavItemsByMenuId: (menuId) => {
+        return `SELECT p.*
+            FROM mwp_posts AS p
+              LEFT JOIN mwp_term_relationships AS tr ON tr.object_id = p.ID
+              LEFT JOIN mwp_term_taxonomy AS tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
+            WHERE p.post_type = 'nav_menu_item'
+                  AND tt.term_id = ${menuId}
+            ORDER BY  p.menu_order ASC`
     }
 };
 
 const fetch = async (query, connection) => {
     return new Promise(resolve => {
         connection.query(query, function (error, results, fields) {
-            if (error) throw error;
+            if (error) {
+                throw error
+            };
             resolve(results);
         });
     })
