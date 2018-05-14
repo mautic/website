@@ -84,11 +84,54 @@ const handleNavs = async (connection) => {
     })
 };
 
-const handleTopics = async (connection) => {
-    let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
-    let replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
+const getTopicReplies = async (forId) => {
+    return new Promise(async resolve => {
+        let topicReplies = await fetches.fetch(
+            `SELECT posts.*
+                        from mwp_posts posts
+                        WHERE posts.post_parent = ${forId}
+                              AND post_type = 'reply'
+                        ORDER BY posts.post_date ASC;`,
+            connection);
+        let ret = {
+            topic,
+            replies: topicReplies
+        };
+        resolve(ret)
+    })
+}
 
-    debugger;
+const getTopicsForForum = async (forumId) => {
+    return new Promise(async resolve => {
+        let forumTopics = await fetches.fetch(
+            `SELECT posts.*
+                    from mwp_posts posts
+                    WHERE posts.post_parent = ${forum.ID} and posts.post_type = 'topic';`,
+            connection);
+
+        forumTopics = forumTopics.map(async (topic) => {
+            return await getTopicReplies(topic.ID);
+        })
+        resolve(forumTopics)
+    })
+}
+
+const handleTopics = async (connection) => {
+    // let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
+    // let replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
+
+    return new Promise(async resolve => {
+        let forums = await fetches.fetch(fetches.queries.getPublishedContentByType('forum'), connection);
+        forums = forums.map(async (forum) => {
+            let forumTopics = await getTopicsForForum(forum.ID);
+            let ret = {
+                forum,
+                topics: forumTopics
+            };
+            resolve(ret);
+        });
+        resolve(forums)
+    })
 }
 
 module.exports = {

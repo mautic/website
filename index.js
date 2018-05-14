@@ -82,7 +82,6 @@ const main = async () => {
         await handlers.handlePosts(connection);
         await handlers.handleNavs(connection);
         await handlers.handleTopics(connection);
-        debugger;
         resolve()
     })
 };

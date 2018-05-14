@@ -19,10 +19,29 @@ from mwp_posts posts
 where post_status = 'publish'
       and post_type = 'post';
 
-# get post by id
+# ----------------------------------------------
+# Forum Topics
+
+# get top-level forum
 SELECT posts.*
 from mwp_posts posts
-where posts.ID = 450;
+WHERE posts.post_type = 'forum'
+      and posts.post_parent = 0;
+# get next-level forums (68636 = mauticamps)
+SELECT posts.*
+from mwp_posts posts
+WHERE posts.post_parent = 68636 and posts.post_type = 'forum';
+# get next-level topics
+SELECT posts.*
+from mwp_posts posts
+WHERE posts.post_parent = 68636 and posts.post_type = 'topic';
+
+# get a topic's replies, in sequence. 103181 = https://www.mautic.org/topic/mautic-v3-design-discussion/
+SELECT posts.*
+from mwp_posts posts
+WHERE posts.post_parent = 103181
+      AND post_type = 'reply'
+ORDER BY posts.post_date ASC;
 
 # get post meta by id
 SELECT meta.*
