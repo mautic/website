@@ -84,54 +84,38 @@ const handleNavs = async (connection) => {
     })
 };
 
-const getTopicReplies = async (forId) => {
-    return new Promise(async resolve => {
-        let topicReplies = await fetches.fetch(
-            `SELECT posts.*
-                        from mwp_posts posts
-                        WHERE posts.post_parent = ${forId}
-                              AND post_type = 'reply'
-                        ORDER BY posts.post_date ASC;`,
-            connection);
-        let ret = {
-            topic,
-            replies: topicReplies
-        };
-        resolve(ret)
-    })
-}
-
-const getTopicsForForum = async (forumId) => {
-    return new Promise(async resolve => {
-        let forumTopics = await fetches.fetch(
-            `SELECT posts.*
-                    from mwp_posts posts
-                    WHERE posts.post_parent = ${forum.ID} and posts.post_type = 'topic';`,
-            connection);
-
-        forumTopics = forumTopics.map(async (topic) => {
-            return await getTopicReplies(topic.ID);
-        })
-        resolve(forumTopics)
-    })
-}
-
 const handleTopics = async (connection) => {
-    // let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
-    // let replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
+    let forums = await fetches.fetch(fetches.queries.getPublishedContentByType('forum'), connection);
+    let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
+    let replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
 
-    return new Promise(async resolve => {
-        let forums = await fetches.fetch(fetches.queries.getPublishedContentByType('forum'), connection);
-        forums = forums.map(async (forum) => {
-            let forumTopics = await getTopicsForForum(forum.ID);
-            let ret = {
-                forum,
-                topics: forumTopics
-            };
-            resolve(ret);
+    topics.forEach(async (topic, index) => {
+        let topicReplies = replies.filter(reply => {
+            return reply.post_parent == topic.ID;
         });
-        resolve(forums)
-    })
+        topics[index].childReplies = topicReplies;
+    });
+    forums.forEach(async (forum, index) => {
+        let forumTopics = topics.filter(topic => {
+            return topic.post_parent == forum.ID;
+        });
+        let forumForums = forums.filter(forum => {
+            return forum.post_parent == forum.ID;
+        })
+        forums[index] = {
+            ID: forum.ID,
+            commentCount: forum.commentCount,
+            guid: forum.guid,
+            post_content: forum.post_content,
+            post_author: forum.post_author,
+            post_title: forum.post_title,
+            post_name: forum.post_name,
+            post_status: forum.post_status,
+            childTopics: forumTopics,
+            childForums: forumForums,
+        }
+    });
+    debugger;
 }
 
 module.exports = {

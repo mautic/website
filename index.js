@@ -78,18 +78,30 @@ const main = async () => {
         let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
 
         //-----------
+        console.time('pages');
         await handlers.handlePages(connection);
+        console.timeEnd('pages');
+
+        console.time('posts');
         await handlers.handlePosts(connection);
+        console.timeEnd('posts');
+
+        console.time('navs');
         await handlers.handleNavs(connection);
+        console.timeEnd('navs');
+
+        console.time('topics');
         await handlers.handleTopics(connection);
+        console.timeEnd('topics');
+
         resolve()
     })
 };
 
-console.time('tool');
+console.time('complete');
 main()
     .then(res => {
         console.log(`done in...`);
-        console.timeEnd('tool');
+        console.timeEnd('complete');
         process.exit();
     })
