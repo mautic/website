@@ -1,17 +1,15 @@
-const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 //
 const mysql = require('mysql');
 //
+const config = require('./libs/config');
 const fetches = require('./libs/fetch');
 const mutators = require('./libs/mutators');
+const handlers = require('./libs/handlers');
+
 //
-const paths = {
-    outPages: path.resolve(__dirname, 'out', 'pages'),
-    outPosts: path.resolve(__dirname, 'out', 'posts'),
-    outMenus: path.resolve(__dirname, 'out', 'menus'),
-}
+
 let connection;
 let progress = {
     pages: false,
@@ -53,22 +51,12 @@ const setup = (remove = false) => {
         // @todo: destroy previously created files
     }
 
-    Object.keys(paths)
+    Object.keys(config.paths)
         .forEach(pathKey => {
-            mkdirp.sync(paths[pathKey]);
+            mkdirp.sync(config.paths[pathKey]);
         })
 }
 
-const fwrite = async (content, path) => {
-    return new Promise(resolve => {
-        fs.writeFile(path, content, 'utf8', err => {
-            if (err) {
-                throw err
-            }
-            resolve();
-        })
-    })
-}
 
 const tryComplete = () => {
     let status = 0;
@@ -90,80 +78,23 @@ const main = async () => {
         let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
 
         //-----------
-        const handlePages = async () => {
-            let pages = await fetches.fetch(fetches.queries.getPublishedContentByType('page'), connection);
-            // @todo: the routines for pages and posts are nearly identical. abstract that to make CPD happy.
-            pages.forEach(async (page, index) => {
-                // get page meta keys;
-                let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
-                page.wpmeta = {}
-                pagemeta.forEach(meta => {
-                    page.wpmeta[meta.meta_key] = meta.meta_value
-                });
+        await handlers.handlePages(connection);
+        progress.pages = true;
+        if (tryComplete()) {
+            resolve()
+        }
 
-                let mutatedPage = mutators.mutatePage(page);
-                await fwrite(mutatedPage.fcontent, path.resolve(paths.outPages, mutatedPage.fname));
-            });
-            progress.pages = true;
-            if (tryComplete()) {
-                resolve()
-            }
-        };
-        const handlePosts = async () => {
-            let posts = await fetches.fetch(fetches.queries.getPublishedContentByType('post'), connection);
-            posts.forEach(async (post, index) => {
-                // get page meta keys;
-                let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(post.ID), connection);
-                post.wpmeta = {}
-                pagemeta.forEach(meta => {
-                    post.wpmeta[meta.meta_key] = meta.meta_value
-                });
-                //
-                let mutatedPosts = mutators.mutatePage(post);
-                await fwrite(mutatedPosts.fcontent, path.resolve(paths.outPosts, mutatedPosts.fname));
-            })
-            progress.posts = true;
-            if (tryComplete()) {
-                resolve()
-            }
-        };
-        const handleNavs = async () => {
-            let navmenus = await fetches.fetch(fetches.queries.getAllNavMenus, connection);
-            let processedMenus = 0; // used later to gate our exit inside the foreach loop
-            navmenus.forEach(async (menu, index) => {
-                let menuitems = await fetches.fetch(fetches.queries.getNavItemsByMenuId(menu.term_id), connection);
-                let processedItems = 0;
-                menuitems.map(async (item, index) => {
-                    let itemMeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(item.ID), connection);
-                    menuitems[index] = {
-                        item, itemMeta
-                    }
-                    processedItems++;
+        await handlers.handlePosts(connection);
+        progress.posts = true;
+        if (tryComplete()) {
+            resolve()
+        }
 
-                    if (processedItems === menuitems.length) { //-- done with this menu
-                        let fname = `${menu.term_id}__${menu.slug}.json`;
-                        await fwrite(
-                            JSON.stringify({menu, menuitems}, null, 2),
-                            path.resolve(paths.outMenus, fname)
-                        );
-
-                        processedMenus++;
-                        if (processedMenus === navmenus.length-1) {
-                            progress.navs = true;
-                            if (tryComplete()) {
-                                resolve();
-                            }
-                        }
-                    }
-                })
-            });
-        };
-
-        //-----------
-        handlePages();
-        handlePosts();
-        handleNavs();
-
+        await handlers.handleNavs(connection);
+        progress.navs = true;
+        if (tryComplete()) {
+            resolve()
+        }
     })
 };
 

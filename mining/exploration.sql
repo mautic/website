@@ -19,11 +19,16 @@ from mwp_posts posts
 where post_status = 'publish'
       and post_type = 'post';
 
+# get post by id
+SELECT posts.*
+from mwp_posts posts
+where posts.ID = 450;
+
 # get post meta by id
 SELECT meta.*
 from mwp_posts posts
   LEFT JOIN mwp_postmeta meta ON meta.post_id = posts.ID
-where posts.ID = 505;
+where posts.ID = 3417;
 
 # ----------------------------------------------
 # Navigation
@@ -46,20 +51,16 @@ FROM mwp_posts AS p
   LEFT JOIN mwp_term_taxonomy AS tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
 WHERE p.post_type = 'nav_menu_item'
       AND tt.term_id = 78
-ORDER BY  p.menu_order ASC;
+ORDER BY p.menu_order ASC;
 
 
-
-
-SELECT
-  meta.*
+SELECT meta.*
 from mwp_posts posts
   LEFT JOIN mwp_postmeta meta ON meta.post_id = posts.ID
 where posts.ID = 257;
 
 
-SELECT
-  meta.*
+SELECT meta.*
 from mwp_posts posts
   LEFT JOIN mwp_postmeta meta ON meta.post_id = posts.ID
 where posts.ID = 3419;

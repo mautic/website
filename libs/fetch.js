@@ -1,4 +1,9 @@
 const queries = {
+    getPostById: (id) => {
+        return `SELECT posts.*
+            from mwp_posts posts
+            where posts.ID = ${id};`
+    },
     getPublishedTypesCount: `
         SELECT
           count(*) cnt,
@@ -36,6 +41,15 @@ const queries = {
             WHERE p.post_type = 'nav_menu_item'
                   AND tt.term_id = ${menuId}
             ORDER BY  p.menu_order ASC`
+    },
+    getNavMenuTarget: (id) => {
+        return `
+            SELECT
+              meta.*
+            from mwp_posts posts
+            LEFT JOIN mwp_postmeta meta ON meta.post_id = posts.ID
+            where posts.ID = ${id} and meta.meta_key in ("_menu_item_object", "_menu_item_object_id")
+            ;`;
     }
 };
 
@@ -44,7 +58,8 @@ const fetch = async (query, connection) => {
         connection.query(query, function (error, results, fields) {
             if (error) {
                 throw error
-            };
+            }
+            ;
             resolve(results);
         });
     })
