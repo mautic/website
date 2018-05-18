@@ -20,7 +20,7 @@ const handlePages = async (connection) => {
 
         let mutatedPage = mutators.mutatePage(page);
         //-- write content file
-        const contentFilename = `pages/${mutatedPage.fnamebase}.htm`;
+        const contentFilename = `pages/${mutatedPage.fnamebase}.${mutatedPage.fcontentFormat}`;
         await config.fwrite(mutatedPage.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
         //-- write page file
         await config.fwrite(`${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPages, mutatedPage.fname));
@@ -41,7 +41,7 @@ const handlePosts = async (connection) => {
         let mutatedPost = mutators.mutatePage(post);
 
         //-- write content file
-        const contentFilename = `posts/${mutatedPost.fnamebase}.htm`;
+        const contentFilename = `posts/${mutatedPost.fnamebase}.${mutatedPost.fcontentFormat}`;
         await config.fwrite(mutatedPost.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
         //-- write page file
         await config.fwrite(`${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPosts, mutatedPost.fname));

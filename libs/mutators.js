@@ -1,11 +1,13 @@
 const yaml = require('js-yaml');
+const html2md = require('html-markdown');
 
 /**
  * Returns compiled October page.htm content for wp page
  * @param page
+ * @param format
  * @returns {string}
  */
-const mutateContentPage = (page) => {
+const mutateContentPage = (page, format = "md") => {
     let pageParams = {
         config: {
             title: page.post_title,
@@ -29,14 +31,19 @@ const mutateContentPage = (page) => {
     });
 
     return {
+        fname: `${page.post_name}.htm`,
         sitepage: {
             url: pageParams.config.url,
             title: pageParams.config.title
         },
         fnamebase: page.post_name,
-        fname: `${page.post_name}.htm`,
         fconfig: pageconfig.join('\n'),
-        fcontent: pageParams.content
+        fcontentFormat: format === 'md'
+            ? 'md'
+            : 'htm',
+        fcontent: format === "md"
+            ? html2md.html2mdFromString(pageParams.content)
+            : pageParams.content
     };
 }
 

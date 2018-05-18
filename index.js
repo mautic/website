@@ -5,11 +5,9 @@ const mysql = require('mysql');
 //
 const config = require('./libs/config');
 const fetches = require('./libs/fetch');
-const mutators = require('./libs/mutators');
 const handlers = require('./libs/handlers');
 
 //
-
 let connection;
 let progress = {
     pages: false,
