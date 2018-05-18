@@ -9,7 +9,8 @@ const handlePages = async (connection) => {
     pages.forEach(async (page, index) => {
         // get page meta keys;
         let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
-        page.wpmeta = {}
+        page.urlpath = "";
+        page.wpmeta = {};
         pagemeta = pagemeta.filter(meta => {
             return meta.meta_key !== "_pgm_post_meta";
         })
@@ -31,13 +32,19 @@ const handlePosts = async (connection) => {
     posts.forEach(async (post, index) => {
         // get page meta keys;
         let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(post.ID), connection);
-        post.wpmeta = {}
+        post.urlpath = "blog/";
+        post.wpmeta = {};
         pagemeta.forEach(meta => {
             post.wpmeta[meta.meta_key] = meta.meta_value
         });
         //
-        let mutatedPosts = mutators.mutatePage(post);
-        await config.fwrite(mutatedPosts.fcontent, path.resolve(config.paths.outPosts, mutatedPosts.fname));
+        let mutatedPost = mutators.mutatePage(post);
+
+        //-- write content file
+        const contentFilename = `posts/${mutatedPost.fnamebase}.htm`;
+        await config.fwrite(mutatedPost.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
+        //-- write page file
+        await config.fwrite(`${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPosts, mutatedPost.fname));
     })
 };
 
@@ -129,5 +136,5 @@ module.exports = {
     handlePages,
     handlePosts,
     handleNavs,
-    handleTopics,
+    handleTopics
 };

@@ -85,7 +85,7 @@ const main = async () => {
         console.timeEnd('pages');
 
         console.time('posts');
-        // await handlers.handlePosts(connection);
+        await handlers.handlePosts(connection);
         console.timeEnd('posts');
 
         console.time('navs');

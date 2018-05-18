@@ -9,7 +9,7 @@ const mutateContentPage = (page) => {
     let pageParams = {
         config: {
             title: page.post_title,
-            url: `/${page.post_name}`,
+            url: `/${page.urlpath}${page.post_name}`,
             layout: 'default',
             meta_title: page.post_title,
             meta_description: page.post_title, // @todo
@@ -21,14 +21,21 @@ const mutateContentPage = (page) => {
     page.wpmeta._yoast_wpseo_metadesc ? pageParams.config.meta_description = page.wpmeta._yoast_wpseo_metadesc : null;
     page.wpmeta._wpbitly ? pageParams.config.bitly = page.wpmeta._wpbitly : null;
 
-    let pageconfig = yaml
-        .safeDump(pageParams.config)
-        .replace(/(.*): (.*)/g, '$1= "$2"');
+    let pageconfig = [];
+    Object.keys(pageParams.config).forEach(key => {
+        key !== "wpmeta"
+            ? pageconfig.push(`${key} = "${pageParams.config[key]}"`)
+            : null;
+    });
 
     return {
+        sitepage: {
+            url: pageParams.config.url,
+            title: pageParams.config.title
+        },
         fnamebase: page.post_name,
         fname: `${page.post_name}.htm`,
-        fconfig: pageconfig,
+        fconfig: pageconfig.join('\n'),
         fcontent: pageParams.content
     };
 }
