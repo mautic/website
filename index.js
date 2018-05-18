@@ -21,7 +21,7 @@ const connect = async () => {
     return new Promise(resolve => {
         connection = mysql.createConnection({
             host: '127.0.0.1',
-            port: 3306,
+            port: 3307,
             database: 'mt_org_migration',
             user: 'root',
             password: 'dockerpass'
@@ -54,7 +54,9 @@ const setup = (remove = false) => {
     Object.keys(config.paths)
         .forEach(pathKey => {
             mkdirp.sync(config.paths[pathKey]);
-        })
+        });
+    mkdirp.sync(path.resolve(config.paths.outContentBase, 'pages'));
+    mkdirp.sync(path.resolve(config.paths.outContentBase, 'posts'));
 }
 
 
@@ -83,15 +85,15 @@ const main = async () => {
         console.timeEnd('pages');
 
         console.time('posts');
-        await handlers.handlePosts(connection);
+        // await handlers.handlePosts(connection);
         console.timeEnd('posts');
 
         console.time('navs');
-        await handlers.handleNavs(connection);
+        // await handlers.handleNavs(connection);
         console.timeEnd('navs');
 
         console.time('topics');
-        await handlers.handleTopics(connection);
+        // await handlers.handleTopics(connection);
         console.timeEnd('topics');
 
         resolve()
@@ -103,5 +105,5 @@ main()
     .then(res => {
         console.log(`done in...`);
         console.timeEnd('complete');
-        process.exit();
+        // process.exit();
     })

@@ -14,6 +14,7 @@ const fwrite = async (content, path) => {
 
 module.exports = {
     paths: {
+        outContentBase: path.resolve(__dirname, '..', 'out', 'content'),
         outPages: path.resolve(__dirname, '..', 'out', 'pages'),
         outPosts: path.resolve(__dirname, '..', 'out', 'posts'),
         outMenus: path.resolve(__dirname, '..', 'out', 'menus'),

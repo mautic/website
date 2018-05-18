@@ -10,12 +10,19 @@ const handlePages = async (connection) => {
         // get page meta keys;
         let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
         page.wpmeta = {}
+        pagemeta = pagemeta.filter(meta => {
+            return meta.meta_key !== "_pgm_post_meta";
+        })
         pagemeta.forEach(meta => {
             page.wpmeta[meta.meta_key] = meta.meta_value
         });
 
         let mutatedPage = mutators.mutatePage(page);
-        await config.fwrite(mutatedPage.fcontent, path.resolve(config.paths.outPages, mutatedPage.fname));
+        //-- write content file
+        const contentFilename = `pages/${mutatedPage.fnamebase}.htm`;
+        await config.fwrite(mutatedPage.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
+        //-- write page file
+        await config.fwrite(`${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPages, mutatedPage.fname));
     });
 };
 

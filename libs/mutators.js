@@ -21,11 +21,15 @@ const mutateContentPage = (page) => {
     page.wpmeta._yoast_wpseo_metadesc ? pageParams.config.meta_description = page.wpmeta._yoast_wpseo_metadesc : null;
     page.wpmeta._wpbitly ? pageParams.config.bitly = page.wpmeta._wpbitly : null;
 
+    let pageconfig = yaml
+        .safeDump(pageParams.config)
+        .replace(/(.*): (.*)/g, '$1= "$2"');
 
-    let pageconfig = yaml.safeDump(pageParams.config);
     return {
+        fnamebase: page.post_name,
         fname: `${page.post_name}.htm`,
-        fcontent: `${pageconfig}==\n${pageParams.content}`
+        fconfig: pageconfig,
+        fcontent: pageParams.content
     };
 }
 
