@@ -9,11 +9,7 @@ const handlers = require('./libs/handlers');
 
 //
 let connection;
-let progress = {
-    pages: false,
-    posts: false,
-    navs: false,
-};
+let progress = {};
 //---------------------
 const connect = async () => {
     return new Promise(resolve => {
@@ -67,32 +63,38 @@ const tryComplete = () => {
     return false;
 };
 
+
 //---------------------
 const main = async () => {
     setup();
     return new Promise(async resolve => {
+        //-- register processors here with {process:false}. a gate calls done when all are flagged true
+        progress = {
+            pages: false,
+        }
         let cid = await connect();
         let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
 
         //-----------
-        console.time('users');
-        await handlers.handleUsers(connection);
-        console.timeEnd('users');
+        // FAIR WARNING: this is a looooong execution, due to 10k db inserts
+        // console.time('users');
+        // await handlers.handleUsers(connection);
+        // console.timeEnd('users');
 
-        console.time('pages');
-        await handlers.handlePages(connection);
-        console.timeEnd('pages');
+        // console.time('pages');
+        // await handlers.handlePages(connection);
+        // console.timeEnd('pages');
 
-        console.time('posts');
-        await handlers.handlePosts(connection);
-        console.timeEnd('posts');
+        // console.time('posts');
+        // await handlers.handlePosts(connection);
+        // console.timeEnd('posts');
 
-        console.time('navs');
+        // console.time('navs');
         // await handlers.handleNavs(connection);
-        console.timeEnd('navs');
+        // console.timeEnd('navs');
 
         console.time('topics');
-        // await handlers.handleTopics(connection);
+        await handlers.handleTopics(connection);
         console.timeEnd('topics');
 
         resolve()

@@ -6,7 +6,7 @@ const mutators = require('./mutators');
 
 /**
  * Collects users.
- * @todo upsert into dev/prod october db (users aren't file-based)
+ * @todo error: connection closes before the last few inserts run
  * @param connection
  * @returns {Promise<void>}
  */
@@ -43,10 +43,15 @@ const handleUsers = async (connection) => {
             if (err) throw err;
 
             let processedUsers = 0;
+            console.log(`inserting ${octoUsers.length} users`);
             octoUsers.forEach(async user => {
                 await fetches.fetch(fetches.queries.insertUser(user), siteDb);
                 processedUsers++;
+
+                if (processedUsers % 100 === 0) console.log(`--- processed ${processedUsers}/${octoUsers.length}`)
+
                 if (processedUsers === octoUsers.length) {
+                    console.log(`processed all users`)
                     connection.end(err => {
                         if (err) throw err
                     })
