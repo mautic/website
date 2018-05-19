@@ -12,6 +12,7 @@ const fwrite = async (content, path) => {
     })
 }
 
+
 module.exports = {
     paths: {
         outContentBase: path.resolve(__dirname, '..', 'out', 'content'),

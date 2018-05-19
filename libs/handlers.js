@@ -1,12 +1,67 @@
 const path = require('path');
+const mysql = require('mysql');
 const config = require('./config');
 const fetches = require('./fetch');
 const mutators = require('./mutators');
 
+/**
+ * Collects users.
+ * @todo upsert into dev/prod october db (users aren't file-based)
+ * @param connection
+ * @returns {Promise<void>}
+ */
 const handleUsers = async (connection) => {
+    return new Promise(async resolve => {
+        let wpUsers = await fetches.fetch(fetches.queries.getUsers, connection);
+        let octoUsers = wpUsers.map(user => {
+            let registerdate = new Date(user.user_registered).toISOString().slice(0, 19).replace('T', ' ');
+            let updatedate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            return {
+                id: user.ID,
+                name: user.display_name,
+                surname: '', // @todo: hydrate usermeta to breakout fname/lname
+                email: user.user_email,
+                password: '---',
+                isActivated: 1,
+                username: user.user_login,
+                mtcorgPoints: 0,
+                createdAt: registerdate,
+                activatedAt: registerdate,
+                updatedAt: updatedate,
+            };
+        });
 
+        // get a new site-db connection
+        let siteDb = mysql.createConnection({
+            host: '127.0.0.1',
+            port: 3307,
+            database: 'mtorg_db',
+            user: 'root',
+            password: 'dockerpass'
+        });
+        siteDb.connect(err => {
+            if (err) throw err;
+
+            let processedUsers = 0;
+            octoUsers.forEach(async user => {
+                await fetches.fetch(fetches.queries.insertUser(user), siteDb);
+                processedUsers++;
+                if (processedUsers === octoUsers.length) {
+                    connection.end(err => {
+                        if (err) throw err
+                    })
+                    resolve();
+                }
+            })
+        })
+    })
 }
 
+/**
+ * Collect page/meta, format and write to fs for october
+ * @param connection
+ * @returns {Promise<void>}
+ */
 const handlePages = async (connection) => {
     let pages = await fetches.fetch(fetches.queries.getPublishedContentByType('page'), connection);
     // @todo: the routines for pages and posts are nearly identical. abstract that to make CPD happy.
@@ -31,6 +86,11 @@ const handlePages = async (connection) => {
     });
 };
 
+/**
+ * Collect post/meta, format and write to fs for october
+ * @param connection
+ * @returns {Promise<void>}
+ */
 const handlePosts = async (connection) => {
     let posts = await fetches.fetch(fetches.queries.getPublishedContentByType('post'), connection);
     posts.forEach(async (post, index) => {
@@ -52,6 +112,11 @@ const handlePosts = async (connection) => {
     })
 };
 
+/**
+ * Collect wp nav menus @todo
+ * @param connection
+ * @returns {Promise<any>}
+ */
 const handleNavs = async (connection) => {
     return new Promise(async resolve => {
         let navmenus = await fetches.fetch(fetches.queries.getAllNavMenus, connection);
@@ -102,6 +167,12 @@ const handleNavs = async (connection) => {
     })
 };
 
+/**
+ * Collect forum topics
+ * @todo depends on users
+ * @param connection
+ * @returns {Promise<void>}
+ */
 const handleTopics = async (connection) => {
     let forums = await fetches.fetch(fetches.queries.getPublishedContentByType('forum'), connection);
     let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
@@ -137,6 +208,7 @@ const handleTopics = async (connection) => {
 }
 
 module.exports = {
+    handleUsers,
     handlePages,
     handlePosts,
     handleNavs,

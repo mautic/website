@@ -1,6 +1,10 @@
 const queries = {
     getUsers: `
-    `,
+        SELECT * from mwp_users WHERE ID>2;`,
+    insertUser: (user) => {
+        return `INSERT INTO users (id, name, surname, email, password, is_activated, username, mtcorg_points, created_at, activated_at, updated_at)
+        VALUES (${user.id}, "${user.name}", "${user.surname}", "${user.email}", "${user.password}", ${user.isActivated}, "${user.username}", ${user.mtcorgPoints}, "${user.createdAt}", "${user.activatedAt}", "${user.updatedAt}")`
+    },
     getPostById: (id) => {
         return `SELECT posts.*
             from mwp_posts posts
@@ -58,10 +62,7 @@ const queries = {
 const fetch = async (query, connection) => {
     return new Promise(resolve => {
         connection.query(query, function (error, results, fields) {
-            if (error) {
-                throw error
-            }
-            ;
+            if (error) console.error(error);
             resolve(results);
         });
     })

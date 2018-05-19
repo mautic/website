@@ -51,8 +51,13 @@ where posts.ID = 3417;
 
 # ----------------------------------------------
 # Users
+#-- wordpress
 SELECT * from mwp_users;
 SELECT * from mwp_usermeta where user_id in (9466);
+
+#-- october
+INSERT INTO users (id, name, surname, email, password, is_activated, username, mtcorg_points, created_at, activated_at, updated_at)
+VALUES (3, "mbabker", "", "michael.babker@mautic.org", "---", 1, "mbabker", 0, 2014-11-14 01:23:08, 2014-11-14 01:23:08, 2018-05-19 10:44:33);
 
 # ----------------------------------------------
 # Navigation

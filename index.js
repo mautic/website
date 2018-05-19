@@ -19,15 +19,13 @@ const connect = async () => {
     return new Promise(resolve => {
         connection = mysql.createConnection({
             host: '127.0.0.1',
-            port: 3307,
+            port: 3306,
             database: 'mt_org_migration',
             user: 'root',
             password: 'dockerpass'
         })
         connection.connect(err => {
-            if (err) {
-                throw err
-            }
+            if (err) throw err;
             resolve(connection)
         })
     })
@@ -57,7 +55,6 @@ const setup = (remove = false) => {
     mkdirp.sync(path.resolve(config.paths.outContentBase, 'posts'));
 }
 
-
 const tryComplete = () => {
     let status = 0;
     Object.keys(progress).forEach(key => {
@@ -78,6 +75,10 @@ const main = async () => {
         let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
 
         //-----------
+        console.time('users');
+        await handlers.handleUsers(connection);
+        console.timeEnd('users');
+
         console.time('pages');
         await handlers.handlePages(connection);
         console.timeEnd('pages');
