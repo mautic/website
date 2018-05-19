@@ -179,10 +179,18 @@ const handleNavs = async (connection) => {
  * @returns {Promise<void>}
  */
 const handleTopics = async (connection) => {
+    /*
+    * wp | oc
+    * __________
+    * forum | channel > top-level groupings
+    * topic | topic > conversation top-level
+    * reply | post > message inside a conversation
+    * */
     let forums = await fetches.fetch(fetches.queries.getPublishedContentByType('forum'), connection);
     let topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
     let replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
 
+    //---------- traversing the forum>topic>reply tree
     topics.forEach(async (topic, index) => {
         let topicReplies = replies.filter(reply => {
             return reply.post_parent == topic.ID;
