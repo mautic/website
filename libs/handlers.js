@@ -3,6 +3,10 @@ const config = require('./config');
 const fetches = require('./fetch');
 const mutators = require('./mutators');
 
+const handleUsers = async (connection) => {
+
+}
+
 const handlePages = async (connection) => {
     let pages = await fetches.fetch(fetches.queries.getPublishedContentByType('page'), connection);
     // @todo: the routines for pages and posts are nearly identical. abstract that to make CPD happy.

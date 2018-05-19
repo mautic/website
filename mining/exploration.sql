@@ -36,7 +36,7 @@ SELECT posts.*
 from mwp_posts posts
 WHERE posts.post_parent = 68636 and posts.post_type = 'topic';
 
-# get a topic's replies, in sequence. 103181 = https://www.mautic.org/topic/mautic-v3-design-discussion/
+# get topic replies, in sequence. 103181 = https://www.mautic.org/topic/mautic-v3-design-discussion/
 SELECT posts.*
 from mwp_posts posts
 WHERE posts.post_parent = 103181
@@ -48,6 +48,11 @@ SELECT meta.*
 from mwp_posts posts
   LEFT JOIN mwp_postmeta meta ON meta.post_id = posts.ID
 where posts.ID = 3417;
+
+# ----------------------------------------------
+# Users
+SELECT * from mwp_users;
+SELECT * from mwp_usermeta where user_id in (9466);
 
 # ----------------------------------------------
 # Navigation

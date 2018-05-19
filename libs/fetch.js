@@ -1,4 +1,6 @@
 const queries = {
+    getUsers: `
+    `,
     getPostById: (id) => {
         return `SELECT posts.*
             from mwp_posts posts
