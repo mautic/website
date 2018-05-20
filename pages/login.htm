@@ -1,0 +1,19 @@
+title = "Account"
+url = "/login"
+layout = "default"
+is_hidden = 0
+
+[RainLab\User\Components\Account account]
+paramCode = "code"
+forceSecure = 0
+
+[session]
+security = "all"
+
+[viewBag]
+localeUrl[de] = "/account"
+localeUrl[fr] = "/account"
+localeUrl[pgl] = "/account"
+==
+{% component 'session' %}
+{% component 'account' %}

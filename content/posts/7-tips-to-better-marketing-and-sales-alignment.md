@@ -1,0 +1,30 @@
+![alignment](https://www.mautic.org/wp-content/uploads/2014/08/rowing-187859-e1461078899353-1024x966.jpg)
+
+
+**Some organizations are sales led, some marketing led and others product or finance led. What this means is that in every organization one of these groups has a little more power in influencing executive decisions than the others. Whichever way the balance of power is structured, it is important that the primary customer facing teams are aligned. Especially in how they represent the brand and deliver messages to the buyer. If this does not happen it will lead to an incongruous experience for the buyer, fewer sales and less customer satisfaction, which will ultimately impact revenue and performance for the company. According to a [study](http://blog.zoominfo.com/20-statistics-about-sales-and-marketing-alignment/) done by MarketingProfs, when alignment between marketing and sales does occur, it leads to 38% higher sales win rates.
+
+If you are looking for your customer facing teams to be aligned, here are some tips that will guide them in the right direction.
+
+
+## Tips for Marketing and Sales Alignment
+
+
+
+
+- **1. Executive sponsorship is key -** Alignment starts at the top. If the leader of the sales team and the leader of the marketing team are not in lock step, this will permeate down into the organization. It is not required that these two leaders report into the same person, they just need to be focused on achieving the same objective and agree on the plan to get there.
+
+- **2. Align terminology -** Sales and marketing must speak the same language. This helps manage expectations between marketing and sales internally as well as in customer facing conversations. One term that often causes confusion between internal teams is the word ‘lead’. Is a lead a person or an interaction? Is it a noun or a verb? Marketing advisory firms such as Sirius Decisions advise their clients to be more granular when it comes to definitions - leads can be marketing qualified leads, sales accepted leads or sales qualified leads. Having clear definitions for all terms and metrics and communicating these helps preempt misunderstandings between sales and marketing teams.
+
+- **3. Align goals -** People manage what they are measured on. Ensuring sales and marketing teams are measured on the same end goal is one way to ensure they are working towards the same outcome. Now, I am not suggesting that marketing should have a sales quota, but just that the marketing team needs to have a ‘skin in the game’. The game being bringing in new customers and managing them through their lifecycle. One example of how this could be done is aligning compensation in a way that while the sales rep is paid on the revenue number, the marketing rep’s compensation is split between the total number of leads they bring in and the quality of lead, i.e. the leads that result in revenue.
+
+- **4. Create a joint plan -** When a team creates a plan together they are usually more vested in ensuring its success. Create a joint team plan that documents the goals, activities and expected outcomes. If everyone cannot participate in the creation of the plan, make sure the plan is documented and communicated. The plan should not just be a calendar of marketing activities, but should also include sales spiffs, promotions and other activities that will help the team achieve their set goal.
+
+- **5. Put SLAs (Service Level Agreements) in place -** According to a [Harvard Business Review](https://hbr.org/2011/03/the-short-life-of-online-sales-leads/ar/1), companies that try to contact potential customers within an hour of receiving queries are nearly 7 times as likely to have meaningful conversations with key decision makers as firms that try to contact prospects even an hour later.
+**** Maybe an hour is not realistic for your company, but put in place realistic SLAs or service level agreements and hold the sales team responsible for what they commit to. From a marketing perspective, the commitment should be around the the number and quality of leads. Agreeing to these and delivering on these SLAs will build trust between sales and marketing and better alignment.
+
+2. **6. Celebrate successes together -** The end goal and hence success for both sales and marketing should be the same thing. What I mean by that is, the marketing team should not be celebrating just because they have delivered the committed number of leads. Success should be when both teams’ objectives are achieved. Once that happens, don’t forget to celebrate and have some fun, because at the end of the day, teams that have fun together and are happy are likely to be more [productive](http://www2.warwick.ac.uk/newsandevents/pressreleases/new_study_shows/).
+
+4. **7. Use data and technology -** The good news is there is a plethora of systems and technologies which if implemented correctly can help you achieve better alignment by providing visibility into what activities are planned, which ones are working and a better understanding of the buyer. Keep in mind, the insights from these systems are only as good as the data you put in and track. Also, make sure the systems are tightly integrated so that relevant information from any system is available at the point of communication with the buyer as well as for a wider analysis.
+
+
+Today the lines between sales and marketing are blurring. Marketing and Sales both influence the buyer’s journey throughout the lifecycle. It is more critical than ever that we align marketing and sales, and that they function as one team. At the end of the day it’s about communication, visibility and accountability. Irrespective of whether the communication is written, in person or virtual - they can all work. The more visibility each team has into what the other has planned, committed to and delivered - the better the team will be aligned and the smoother the buyer’s experience will be in dealing with the company.**

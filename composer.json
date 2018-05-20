@@ -1,6 +1,6 @@
 {
 	"name": "therealkevinard/oc-theme-mautic-org",
-	"description": "October theme for mautic.org. Based on tabler/tabler",
+	"description": "Mautic.org site theme. Based on Tabler [https://github.com/tabler/tabler]",
 	"type": "october-theme",
 	"license": "MIT",
 	"require": {},

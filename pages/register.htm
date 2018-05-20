@@ -1,14 +1,8 @@
-title = "Login"
-url = "/login"
+title = "Register"
+url = "/register"
 layout = "default"
-is_hidden = 0
-
-[RainLab\User\Components\Account account]
-paramCode = "code"
-forceSecure = 0
-
-[session]
-security = "all"
+meta_title = "Register"
+meta_description = "Register"
+bitly = "http://bit.ly/2Ak0SdJ"
 ==
-{% component 'session' %}
-{% component 'account' %}
+{% content 'pages/register.md' %}

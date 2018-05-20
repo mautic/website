@@ -1,0 +1,1 @@
+This is where you can find individuals who have previously been featured as an MVP. These volunteers deserve all the respect and appreciation of the Mautic community for their hard work and dedication to Mautic!

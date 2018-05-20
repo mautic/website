@@ -1,38 +1,27 @@
 {
-  "name": "tabler-ui",
-  "description": "Premium and Open Source dashboard template with responsive and high quality UI. For Free!",
-  "version": "0.0.32",
+  "name": "MauticDotOrg",
+  "description": "Mautic.org site theme. Based on Tabler [https://github.com/tabler/tabler]",
+  "version": "0.0.10",
   "keywords": [
-    "css",
-    "sass",
-    "mobile-first",
-    "responsive",
-    "front-end",
-    "framework",
-    "admin",
-    "dashboard",
-    "admin panel"
+    "OctoberCMS",
+    "Theme",
+    "mautic.org"
   ],
-  "homepage": "https://tabler.github.io",
+  "homepage": "https://mautic.org",
   "scripts": {
     "gulp-watch": "gulp watch",
     "gulp-build": "gulp build",
-    "jekyll-watch": "jekyll build --watch",
-    "jekyll-serve": "jekyll serve --livereload",
-    "gh-pages": "./gh-pages.sh",
-    "dist": "gulp build && JEKYLL_ENV=production jekyll build --destination dist",
-    "publish-dist": "./gh-pages.sh",
-    "watch": "gulp build && npm-run-all --parallel gulp-watch jekyll-watch",
-    "serve": "gulp build && npm-run-all --parallel gulp-watch jekyll-serve"
+    "watch": "gulp build && npm-run-all --parallel gulp-watch",
+    "serve": "gulp build && npm-run-all --parallel gulp-watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tabler/tabler.git"
+    "url": "git+https://github.com/therealkevinard/oc-theme-mautic-org"
   },
-  "author": "codecalm",
+  "author": "therealkevinard",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tabler/tabler/issues"
+    "url": "https://github.com/therealkevinard/oc-theme-mautic-org/issues"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

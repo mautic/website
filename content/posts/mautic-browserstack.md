@@ -1,0 +1,13 @@
+As Mautic grows and the development efforts around Mautic get bigger we have found as a community the need for advanced development tools and resources to help our devs do what they do only better.   
+
+    Recently we were discussing our options for a tool that would let us test Mautic in a browser most efficiently and across a wide range of platforms and browsers. As we looked at the various options one rose to the surface. BrowserStack is a cross-browser testing tool, to test public websites and protected servers, on a cloud infrastructure of desktop and mobile browsers. Easy enough? Here’s the lowdown.    
+
+ Instead of creating multiple virtual machines on your own computer, or using a half-dozen different machines and operating systems you can use BrowserStack to see what your website or web application looks like across a bazillion devices at once. Every OS, desktop, laptop, mobile and more. Clearly this would be super beneficial to our community and we were excited to see how we could use it in our dev. Without a moment’s hesitation we reached out to the founders and told them a bit about what we were doing. And then we waited.   
+
+ We couldn’t believe how quickly we heard back from them and were even more excited to with their response. They enthusiastically supported what we were doing. Obviously open source is a priority to BrowserStack and they were quick to go above and beyond helping and encouraging our development community. They resonated with our innovation and our goal of providing a free product available to everyone around the world.    
+
+
+>  “BrowserStack constantly innovates in order to make browser testing amazing,” says Ritesh Arora, co-founder of the globally-used service. “Our current focus is to introduce native behaviour on remote browsers, to provide real mobile devices, and Selenium and JavaScript automated testing with Automate.” 
+ With this encouragement and strong backing from their founders, we are thrilled to announce that the Mautic development community has access to the superior services and testing features of BrowserStack. We encourage everyone to explore BrowserStack directly for their own company needs and be assured, these founders know the value and importance of open source.    
+
+ You can learn more about BrowserStack [on their website here](http://browserstack.com), and you can get in touch with the Mautic development community either [in the forums](https://www.mautic.org/community) or on the [#dev Slack chat](https://www.mautic.org/slack)!

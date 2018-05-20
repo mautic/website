@@ -1,0 +1,13 @@
+Modern day marketing automation provides a great way for businesses and marketing teams to collect mountains of data on site visitors, potential customers, and others. Every visit to the site, every landing page, every form, all these sources and more generate information. This information provides valuable insights into the potential customer and the sales cycle of the business. With the proper tools and the proper understanding of the information gathered marketers and site owners can improve their processes. But all this collecting and gathering is meaningless without understanding how to make the data useful.  
+
+    
+#### What does useful data look like?
+ Useful data can take many forms. The quickest and easiest way to assess the value of your information is how it affects your sales and your marketing process. Useful information does not merely overwhelm you with statistics and markers and information about each visitor. Useful information provides you with tools and forecasts which refine and improve your business and thus increase revenue, customers, or whatever your particular sales goals might be.  
+
+ 
+#### How does data become useful?
+ Data becomes useful to your business when it’s been filtered, refined, and used to provide forecasts. Marketing automation tools must compile this data and provide these results. Unfortunately too many marketing automation tools make complex situations even more complex by requiring incredibly detailed and intricate setup. This involves a very large investment of time by employees who have limited time and other job responsibilities as well.  
+
+ This challenge of unique business situations and advanced knowledge for setup and configuration is an often crippling factor for most businesses. Small businesses especially have limited resources and people to undertake this time intensive process.  
+
+ <h4mautic gives="" useful="" data<="" h4=""> <p>Mautic seeks to solve this problem. Our platform is easy to understand, and the learning curve for setup and usage is quite low. You’ll be setup and configured in hardly any time at all and the data collected will begin providing valuable information on your sales process, funnels, and email campaigns.</p> <p>Don’t waste any more time with complex systems that merely provide an overabundance of data. Start using marketing automation to improve your business, increase your sales, and make the best use of your resources. Find out more about how Mautic can help you.></p></h4mautic>

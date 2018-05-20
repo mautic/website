@@ -1,5 +1,5 @@
 name: MauticDotOrg
-description: 'Mautic.org site theme.'
+description: 'Mautic.org site theme. Based on Tabler [https://github.com/tabler/tabler]'
 author: 'Kevin Ard'
 homepage: 'http://mautic.org'
 code: ''
