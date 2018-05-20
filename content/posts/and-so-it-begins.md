@@ -1,0 +1,7 @@
+This is the first post for a brand new and exciting community. We’re starting small but we’re growing fast. Our community is what drives us and the people which make up our community are the backbone which makes us great. Mautic is the world’s first and best open source marketing automation platform. There has never been anything like this before and this community is expanding at a truly exponential rate. Clearly there is a need for what we’re doing and that’s exciting for everyone involved.  
+
+     Mautic is in a fantastic position to provide the tools that every small business needs to succeed and to compete with the bigger companies. Finally marketing automation is available at a price that everyone can afford: Free!  
+
+  We’re all in this together working to make a better solution and empower businesses to be able to compete on services and products instead of simply the tools available to them. Marketing automation is growing at an incredible rate and more and more businesses are beginning to realize the power involved. Before today the only option was a high-priced monthly fee in a SaaS solution which kept most businesses from being able to use it. With the release of Mautic the world can finally free their marketing and take advantage of all that open source has to offer.  
+
+  Mautic disrupts a previously completely closed market and brings an exciting new opportunity to businesses everywhere. [Download your copy of Mautic today](/download) and experience the true power of free and open source marketing automation.

@@ -1,0 +1,1 @@
+[wcv_vendor_dashboard]

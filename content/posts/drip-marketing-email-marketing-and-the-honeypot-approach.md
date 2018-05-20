@@ -1,0 +1,17 @@
+Marketing from the perspective of the organization is natural. How many press releases have you read that talk about the great things happening within a company? These are somewhat interesting but they don’t illicit any deep emotion or excitement from you as the reader. Why? Because they don’t affect you. [Drip marketing campaigns](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign/), [email marketing campaigns](https://www.mautic.org/blog/open-source-email-marketing/), and your [marketing automation software](https://www.mautic.org/marketing-automation-software/) should all be processes and tools you use to make your marketing sweet and sticky. Sweet and sticky…like honey. This is why we’re calling this the **honeypot approach** to marketing.
+
+Everything you do should put these two factors, sweet and sticky, to work in your social marketing, email marketing and marketing automation process. Let’s look at what each of these two factors and apply them to your marketing plan.
+
+### Sweet
+
+Think about when we spoke in the beginning about **perspective**. Your want your marketing perspective to be focused on how what you are doing affects your target audience. Target audience is such a cold word, instead think of them as your friends. When you’re speaking with your friends you are sharing, you’re not often speaking *to* as much as you are speaking *with* your friends. When you change your perspective you sweeten your communication. Your friends want more. They want to engage and interact with you. You will find the communication becomes a conversation. Like honey, this is a sweet and welcome change from a boring, bland, press release. Your email marketing is not an email blast but merely a sweet start to a continuing discussion or engagement.
+
+### Sticky
+
+The second factor is the sticky factor. This is really where your drip marketing comes into play. You should make sure your marketing campaigns and your marketing strategy is focused on the long-term benefits and value offered to your friends. You are not looking for a one time “bounce” from a website visitor. Instead you are seeking to craft content, engineer emails, and lay out landing pages that draw the reader in to do more. Not just doing more but coming back time and again. This is the sticky factor. Drip marketing accomplishes this by providing relevant information at key points in time or at key steps in the sales funnel. You are nurturing your leads along a process. This nurture marketing is focused on being a source of continually engaging, fresh content for your leads.
+
+### The Honeypot Approach
+
+These two factors, when used together, create the honeypot approach. They engage the user through sweet content and they keep the user through sticky, repeated visits. When your drip marketing and email marketing focus on these two factors you’ll find all types of improved benefits. You will notice a decrease in your website bounce rate, an increase in repeat website visitors, higher search engine ranking, and ultimately a greater conversion rate.
+
+Use your automated marketing software to engage with your leads at precisely the right time, your email marketing to keep them informed, and your landing pages and forms to keep them coming back.

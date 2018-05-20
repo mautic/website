@@ -1,0 +1,13 @@
+Sometimes it can seem simple to just download and install a new software package and expect that it solves the problem. Unfortunately most of the time the problem you’re trying to solve or the goal you’re trying to achieve is not something you can simply fix or solve with software. You have to be willing to spend time and effort and energy to truly accomplish what you want.
+
+
+
+Of course the tools are important. Obviously we believe that which is why we’ve created the world’s [best free open source marketing automation](https://www.mautic.org) tool. But the tool is not the complete answer. Mautic is something to help you accomplish your goals. You must do more than just monitor your potential customers. You must be engaged. You must interact. You must take the free tools we as a community build and do something with it.
+
+Monitoring is great. But interactions are greater. Mautic provides a number of ways in which you can improve your monitoring and encourage interactions. You can use Mautic to make you a better business and more effective at customer interactions.
+
+Don’t settle for downloading yet another software package and expect it to solve your problems. Take advantage of the free tool and maybe even more importantly the strong community which surrounds Mautic and use the experience and knowledge of the community to help make your business and your marketing efforts better. You’ll be amazed at how friendly and helpful people are in the Mautic community. We realize we’re all working together and we’re all facing the same struggles. Don’t just monitor your website visitors or your potential customers. Get out there and get involved with them. Listen to them and respond to them.
+
+The first step is getting everything setup and installed and working. The next step is arguably the most important. Start using it effectively. Mautic is a powerful software tool and as such can take some time to learn and use effectively. Again, the community provides a great way to get up to speed on marketing and marketing automation as well as tons of other opportunities to help make your marketing and your interactions better. Yes, it takes time and yes it takes work. Don’t sit back and expect everything to be done for you. But when you’ve spend the time you’ll find it was worth every minute. You’ve invested blood, sweat, and tears into the growth of your business and Mautic provides the tools to help you achieve your dreams.
+
+We believe in the power of the community and we believe in equality for all. The size of your business doesn’t matter. The size of your heart and your passion does. Don’t sit back and observe. Get up, stand strong and do great things with Mautic. We’re in this together!

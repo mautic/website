@@ -1,0 +1,13 @@
+Our integration list just keeps getting longer! We are excited to share our most recent integration with Oktopost, a powerful platform for social media management. This social media integration gives you away to manage all your social media shares from a convenient dashboard while also encouraging your brand advocacy. You will appreciate the power of [Oktopost](http://oktopost.com) added to Mautic.
+
+Mautic joins a short list of other marketing automation platforms offering integration with Oktopost, but unlike the others, Mautic stands alone with a beautiful interface, powerful features, and a specific Oktopost post format. Mautic takes the data provided from these social media messages and generates a rich lead profile allowing further tracking and monitoring based on interactions and engagements by visitors with your social media. This truly is a powerful integration.
+
+Oktopost CEO, Daniel Kushner, had this to say when asked about their decision to integrate with Mautic:
+
+> "These are exciting times for the Social Business Applications Market. With an estimated market CAGR of 22% over the next several years, businesses are going to hugely benefit from the innovations of companies like Allyde, who bring the all well known benefits of open source to a traditionally proprietary SaaS market. Being personally involved in open source since 2001 with PHP and Zend, it's an honor to have the opportunity to work with such a passionate team, that will bring marketing automation to the masses. Mautic is with no doubt a game changer for marketing automation, and I'm really excited to see how the market will unfold in the years to come."
+
+We are excited to hear this kind of feedback and see how others are recognizing the power of our community and of open source marketing automation. We understand the importance social media marketing and social marketing automation play in the role of marketing automation software and this integration will only help us further accomplish our goals. If you’re interested in expanding your social media marketing and social campaigns then Mautic and Oktopost integrated will serve you well!
+
+--
+
+You can find out more on [Oktopost’s website](http://oktopost.com), and see how amazing things look with Mautic by [downloading your own copy](https://www.mautic.org/download) or [creating your free hosted account](https://www.mautic.org/demo) today!

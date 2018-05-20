@@ -1,0 +1,1 @@
+[ideas type=landing-pages]

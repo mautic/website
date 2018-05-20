@@ -1,0 +1,3 @@
+Recently we came across a fantastic marketing story. [Zillow](https://www.zillow.com), a huge organization now wasn't always so big and successful. Early in the company's life they had to find creative marketing ideas and implement an amazing marketing strategy to be successful. So we've created a marketing case study on Zillow and their marketing success. Here's a quick Slideshare where we look at 10 bold ideas Zillow used to succeed with a zero dollar marketing budget. That's right, free marketing and we're sharing their marketing secrets with you!
+
+[slideshare id=53119649&doc=zillowzero-150923170356-lva1-app6891]

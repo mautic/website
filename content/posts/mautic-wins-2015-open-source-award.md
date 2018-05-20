@@ -1,0 +1,7 @@
+We are pleased to announce that Mautic has been selected as a winner of the **2015 BOSSIES Open Source Award** from **InfoWorld**! The hard work and dedication of the Mautic community is clearly on display through this award and we would not be able to accept this award without recognizing the power of our community. Together we are disrupting marketing automation and together we are revolutionizing the world.
+
+In case you haven't heard about these awards or InfoWorld, here's the deal: Every year InfoWorld, a major information technology monthly magazine, releases a list of best open source software as compiled by hundreds of contributors. They divide software into six categories, starting with **the best open source applications**. This is the category where Mautic has been selected as a winner. Other winners include Docker, RethinkDB, and CoreOS. This clearly points to the incredible success Mautic has seen and the continuing explosive growth that our community is experiencing. Our vision is becoming a reality and this recent award from such a strong and reputable source as InfoWorld attests to this!
+
+You can help our community even more if you will share this recent award on your social networks and with your friends!
+
+Read the full announcement: [http://www.infoworld.com/article/2982622/open-source-tools/bossie-awards-2015-the-best-open-source-applications.html#slide7](http://www.infoworld.com/article/2982622/open-source-tools/bossie-awards-2015-the-best-open-source-applications.html#slide7)
