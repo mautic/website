@@ -93,9 +93,11 @@ const main = async () => {
         // await handlers.handleNavs(connection);
         // console.timeEnd('navs');
 
-        console.time('topics');
-        await handlers.handleTopics(connection);
-        console.timeEnd('topics');
+        // console.time('topics');
+        // await handlers.handleTopics(connection);
+        // console.timeEnd('topics');
+
+        await handlers.handleForumUsers();
 
         resolve()
     })

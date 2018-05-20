@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const config = require('./config');
 const fetches = require('./fetch');
 const mutators = require('./mutators');
+const utils = require('./utils');
 
 const getSiteDbConn = async () => {
     let connection = mysql.createConnection({
@@ -270,8 +271,9 @@ const handleTopics = async (connection) => {
             startMemberId: wptopic.post_author,
             lastPostId: 0,
             lastPostMemberId: 0,
+            created: utils.wpDateToMySqlTimeStamp(wptopic.post_date),
         }
-    }
+    };
     const translateWpReply = (wpreply) => {
         return {
             id: wpreply.ID,
@@ -281,13 +283,13 @@ const handleTopics = async (connection) => {
             topicId: wpreply.post_parent,
             memberId: wpreply.post_author,
             mtcorgPoints: 0,
+            created: utils.wpDateToMySqlTimeStamp(wpreply.post_date)
         }
-    }
+    };
 
     // upserts
     const siteDb = await getSiteDbConn();
     return new Promise(resolve => {
-
         /*
                 let processedforums = 0;
                 forums.forEach((wpforum, forumIndex) => {
@@ -306,47 +308,64 @@ const handleTopics = async (connection) => {
 
                 })
         */
-
-        let processedtopics = 0;
-        topics.forEach((wptopic, topicIndex) => {
-            let octotopic = translateWpTopic(wptopic);
-            // let query_insertTopic = `insert into rainlab_forum_topics (id, subject, slug, channel_id, start_member_id) VALUES (${octotopic.id}, "${octotopic.subject}","${octotopic.slug}", ${octotopic.channelId}, ${octotopic.startMemberId});`;
-            let query_insertTopic = `insert into rainlab_forum_topics (id, subject, slug, channel_id, start_member_id) VALUES (?, ?, ?, ?, ?);`;
-            siteDb.query(
-                query_insertTopic,
-                [
-                    octotopic.id,
-                    octotopic.subject,
-                    octotopic.slug,
-                    octotopic.channelId,
-                    octotopic.memberId,
-                ],
-                (err, results) => {
-                    if (err && err.errno !== 1062) {
-                        console.error(err);
-                    }
-                    processedtopics++;
-                    processedtopics % 100 === 0 ? console.log(`------ [TOPICS] processed: ${processedtopics}/${topics.length}`) : null;
-                    processedtopics === topics.length ? console.log(`------ [TOPICS FINISHED]: processed ${processedtopics} of ${topics.length}`) : null;
+        /*
+                // topics
+                let processedtopics = 0;
+                topics.forEach((wptopic, topicIndex) => {
+                    let octotopic = translateWpTopic(wptopic);
+                    let table = 'rainlab_forum_topics';
+                    // insert
+                    let query_insertTopic = `insert into ${table} (id, subject, slug, channel_id, start_member_id) VALUES (?, ?, ?, ?, ?);`;
+                    let values_insertTopic = [
+                        octotopic.id,
+                        octotopic.subject,
+                        octotopic.slug,
+                        octotopic.channelId,
+                        octotopic.memberId,
+                    ];
+                    // update
+                    let query_updateTopic = `update ${table} set created_at = ? where id = ?`;
+                    let values_updateTopic = [
+                        octotopic.created, octotopic.id
+                    ]
+                    siteDb.query(
+                        query_updateTopic,
+                        values_updateTopic,
+                        (err, results) => {
+                            if (err && err.errno !== 1062) {
+                                console.error(err);
+                            }
+                            processedtopics++;
+                            processedtopics % 100 === 0 ? console.log(`------ [TOPICS] processed: ${processedtopics}/${topics.length}`) : null;
+                            processedtopics === topics.length ? console.log(`------ [TOPICS FINISHED]: processed ${processedtopics} of ${topics.length}`) : null;
+                        });
                 });
+        */
 
-        });
-
+        // replies
         let processedreplies = 0;
         replies.forEach((wpreply, index) => {
             let octoreply = translateWpReply(wpreply);
-            let query_insertReply = `INSERT INTO rainlab_forum_posts (id, subject, content, content_html, topic_id, member_id, mtcorg_points) VALUES (?,?,?,?,?,?,0)`;
+            let table = 'rainlab_forum_posts';
+            // insert
+            let query_insertReply = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points) VALUES (?,?,?,?,?,?,0)`;
+            let values_insertReply = [
+                octoreply.id,
+                octoreply.subject,
+                octoreply.content,
+                octoreply.content_html,
+                octoreply.topicId,
+                octoreply.memberId
+            ];
+            // update
+            let query_updateReply = `UPDATE ${table} set created_at = ? where id = ?`;
+            let values_updateReply = [
+                octoreply.created, octoreply.id
+            ]
 
             siteDb.query(
-                query_insertReply,
-                [
-                    octoreply.id,
-                    octoreply.subject,
-                    octoreply.content,
-                    octoreply.content_html,
-                    octoreply.topicId,
-                    octoreply.memberId
-                ],
+                query_updateReply,
+                values_updateReply,
                 (err, results) => {
                     if (err && err.errno !== 1062) {
                         console.error(err);
@@ -357,6 +376,40 @@ const handleTopics = async (connection) => {
                 })
         })
     })
+};
+
+/**
+ * Create rainlab_forum users from october users
+ * @param connection
+ */
+const handleForumUsers = async () => {
+    let siteDb = await getSiteDbConn();
+    let moduleLabel = 'FORUM USERS';
+    let query_getFeUsers = `SELECT * FROM users;`
+    let query_insertForumUser = `INSERT INTO rainlab_forum_members (id, user_id, username, slug, created_at) VALUES (?,?,?,?,?)`;
+
+    let feUsers = await fetches.fetch(query_getFeUsers, siteDb);
+    let processedUsers = 0;
+    feUsers.forEach(feUser => {
+        let values_insertForumUser = [
+            feUser.id,
+            feUser.id,
+            feUser.username,
+            `${feUser.username}_${feUser.id}`,
+            feUser.created_at
+        ];
+        siteDb.query(
+            query_insertForumUser,
+            values_insertForumUser,
+            (err, results) => {
+                if (err && err.errno !== 1062) {
+                    console.error(err);
+                }
+                processedUsers++;
+                processedUsers % 100 === 0 ? console.log(`------ [${moduleLabel}] processed: ${processedUsers}/${feUsers.length}`) : null;
+                processedUsers === feUsers.length ? console.log(`------ [${moduleLabel} FINISHED]: processed ${processedUsers} of ${feUsers.length}`) : null;
+            })
+    })
 }
 
 module.exports = {
@@ -364,5 +417,6 @@ module.exports = {
     handlePages,
     handlePosts,
     handleNavs,
-    handleTopics
+    handleTopics,
+    handleForumUsers
 };
