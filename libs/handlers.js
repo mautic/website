@@ -88,26 +88,37 @@ const handleUsers = async (connection) => {
  */
 const handlePages = async (connection) => {
     let pages = await fetches.fetch(fetches.queries.getPublishedContentByType('page'), connection);
-    // @todo: the routines for pages and posts are nearly identical. abstract that to make CPD happy.
+    let pagePromises = [];
     pages.forEach(async (page, index) => {
-        // get page meta keys;
-        let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
-        page.urlpath = "";
-        page.wpmeta = {};
-        pagemeta = pagemeta.filter(meta => {
-            return meta.meta_key !== "_pgm_post_meta";
-        })
-        pagemeta.forEach(meta => {
-            page.wpmeta[meta.meta_key] = meta.meta_value
-        });
+        let pp = new Promise(async pageResolve => {
+            // get page meta keys;
+            let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
+            page.urlpath = "";
+            page.wpmeta = {};
+            pagemeta = pagemeta.filter(meta => {
+                return meta.meta_key !== "_pgm_post_meta";
+            })
+            pagemeta.forEach(meta => {
+                page.wpmeta[meta.meta_key] = meta.meta_value
+            });
 
-        let mutatedPage = mutators.mutatePage(page);
-        //-- write content file
-        const contentFilename = `pages/${mutatedPage.fnamebase}.${mutatedPage.fcontentFormat}`;
-        await config.fwrite(mutatedPage.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
-        //-- write page file
-        await config.fwrite(`${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPages, mutatedPage.fname));
+            let mutatedPage = mutators.mutatePage(page);
+            //-- write content file
+            const contentFilename = `pages/${mutatedPage.fnamebase}.${mutatedPage.fcontentFormat}`;
+            await config.fwrite(mutatedPage.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
+            //-- write page file
+            await config.fwrite(`${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPages, mutatedPage.fname));
+
+            pageResolve();
+        })
+        pagePromises.push(pp)
     });
+    return new Promise(resolve => {
+        Promise.all(pagePromises)
+            .then(pages => {
+                resolve(pages)
+            })
+    })
 };
 
 /**
@@ -117,22 +128,35 @@ const handlePages = async (connection) => {
  */
 const handlePosts = async (connection) => {
     let posts = await fetches.fetch(fetches.queries.getPublishedContentByType('post'), connection);
-    posts.forEach(async (post, index) => {
-        // get page meta keys;
-        let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(post.ID), connection);
-        post.urlpath = "blog/";
-        post.wpmeta = {};
-        pagemeta.forEach(meta => {
-            post.wpmeta[meta.meta_key] = meta.meta_value
-        });
-        //
-        let mutatedPost = mutators.mutatePage(post);
+    let postPromises = [];
 
-        //-- write content file
-        const contentFilename = `posts/${mutatedPost.fnamebase}.${mutatedPost.fcontentFormat}`;
-        await config.fwrite(mutatedPost.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
-        //-- write page file
-        await config.fwrite(`${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPosts, mutatedPost.fname));
+    posts.forEach(async (post, index) => {
+        let pp = new Promise(async postResolve => {
+            // get page meta keys;
+            let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(post.ID), connection);
+            post.urlpath = "blog/";
+            post.wpmeta = {};
+            pagemeta.forEach(meta => {
+                post.wpmeta[meta.meta_key] = meta.meta_value
+            });
+            //
+            let mutatedPost = mutators.mutatePage(post);
+
+            //-- write content file
+            const contentFilename = `posts/${mutatedPost.fnamebase}.${mutatedPost.fcontentFormat}`;
+            await config.fwrite(mutatedPost.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
+            //-- write page file
+            await config.fwrite(`${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPosts, mutatedPost.fname));
+            postResolve();
+        })
+        postPromises.push(pp)
+    });
+
+    return new Promise(resolve => {
+        Promise.all(postPromises)
+            .then(posts => {
+                resolve(posts)
+            })
     })
 };
 

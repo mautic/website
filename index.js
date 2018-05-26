@@ -75,29 +75,18 @@ const main = async () => {
         let cid = await connect();
         let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
 
-        //-----------
-        // FAIR WARNING: this is a looooong execution, due to 10k db inserts
-        // console.time('users');
-        // await handlers.handleUsers(connection);
-        // console.timeEnd('users');
 
-        // console.time('pages');
-        // await handlers.handlePages(connection);
-        // console.timeEnd('pages');
-
-        // console.time('posts');
-        // await handlers.handlePosts(connection);
-        // console.timeEnd('posts');
-
+        //------- NOT refactored
+        // let users = await handlers.handleUsers(connection);
         // console.time('navs');
         // await handlers.handleNavs(connection);
         // console.timeEnd('navs');
 
-        // console.time('topics');
-        // await handlers.handleTopics(connection);
-        // console.timeEnd('topics');
-
-        await handlers.handleForumUsers();
+        //------- refactored
+        // let pageInserts = await handlers.handlePages(connection);
+        // let postInserts = await handlers.handlePosts(connection);
+        // let forumTree = await handlers.handleForumTree(connection);
+        // let forumUsers = await handlers.handleForumUsers();
 
         resolve()
     })
