@@ -197,7 +197,7 @@ const handleNavs = async (connection) => {
  * @param connection
  * @returns {Promise<void>}
  */
-const handleTopics = async (connection) => {
+const handleForumTree = async (connection) => {
     /*
     * wp | oc
     * __________
@@ -287,93 +287,125 @@ const handleTopics = async (connection) => {
         }
     };
 
-    // upserts
-    const siteDb = await getSiteDbConn();
-    return new Promise(resolve => {
-        /*
-                let processedforums = 0;
-                forums.forEach((wpforum, forumIndex) => {
-                    let octoforum = translateWpForum(wpforum);
-                    let query_insertForum = `insert into rainlab_forum_channels (id, title, slug) VALUES(${octoforum.id}, "${octoforum.title}", "${octoforum.slug}");`;
-                    // insert forum
-                    siteDb.query(query_insertForum, (err, results) => {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-                        forums[forumIndex].octoforum = octoforum;
-                        processedforums++;
-                        console.log(`------ [FORUMS] processed: ${processedforums}/${forums.length}`);
-                    })
-
+    const doForums = async (forums) => {
+        let processedforums = 0;
+        let forumPromises = [];
+        forums.forEach((wpforum, forumIndex) => {
+            let octoforum = translateWpForum(wpforum);
+            let query_insertForum = `insert into rainlab_forum_channels (id, title, slug) VALUES(${octoforum.id}, "${octoforum.title}", "${octoforum.slug}");`;
+            let fp = new Promise(fResolve => {
+                siteDb.query(query_insertForum, (err, results) => {
+                    if (err && err.errno !== 1062) {
+                        console.error(err);
+                    }
+                    forums[forumIndex].octoforum = octoforum;
+                    processedforums++;
+                    console.log(`------ [FORUMS] processed: ${processedforums}/${forums.length}`);
+                    fResolve(results);
                 })
-        */
-        /*
-                // topics
-                let processedtopics = 0;
-                topics.forEach((wptopic, topicIndex) => {
-                    let octotopic = translateWpTopic(wptopic);
-                    let table = 'rainlab_forum_topics';
-                    // insert
-                    let query_insertTopic = `insert into ${table} (id, subject, slug, channel_id, start_member_id) VALUES (?, ?, ?, ?, ?);`;
-                    let values_insertTopic = [
-                        octotopic.id,
-                        octotopic.subject,
-                        octotopic.slug,
-                        octotopic.channelId,
-                        octotopic.memberId,
-                    ];
-                    // update
-                    let query_updateTopic = `update ${table} set created_at = ? where id = ?`;
-                    let values_updateTopic = [
-                        octotopic.created, octotopic.id
-                    ]
-                    siteDb.query(
-                        query_updateTopic,
-                        values_updateTopic,
-                        (err, results) => {
-                            if (err && err.errno !== 1062) {
-                                console.error(err);
-                            }
-                            processedtopics++;
-                            processedtopics % 100 === 0 ? console.log(`------ [TOPICS] processed: ${processedtopics}/${topics.length}`) : null;
-                            processedtopics === topics.length ? console.log(`------ [TOPICS FINISHED]: processed ${processedtopics} of ${topics.length}`) : null;
-                        });
-                });
-        */
+            })
+            forumPromises.push(fp);
+        });
+        return new Promise(forumsResolve => {
+            Promise.all(forumPromises)
+                .then(forumRes => {
+                    forumsResolve(forumRes)
+                })
+        })
+    }
+    const doTopics = async (topics) => {
+        let processedtopics = 0;
+        let topicPromises = [];
+        topics.forEach((wptopic, topicIndex) => {
+            let octotopic = translateWpTopic(wptopic);
+            let table = 'rainlab_forum_topics';
+            let query_insertTopic = `insert into ${table} (id, subject, slug, channel_id, start_member_id, created_at) VALUES (?, ?, ?, ?, ?, ?);`;
+            let values_insertTopic = [
+                octotopic.id,
+                octotopic.subject,
+                octotopic.slug,
+                octotopic.channelId,
+                octotopic.memberId,
+                octotopic.created
+            ];
 
-        // replies
+            let tp = new Promise(tpResolve => {
+                siteDb.query(
+                    query_insertTopic,
+                    values_insertTopic,
+                    (err, results) => {
+                        if (err && err.errno !== 1062) {
+                            console.error(err);
+                        }
+                        processedtopics++;
+                        processedtopics % 100 === 0 ? console.log(`------ [TOPICS] processed: ${processedtopics}/${topics.length}`) : null;
+                        processedtopics === topics.length ? console.log(`------ [TOPICS FINISHED]: processed ${processedtopics} of ${topics.length}`) : null;
+                        tpResolve(results)
+                    })
+            })
+            topicPromises.push(tp);
+        });
+        return new Promise(topicsResolve => {
+            Promise.all(topicPromises)
+                .then(topicRes => {
+                    topicsResolve(topicRes);
+                })
+        })
+    }
+    const doReplies = async (replies) => {
         let processedreplies = 0;
+        let resolvedReplies = 0;
+        let replyPromises = [];
         replies.forEach((wpreply, index) => {
             let octoreply = translateWpReply(wpreply);
             let table = 'rainlab_forum_posts';
             // insert
-            let query_insertReply = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points) VALUES (?,?,?,?,?,?,0)`;
+            let query_insertReply = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at) VALUES (?,?,?,?,?,?,0,?)`;
             let values_insertReply = [
                 octoreply.id,
                 octoreply.subject,
                 octoreply.content,
                 octoreply.content_html,
                 octoreply.topicId,
-                octoreply.memberId
+                octoreply.memberId,
+                octoreply.created,
             ];
-            // update
-            let query_updateReply = `UPDATE ${table} set created_at = ? where id = ?`;
-            let values_updateReply = [
-                octoreply.created, octoreply.id
-            ]
-
-            siteDb.query(
-                query_updateReply,
-                values_updateReply,
-                (err, results) => {
-                    if (err && err.errno !== 1062) {
-                        console.error(err);
-                    }
-                    processedreplies++;
-                    processedreplies % 100 === 0 ? console.log(`------ [REPLIES] processed: ${processedreplies}/${replies.length}`) : null;
-                    processedreplies === replies.length ? console.log(`------ [REPLIES FINISHED]: processed ${processedreplies} of ${replies.length}`) : null;
+            let rp = new Promise(rpResolve => {
+                siteDb.query(
+                    query_insertReply,
+                    values_insertReply,
+                    (err, results) => {
+                        if (err && err.errno !== 1062) {
+                            console.error(err);
+                        }
+                        resolvedReplies++;
+                        resolvedReplies % 100 === 0 ? console.log(`------ [REPLIES] processed: ${resolvedReplies}/${replies.length}`) : null;
+                        resolvedReplies === replies.length ? console.log(`------ [REPLIES FINISHED]: processed ${resolvedReplies} of ${replies.length}`) : null;
+                        rpResolve(results);
+                    })
+            })
+            replyPromises.push(rp);
+            processedreplies++;
+        });
+        return new Promise(repliesResolve => {
+            Promise.all(replyPromises)
+                .then(replyRes => {
+                    repliesResolve(replyRes);
                 })
+        })
+    };
+
+    const siteDb = await getSiteDbConn();
+    return new Promise(async forumResolve => {
+
+        let resolvedForums = await doForums(forums);
+        let resolvedTopics = await doTopics(topics);
+        let resolvedReplies = await doReplies(replies);
+
+        forumResolve({
+            resolvedForums,
+            resolvedTopics,
+            resolvedReplies
         })
     })
 };
@@ -431,6 +463,6 @@ module.exports = {
     handlePages,
     handlePosts,
     handleNavs,
-    handleTopics,
+    handleForumTree,
     handleForumUsers
 };
