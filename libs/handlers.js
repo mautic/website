@@ -22,6 +22,17 @@ const getSiteDbConn = async () => {
     })
 }
 
+const getArrayChunks = (chunk, chunkSize = 100) => {
+    let i = 0;
+    let j = 0;
+    let chunks = [];
+    for (i = 0, j = chunk.length; i < j; i += chunkSize) {
+        let slice = chunk.slice(i, i + chunkSize);
+        chunks.push(slice);
+    }
+    return chunks;
+}
+
 /**
  * Collects users.
  * @todo error: connection closes before the last few inserts run
@@ -376,6 +387,53 @@ const handleForumTree = async (connection) => {
                 })
         })
     }
+
+    const batchInsertReplies = async (replies) => {
+        return new Promise(resolve => {
+            let table = 'rainlab_forum_posts';
+            let batchInsertStmt = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at, updated_at) VALUES `;
+            let value_statements = replies.map(wpreply => {
+                let octoreply = translateWpReply(wpreply);
+                return `(
+                ${octoreply.id},
+                ${siteDb.escape(octoreply.subject)},
+                ${siteDb.escape(octoreply.content)}, ${siteDb.escape(octoreply.content_html)}, 
+                ${octoreply.topicId}, ${octoreply.memberId}, 
+                0,
+                "${octoreply.created}", "${octoreply.created}")`
+            });
+
+            let chunkInserts = getArrayChunks(value_statements, 100)
+                .map(chunk => {
+                    return `${batchInsertStmt} ${chunk.join(',')}`
+                })
+
+            let chunkPromises = [];
+            chunkInserts.forEach(insert => {
+                let p = new Promise(resolve => {
+                    siteDb.query(
+                        insert,
+                        (err, results) => {
+                            if (err) console.log(err)
+                            resolve(results);
+                        }
+                    )
+                })
+                chunkPromises.push(p);
+            });
+
+            Promise.all(chunkPromises)
+                .then(results => {
+                    resolve(results);
+                })
+        })
+    }
+
+    /**
+     * @deprecated this is a monster of a thing, because it runs 1:1 queries, use batchInsertReplies instead
+     * @param replies
+     * @returns {Promise<any>}
+     */
     const doReplies = async (replies) => {
         let processedreplies = 0;
         let resolvedReplies = 0;
@@ -384,7 +442,7 @@ const handleForumTree = async (connection) => {
             let octoreply = translateWpReply(wpreply);
             let table = 'rainlab_forum_posts';
             // insert
-            let query_insertReply = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at) VALUES (?,?,?,?,?,?,0,?)`;
+            let query_insertReply = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at, updated_at) VALUES (?,?,?,?,?,?,0,?,?)`;
             let values_insertReply = [
                 octoreply.id,
                 octoreply.subject,
@@ -392,6 +450,7 @@ const handleForumTree = async (connection) => {
                 octoreply.content_html,
                 octoreply.topicId,
                 octoreply.memberId,
+                octoreply.created,
                 octoreply.created,
             ];
             let rp = new Promise(rpResolve => {
@@ -422,14 +481,13 @@ const handleForumTree = async (connection) => {
     const siteDb = await getSiteDbConn();
     return new Promise(async forumResolve => {
 
-        let resolvedForums = await doForums(forums);
-        let resolvedTopics = await doTopics(topics);
-        let resolvedReplies = await doReplies(replies);
-
+        // let resolvedForums = await doForums(forums);
+        // let resolvedTopics = await doTopics(topics);
+        let resolvedReplies = await batchInsertReplies(replies);
         forumResolve({
-            resolvedForums,
-            resolvedTopics,
-            resolvedReplies
+            resolvedForums: '',
+            resolvedTopics: '',
+            resolvedReplies: resolvedReplies
         })
     })
 };
@@ -482,11 +540,138 @@ const handleForumUsers = async () => {
     })
 }
 
+const handleForumMetrics = async () => {
+    const collectAllPromises = async (promises) => {
+        return new Promise(resolve => {
+            Promise.all(promises)
+                .then(resolved => {
+                    resolve(resolved)
+                })
+        })
+    }
+
+    const siteDb = await getSiteDbConn();
+
+    //-- enrich topics
+    let topicPromisesAll = 0;
+    let topicPromisesResolved = 0;
+    const loadTopicIds = async () => {
+        let query = `select id from rainlab_forum_topics LIMIT 0,20`;
+        let topicIds = await fetches.fetch(query, siteDb);
+        return topicIds.map(topic => {
+            return topic.id
+        });
+    };
+    const batchCountPostsInTopics = async () => {
+        return new Promise(resolve => {
+            let query_batchpostsintopics = `
+                SELECT
+                    topics.id, count(*) posts
+                    from rainlab_forum_posts posts
+                    left join rainlab_forum_topics topics on posts.topic_id = topics.id
+                    where topics.id IS NOT NULL
+                    group by topics.id;
+            `;
+            siteDb.query(
+                query_batchpostsintopics,
+                (err, results) => {
+                    if (err) console.log(err);
+                    resolve(results);
+                }
+            )
+        })
+    }
+    const updateTopicsPostCount = async (countResults) => {
+        topicPromisesAll = countResults.length;
+        return new Promise(async resolve => {
+            let promises_updatetopicpostcount = [];
+            countResults.forEach(row => {
+                let rp = new Promise(rpResolve => {
+                    siteDb.query(
+                        `update rainlab_forum_topics SET count_posts = ? where id = ?;`,
+                        [row.posts, row.id],
+                        (err, results) => {
+                            topicPromisesResolved++;
+                            console.log(`updated topic counts: ${topicPromisesResolved}/${topicPromisesAll}`)
+                            rpResolve(results)
+                        }
+                    )
+                });
+                promises_updatetopicpostcount.push(rp)
+            });
+            let results = await collectAllPromises(promises_updatetopicpostcount);
+            resolve(results);
+        })
+    }
+    /*
+        // get count of posts per topic, update topic records count_posts
+        let allTopicsPostsCounts = await batchCountPostsInTopics();
+        let updatedTopics = await updateTopicsPostCount(allTopicsPostsCounts);
+    */
+
+    //-- enrich channels
+    let channelPromisesAll = 0;
+    let channelPromisesResolved = 0;
+    const batchCountPostsInChannel = async () => {
+        return new Promise(resolve => {
+            let query_batchcountpostsinchannel = `
+                SELECT channels.id, count(*) topicsCount, sum(topics.count_posts) postsCount
+                from rainlab_forum_topics topics
+                left join rainlab_forum_channels channels on topics.channel_id = channels.id
+                where channels.id IS NOT NULL
+                group by channels.id
+            `
+            siteDb.query(
+                query_batchcountpostsinchannel,
+                (err, results) => {
+                    if (err) console.log(err);
+                    resolve(results);
+                }
+            )
+        })
+    };
+    const updateChannelsTallies = async (countResults) => {
+        channelPromisesAll = countResults.length;
+        return new Promise(async resolve => {
+            let promises_updatechannelstallies = [];
+            countResults.forEach(row => {
+                let rp = new Promise(rpResolve => {
+                    siteDb.query(
+                        `UPDATE rainlab_forum_channels SET count_topics=?, count_posts=? where id=?;`,
+                        [
+                            row.topicsCount,
+                            row.postsCount,
+                            row.id
+                        ],
+                        (err, results) => {
+                            channelPromisesResolved++;
+                            console.log(`updated topic counts: ${channelPromisesResolved}/${channelPromisesAll}`)
+                            rpResolve(results)
+                        }
+                    );
+                });
+                promises_updatechannelstallies.push(rp)
+            })
+            let results = await collectAllPromises(promises_updatechannelstallies);
+            resolve(results)
+        })
+    }
+    /*
+        // get count of topics and posts in channels
+        let allChannelsPostsCounts = await batchCountPostsInChannel();
+        let updatedPosts = await updateChannelsTallies(allChannelsPostsCounts);
+    */
+
+
+    debugger;
+}
+
 module.exports = {
     handleUsers,
     handlePages,
     handlePosts,
     handleNavs,
     handleForumTree,
-    handleForumUsers
+    handleForumUsers,
+    handleForumMetrics,
 };

@@ -85,8 +85,9 @@ const main = async () => {
         //------- refactored
         // let pageInserts = await handlers.handlePages(connection);
         // let postInserts = await handlers.handlePosts(connection);
-        // let forumTree = await handlers.handleForumTree(connection);
         // let forumUsers = await handlers.handleForumUsers();
+        let forumTree = await handlers.handleForumTree(connection);
+        // let forumMetrics = await handlers.handleForumMetrics();
 
         resolve()
     })
