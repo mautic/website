@@ -383,31 +383,45 @@ const handleTopics = async (connection) => {
  * @param connection
  */
 const handleForumUsers = async () => {
-    let siteDb = await getSiteDbConn();
-    let moduleLabel = 'FORUM USERS';
-    let query_getFeUsers = `SELECT * FROM users;`
-    let query_insertForumUser = `INSERT INTO rainlab_forum_members (id, user_id, username, slug, created_at) VALUES (?,?,?,?,?)`;
+    return new Promise(async resolve => {
+        let siteDb = await getSiteDbConn();
+        let moduleLabel = 'FORUM USERS';
+        let query_getFeUsers = `SELECT * FROM users;`
+        let query_insertForumUser = `INSERT INTO rainlab_forum_members (id, user_id, username, slug, created_at) VALUES (?,?,?,?,?)`;
 
-    let feUsers = await fetches.fetch(query_getFeUsers, siteDb);
-    let processedUsers = 0;
-    feUsers.forEach(feUser => {
-        let values_insertForumUser = [
-            feUser.id,
-            feUser.id,
-            feUser.username,
-            `${feUser.username}_${feUser.id}`,
-            feUser.created_at
-        ];
-        siteDb.query(
-            query_insertForumUser,
-            values_insertForumUser,
-            (err, results) => {
-                if (err && err.errno !== 1062) {
-                    console.error(err);
-                }
-                processedUsers++;
-                processedUsers % 100 === 0 ? console.log(`------ [${moduleLabel}] processed: ${processedUsers}/${feUsers.length}`) : null;
-                processedUsers === feUsers.length ? console.log(`------ [${moduleLabel} FINISHED]: processed ${processedUsers} of ${feUsers.length}`) : null;
+        let feUsers = await fetches.fetch(query_getFeUsers, siteDb);
+
+        let processedUsers = 0;
+        let resolved = 0;
+        let promises = [];
+        feUsers.forEach(feUser => {
+            let p = new Promise(resolve => {
+                let values_insertForumUser = [
+                    feUser.id,
+                    feUser.id,
+                    feUser.username,
+                    `${feUser.username}_${feUser.id}`,
+                    feUser.created_at
+                ];
+                siteDb.query(
+                    query_insertForumUser,
+                    values_insertForumUser,
+                    (err, results) => {
+                        if (err && err.errno !== 1062) {
+                            console.error(err);
+                        }
+                        resolved++;
+                        resolved % 100 === 0 ? console.log(`------ [${moduleLabel}] processed: ${resolved}/${feUsers.length}`) : null;
+                        resolved === feUsers.length ? console.log(`------ [${moduleLabel} FINISHED]: processed ${resolved} of ${feUsers.length}`) : null;
+                        resolve(results)
+                    })
+            })
+            promises.push(p);
+            processedUsers++;
+        });
+        Promise.all(promises)
+            .then(res => {
+                resolve(res);
             })
     })
 }
