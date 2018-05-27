@@ -38,7 +38,7 @@ const disconnect = async () => {
     })
 }
 
-const setup = (remove = false) => {
+const prepare = (remove = false) => {
     if (remove) {
         // @todo: destroy previously created files
     }
@@ -66,7 +66,7 @@ const tryComplete = () => {
 
 //---------------------
 const main = async () => {
-    setup();
+    prepare();
     return new Promise(async resolve => {
         //-- register processors here with {process:false}. a gate calls done when all are flagged true
         progress = {

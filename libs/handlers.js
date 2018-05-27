@@ -6,22 +6,6 @@ const fetches = require('./fetch');
 const mutators = require('./mutators');
 const utils = require('./utils');
 
-const getSiteDbConn = async () => {
-    let connection = mysql.createConnection({
-        host: '127.0.0.1',
-        port: 3307,
-        database: 'mtorg_db',
-        user: 'root',
-        password: 'dockerpass'
-    });
-    return new Promise(resolve => {
-        connection.connect(err => {
-            if (err) throw err;
-            resolve(connection);
-        })
-    })
-}
-
 const getArrayChunks = (chunk, chunkSize = 100) => {
     let i = 0;
     let j = 0;
@@ -478,7 +462,7 @@ const handleForumTree = async (connection) => {
         })
     };
 
-    const siteDb = await getSiteDbConn();
+    const siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
 
     //-- execute routines
     return new Promise(async forumResolve => {
@@ -499,7 +483,7 @@ const handleForumTree = async (connection) => {
  */
 const handleForumUsers = async () => {
     return new Promise(async resolve => {
-        let siteDb = await getSiteDbConn();
+        let siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
         let moduleLabel = 'FORUM USERS';
         let query_getFeUsers = `SELECT * FROM users;`
         let query_insertForumUser = `INSERT INTO rainlab_forum_members (id, user_id, username, slug, created_at) VALUES (?,?,?,?,?)`;
@@ -555,7 +539,7 @@ const handleForumMetrics = async () => {
         })
     }
 
-    const siteDb = await getSiteDbConn();
+    const siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
 
     //-- enrich topics
     let topicPromisesAll = 0;
