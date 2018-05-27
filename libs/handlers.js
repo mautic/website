@@ -241,7 +241,36 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
         replies = cache.replies;
     }
 
-    const translateWpForum = (wpforum) => {
+    //-- collect metrics for channels, topics, replies
+    forums = forums.map(forum => {
+        // count nested topics and posts
+        return Object.assign(
+            forum,
+            {
+                count_topics: forum.childTopics.length,
+                count_posts: forum.childTopics.reduce((current, topic) => {
+                    return topic.childReplies.length + current;
+                }, 0)
+            }
+        );
+    });
+    topics = topics.map(topic => {
+        //-- organize replies by date asc, assign first and last as object keys
+        let organizedReplies = topic.childReplies.sort((a, b) => {
+            return new Date(b.post_date) - (a.post_date);
+        })
+        let ret = Object.assign(
+            topic,
+            {
+                firstReply: organizedReplies[0],
+                recentReply: organizedReplies[organizedReplies.length - 1]
+            }
+        );
+        return ret;
+    })
+
+    //-- model translations
+    const translateChannel = (wpforum) => {
         return {
             parentId: wpforum.post_parent === 0 ? 'null' : wpforum.post_parent,
             id: wpforum.ID,
@@ -274,10 +303,12 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
         }
     };
 
-    const insertForums = async (forums) => {
+    //-- model loaders
+    const loadForumChannels = async (forums) => {
+        debugger;
         let processedforums = 0;
         let forumPromises = forums.map((wpforum, forumIndex) => {
-            let octoforum = translateWpForum(wpforum);
+            let octoforum = translateChannel(wpforum);
             let query_insertForum = `insert into rainlab_forum_channels (id, title, slug) VALUES(${octoforum.id}, "${octoforum.title}", "${octoforum.slug}");`;
             return new Promise(resolve => {
                 siteDb.query(query_insertForum, (err, results) => {
@@ -293,7 +324,7 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
         })
         return await utils.collectAllPromises(forumPromises);
     }
-    const insertTopics = async (topics) => {
+    const loadForumTopics = async (topics) => {
         let processedtopics = 0;
         let topicPromises = topics.map(wptopic => {
             let octotopic = translateWpTopic(wptopic);
@@ -324,7 +355,7 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
         });
         return await utils.collectAllPromises(topicPromises);
     }
-    const batchInsertReplies = async (replies) => {
+    const batchLoadForumReplies = async (replies) => {
         return new Promise(resolve => {
             let table = 'rainlab_forum_posts';
             let batchInsertStmt = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at, updated_at) VALUES `;
@@ -369,9 +400,9 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
 
     //-- execute routines
     return new Promise(async resolve => {
-        let resolvedForums = await insertForums(forums);
-        let resolvedTopics = await insertTopics(topics);
-        let resolvedReplies = await batchInsertReplies(replies);
+        let resolvedForums = await loadForumChannels(forums);
+        let resolvedTopics = await loadForumTopics(topics);
+        let resolvedReplies = await batchLoadForumReplies(replies);
         resolve({
             resolvedForums,
             resolvedTopics,
