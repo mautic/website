@@ -46,32 +46,22 @@ const handleUsers = async (connection) => {
 
         // get a new site-db connection
         // @todo: deprecate this for getSiteDbConn
-        let siteDb = mysql.createConnection({
-            host: '127.0.0.1',
-            port: 3307,
-            database: 'mtorg_db',
-            user: 'root',
-            password: 'dockerpass'
-        });
-        siteDb.connect(err => {
-            if (err) throw err;
+        let siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
+        let processedUsers = 0;
+        console.log(`inserting ${octoUsers.length} users`);
+        octoUsers.forEach(async user => {
+            await fetches.fetch(fetches.queries.insertUser(user), siteDb);
+            processedUsers++;
 
-            let processedUsers = 0;
-            console.log(`inserting ${octoUsers.length} users`);
-            octoUsers.forEach(async user => {
-                await fetches.fetch(fetches.queries.insertUser(user), siteDb);
-                processedUsers++;
+            if (processedUsers % 100 === 0) console.log(`--- processed ${processedUsers}/${octoUsers.length}`)
 
-                if (processedUsers % 100 === 0) console.log(`--- processed ${processedUsers}/${octoUsers.length}`)
-
-                if (processedUsers === octoUsers.length) {
-                    console.log(`processed all users`)
-                    connection.end(err => {
-                        if (err) throw err
-                    })
-                    resolve();
-                }
-            })
+            if (processedUsers === octoUsers.length) {
+                console.log(`processed all users`)
+                connection.end(err => {
+                    if (err) throw err
+                })
+                resolve();
+            }
         })
     })
 }

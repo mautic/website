@@ -8,32 +8,17 @@ const fetches = require('./libs/fetch');
 const handlers = require('./libs/handlers');
 
 //
-let connection;
+let stagingConnection;
 let progress = {};
 //---------------------
-const connect = async () => {
-    return new Promise(resolve => {
-        connection = mysql.createConnection({
-            host: '127.0.0.1',
-            port: 3306,
-            database: 'mt_org_migration',
-            user: 'root',
-            password: 'dockerpass'
-        })
-        connection.connect(err => {
-            if (err) throw err;
-            resolve(connection)
-        })
-    })
-}
 
 const disconnect = async () => {
     return new Promise(resolve => {
-        connection.end(err => {
+        stagingConnection.end(err => {
             if (err) {
                 throw err
             }
-            resolve(connection)
+            resolve(stagingConnection)
         })
     })
 }
@@ -72,8 +57,8 @@ const main = async () => {
         progress = {
             pages: false,
         }
-        let cid = await connect();
-        let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, connection);
+        stagingConnection = await config.getDbConnection(config.db_connParams.db_staging);
+        let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, stagingConnection);
 
 
         //------- NOT refactored
@@ -85,9 +70,9 @@ const main = async () => {
         //------- refactored
         // let pageInserts = await handlers.handlePages(connection);
         // let postInserts = await handlers.handlePosts(connection);
-        // let forumUsers = await handlers.handleForumUsers();
+        let forumUsers = await handlers.handleForumUsers();
         // let forumTree = await handlers.handleForumTree(connection);
-        let forumMetrics = await handlers.handleForumMetrics();
+        // let forumMetrics = await handlers.handleForumMetrics();
 
         resolve()
     })
