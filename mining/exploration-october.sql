@@ -1,4 +1,5 @@
 DELETE from rainlab_forum_posts where 1=1;
+SELECT count(*) cnt from rainlab_forum_topics;
 
 -- count topics in channel
 SELECT
@@ -32,9 +33,20 @@ group by channels.id
 UPDATE rainlab_forum_channels SET count_topics=0, count_posts=0 where id=0;
 
 -- enrich forum topics
+SELECT * FROM rainlab_forum_topics where id = 68650;
+SELECT * from rainlab_forum_posts WHERE topic_id = 104193
 -- -- start_member_id
-SELECT * from rainlab_forum_posts WHERE topic_id = 70144
-ORDER by id asc
+SELECT * from rainlab_forum_posts WHERE topic_id = 68650
+ORDER by created_at ASC Limit 1;
+-- -- -- en masse
+SELECT topic_id,id from rainlab_forum_posts
+GROUP BY topic_id
+ORDER BY created_at asc LIMIT 5;
+
+-- -- last_post_id last_post_member_id last_post_at
+SELECT * from rainlab_forum_posts
+GROUP BY topic_id
+ORDER by created_at DESC Limit 5;
 
 
 SELECT count(*), topic_id

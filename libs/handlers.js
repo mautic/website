@@ -479,8 +479,9 @@ const handleForumTree = async (connection) => {
     };
 
     const siteDb = await getSiteDbConn();
-    return new Promise(async forumResolve => {
 
+    //-- execute routines
+    return new Promise(async forumResolve => {
         // let resolvedForums = await doForums(forums);
         // let resolvedTopics = await doTopics(topics);
         let resolvedReplies = await batchInsertReplies(replies);
@@ -540,6 +541,10 @@ const handleForumUsers = async () => {
     })
 }
 
+/**
+ * Enriches forum metrics, eg: number of posts, first post, most recent post
+ * @returns {Promise<void>}
+ */
 const handleForumMetrics = async () => {
     const collectAllPromises = async (promises) => {
         return new Promise(resolve => {
@@ -556,7 +561,7 @@ const handleForumMetrics = async () => {
     let topicPromisesAll = 0;
     let topicPromisesResolved = 0;
     const loadTopicIds = async () => {
-        let query = `select id from rainlab_forum_topics LIMIT 0,20`;
+        let query = `select id from rainlab_forum_topics`;
         let topicIds = await fetches.fetch(query, siteDb);
         return topicIds.map(topic => {
             return topic.id
@@ -570,8 +575,7 @@ const handleForumMetrics = async () => {
                     from rainlab_forum_posts posts
                     left join rainlab_forum_topics topics on posts.topic_id = topics.id
                     where topics.id IS NOT NULL
-                    group by topics.id;
-            `;
+                    group by topics.id; `;
             siteDb.query(
                 query_batchpostsintopics,
                 (err, results) => {
@@ -581,6 +585,70 @@ const handleForumMetrics = async () => {
             )
         })
     }
+    const batchGetTopicsFirstPosts = async () => {
+        return new Promise(resolve => {
+            let query_batchgettopicsfirstposts = `
+                SELECT topic_id, member_id,id from rainlab_forum_posts
+                    GROUP BY topic_id
+                    ORDER BY created_at asc;`;
+            siteDb.query(
+                query_batchgettopicsfirstposts,
+                (err, results) => {
+                    if (err) console.log(err);
+                    resolve(results);
+                }
+            )
+        })
+    }
+    const batchGetTopicsRecentPosts = async () => {
+        return new Promise(resolve => {
+            let query_batchgettopicsfirstposts = `
+                SELECT topic_id, id, member_id, created_at from rainlab_forum_posts
+                    GROUP BY topic_id
+                    ORDER by created_at DESC;`;
+            siteDb.query(
+                query_batchgettopicsfirstposts,
+                (err, results) => {
+                    if (err) console.log(err);
+                    resolve(results);
+                }
+            )
+        })
+    }
+    const updateTopicsFirstAndRecentPosts = async (patchArray) => {
+        let topicPromisesCount = patchArray.length;
+        let topicPromisesResolved = 0;
+        let topicPromises = [];
+
+        patchArray.forEach(row => {
+            let rowProm = new Promise(resolve => {
+                if (!row.firstpost) {
+                    resolve({})
+                }
+                let q = `UPDATE rainlab_forum_topics SET start_member_id = ${row.firstpost.member_id}, last_post_id = ${row.recentpost.id}, last_post_member_id = ${row.recentpost.member_id}, last_post_at = "${utils.wpDateToMySqlTimeStamp(row.recentpost.created_at)}" where id = ${row.topic_id}`;
+                siteDb.query(
+                    q,
+                    (err, results) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        topicPromisesResolved++;
+                        console.log(`PROCESSED TOPICS: ${topicPromisesResolved}/${topicPromisesCount}`)
+                        resolve(results)
+                    }
+                )
+            });
+            topicPromises.push(rowProm);
+        });
+
+        return new Promise(resolve => {
+            Promise.all(topicPromises)
+                .then(results => {
+                    resolve(results);
+                })
+        })
+    }
+
     const updateTopicsPostCount = async (countResults) => {
         topicPromisesAll = countResults.length;
         return new Promise(async resolve => {
@@ -608,6 +676,24 @@ const handleForumMetrics = async () => {
         let allTopicsPostsCounts = await batchCountPostsInTopics();
         let updatedTopics = await updateTopicsPostCount(allTopicsPostsCounts);
     */
+    // get topic first and recent posts
+    let topicIds = await loadTopicIds();
+    let topicsFirstPosts = await batchGetTopicsFirstPosts();
+    let topicsRecentPosts = await batchGetTopicsRecentPosts();
+    // recompile array of {topicid, recent.*, first.*}
+    let topicMetricsPatch = topicIds.map(topicid => {
+        let ret = {
+            topic_id: topicid,
+        };
+        ret.firstpost = topicsFirstPosts.filter(row => {
+            return row.topic_id === topicid;
+        })[0];
+        ret.recentpost = topicsRecentPosts.filter(row => {
+            return row.topic_id === topicid;
+        })[0]
+        return ret;
+    })
+    let patchedTopics = await updateTopicsFirstAndRecentPosts(topicMetricsPatch);
 
     //-- enrich channels
     let channelPromisesAll = 0;
