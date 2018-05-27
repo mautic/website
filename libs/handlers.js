@@ -68,14 +68,11 @@ const handleUsers = async (connection) => {
 
 /**
  * Collect page/meta, format and write to fs for october
- * @param connection
- * @returns {Promise<void>}
  */
 const handlePages = async (connection) => {
     let pages = await fetches.queryConnection(fetches.queries.getPublishedContentByType('page'), connection);
-    let pagePromises = [];
-    pages.forEach(async (page, index) => {
-        let pp = new Promise(async pageResolve => {
+    let pagePromises = pages.map(page => {
+        return new Promise(async pageResolve => {
             // get page meta keys;
             let pagemeta = await fetches.queryConnection(fetches.queries.getPostMetaRowsForId(page.ID), connection);
             page.urlpath = "";
@@ -94,29 +91,19 @@ const handlePages = async (connection) => {
             //-- write page file
             await config.fwrite(`${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPages, mutatedPage.fname));
 
-            pageResolve();
+            pageResolve(mutatedPage);
         })
-        pagePromises.push(pp)
     });
-    return new Promise(resolve => {
-        Promise.all(pagePromises)
-            .then(pages => {
-                resolve(pages)
-            })
-    })
+    return await utils.collectAllPromises(pagePromises);
 };
 
 /**
  * Collect post/meta, format and write to fs for october
- * @param connection
- * @returns {Promise<void>}
  */
 const handlePosts = async (connection) => {
     let posts = await fetches.queryConnection(fetches.queries.getPublishedContentByType('post'), connection);
-    let postPromises = [];
-
-    posts.forEach(async (post, index) => {
-        let pp = new Promise(async postResolve => {
+    let postPromises = posts.map(post => {
+        return new Promise(async postResolve => {
             // get page meta keys;
             let pagemeta = await fetches.queryConnection(fetches.queries.getPostMetaRowsForId(post.ID), connection);
             post.urlpath = "blog/";
@@ -132,17 +119,10 @@ const handlePosts = async (connection) => {
             await config.fwrite(mutatedPost.fcontent, path.resolve(config.paths.outContentBase, contentFilename));
             //-- write page file
             await config.fwrite(`${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`, path.resolve(config.paths.outPosts, mutatedPost.fname));
-            postResolve();
+            postResolve(mutatedPost);
         })
-        postPromises.push(pp)
-    });
-
-    return new Promise(resolve => {
-        Promise.all(postPromises)
-            .then(posts => {
-                resolve(posts)
-            })
     })
+    return await utils.collectAllPromises(postPromises);
 };
 
 /**
@@ -206,7 +186,7 @@ const handleNavs = async (connection) => {
  * @param connection
  * @returns {Promise<void>}
  */
-const handleForumTree = async (connection, cacheRebuild=false) => {
+const handleForumTree = async (connection, cacheRebuild = false) => {
     /*
     * wp | oc
     * __________
@@ -294,13 +274,12 @@ const handleForumTree = async (connection, cacheRebuild=false) => {
         }
     };
 
-    const doForums = async (forums) => {
+    const insertForums = async (forums) => {
         let processedforums = 0;
-        let forumPromises = [];
-        forums.forEach((wpforum, forumIndex) => {
+        let forumPromises = forums.map((wpforum, forumIndex) => {
             let octoforum = translateWpForum(wpforum);
             let query_insertForum = `insert into rainlab_forum_channels (id, title, slug) VALUES(${octoforum.id}, "${octoforum.title}", "${octoforum.slug}");`;
-            let fp = new Promise(fResolve => {
+            return new Promise(resolve => {
                 siteDb.query(query_insertForum, (err, results) => {
                     if (err && err.errno !== 1062) {
                         console.error(err);
@@ -308,22 +287,15 @@ const handleForumTree = async (connection, cacheRebuild=false) => {
                     forums[forumIndex].octoforum = octoforum;
                     processedforums++;
                     console.log(`------ [FORUMS] processed: ${processedforums}/${forums.length}`);
-                    fResolve(results);
+                    resolve(results);
                 })
             })
-            forumPromises.push(fp);
-        });
-        return new Promise(forumsResolve => {
-            Promise.all(forumPromises)
-                .then(forumRes => {
-                    forumsResolve(forumRes)
-                })
         })
+        return await utils.collectAllPromises(forumPromises);
     }
-    const doTopics = async (topics) => {
+    const insertTopics = async (topics) => {
         let processedtopics = 0;
-        let topicPromises = [];
-        topics.forEach((wptopic, topicIndex) => {
+        let topicPromises = topics.map(wptopic => {
             let octotopic = translateWpTopic(wptopic);
             let table = 'rainlab_forum_topics';
             let query_insertTopic = `insert into ${table} (id, subject, slug, channel_id, start_member_id, created_at) VALUES (?, ?, ?, ?, ?, ?);`;
@@ -335,8 +307,7 @@ const handleForumTree = async (connection, cacheRebuild=false) => {
                 octotopic.memberId,
                 octotopic.created
             ];
-
-            let tp = new Promise(tpResolve => {
+            return new Promise(tpResolve => {
                 siteDb.query(
                     query_insertTopic,
                     values_insertTopic,
@@ -350,16 +321,9 @@ const handleForumTree = async (connection, cacheRebuild=false) => {
                         tpResolve(results)
                     })
             })
-            topicPromises.push(tp);
         });
-        return new Promise(topicsResolve => {
-            Promise.all(topicPromises)
-                .then(topicRes => {
-                    topicsResolve(topicRes);
-                })
-        })
+        return await utils.collectAllPromises(topicPromises);
     }
-
     const batchInsertReplies = async (replies) => {
         return new Promise(resolve => {
             let table = 'rainlab_forum_posts';
@@ -401,66 +365,17 @@ const handleForumTree = async (connection, cacheRebuild=false) => {
         })
     }
 
-    /**
-     * @deprecated this is a monster of a thing, because it runs 1:1 queries, use batchInsertReplies instead
-     * @param replies
-     * @returns {Promise<any>}
-     */
-    const doReplies = async (replies) => {
-        let processedreplies = 0;
-        let resolvedReplies = 0;
-        let replyPromises = [];
-        replies.forEach((wpreply, index) => {
-            let octoreply = translateWpReply(wpreply);
-            let table = 'rainlab_forum_posts';
-            // insert
-            let query_insertReply = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at, updated_at) VALUES (?,?,?,?,?,?,0,?,?)`;
-            let values_insertReply = [
-                octoreply.id,
-                octoreply.subject,
-                octoreply.content,
-                octoreply.content_html,
-                octoreply.topicId,
-                octoreply.memberId,
-                octoreply.created,
-                octoreply.created,
-            ];
-            let rp = new Promise(rpResolve => {
-                siteDb.query(
-                    query_insertReply,
-                    values_insertReply,
-                    (err, results) => {
-                        if (err && err.errno !== 1062) {
-                            console.error(err);
-                        }
-                        resolvedReplies++;
-                        resolvedReplies % 100 === 0 ? console.log(`------ [REPLIES] processed: ${resolvedReplies}/${replies.length}`) : null;
-                        resolvedReplies === replies.length ? console.log(`------ [REPLIES FINISHED]: processed ${resolvedReplies} of ${replies.length}`) : null;
-                        rpResolve(results);
-                    })
-            })
-            replyPromises.push(rp);
-            processedreplies++;
-        });
-        return new Promise(repliesResolve => {
-            Promise.all(replyPromises)
-                .then(replyRes => {
-                    repliesResolve(replyRes);
-                })
-        })
-    };
-
     const siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
 
     //-- execute routines
-    return new Promise(async forumResolve => {
-        // let resolvedForums = await doForums(forums);
-        // let resolvedTopics = await doTopics(topics);
+    return new Promise(async resolve => {
+        let resolvedForums = await insertForums(forums);
+        let resolvedTopics = await insertTopics(topics);
         let resolvedReplies = await batchInsertReplies(replies);
-        forumResolve({
-            resolvedForums: '',
-            resolvedTopics: '',
-            resolvedReplies: resolvedReplies
+        resolve({
+            resolvedForums,
+            resolvedTopics,
+            resolvedReplies
         })
     })
 };
@@ -513,27 +428,19 @@ const handleForumUsers = async (connection) => {
 }
 
 /**
- * Enriches forum metrics, eg: number of posts, first post, most recent post
+ * Enriches forum metrics from October, eg: number of posts, first post, most recent post
  * @returns {Promise<void>}
  */
 const handleForumMetrics = async () => {
-    const collectAllPromises = async (promises) => {
-        return new Promise(resolve => {
-            Promise.all(promises)
-                .then(resolved => {
-                    resolve(resolved)
-                })
-        })
-    }
 
-    const siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
+    const localdevConnection = await config.getDbConnection(config.db_connParams.db_localdev);
 
     //-- enrich topics
     let topicPromisesAll = 0;
     let topicPromisesResolved = 0;
     const loadTopicIds = async () => {
         let query = `select id from rainlab_forum_topics`;
-        let topicIds = await fetches.queryConnection(query, siteDb);
+        let topicIds = await fetches.queryConnection(query, localdevConnection);
         return topicIds.map(topic => {
             return topic.id
         });
@@ -547,7 +454,7 @@ const handleForumMetrics = async () => {
                     left join rainlab_forum_topics topics on posts.topic_id = topics.id
                     where topics.id IS NOT NULL
                     group by topics.id; `;
-            siteDb.query(
+            localdevConnection.query(
                 query_batchpostsintopics,
                 (err, results) => {
                     if (err) console.log(err);
@@ -562,7 +469,7 @@ const handleForumMetrics = async () => {
                 SELECT topic_id, member_id,id from rainlab_forum_posts
                     GROUP BY topic_id
                     ORDER BY created_at asc;`;
-            siteDb.query(
+            localdevConnection.query(
                 query_batchgettopicsfirstposts,
                 (err, results) => {
                     if (err) console.log(err);
@@ -577,7 +484,7 @@ const handleForumMetrics = async () => {
                 SELECT topic_id, id, member_id, created_at from rainlab_forum_posts
                     GROUP BY topic_id
                     ORDER by created_at DESC;`;
-            siteDb.query(
+            localdevConnection.query(
                 query_batchgettopicsfirstposts,
                 (err, results) => {
                     if (err) console.log(err);
@@ -597,7 +504,7 @@ const handleForumMetrics = async () => {
                     resolve({})
                 }
                 let q = `UPDATE rainlab_forum_topics SET start_member_id = ${row.firstpost.member_id}, last_post_id = ${row.recentpost.id}, last_post_member_id = ${row.recentpost.member_id}, last_post_at = "${utils.formatMysqlTimestamp(row.recentpost.created_at)}" where id = ${row.topic_id}`;
-                siteDb.query(
+                localdevConnection.query(
                     q,
                     (err, results) => {
                         if (err) {
@@ -626,7 +533,7 @@ const handleForumMetrics = async () => {
             let promises_updatetopicpostcount = [];
             countResults.forEach(row => {
                 let rp = new Promise(rpResolve => {
-                    siteDb.query(
+                    localdevConnection.query(
                         `update rainlab_forum_topics SET count_posts = ? where id = ?;`,
                         [row.posts, row.id],
                         (err, results) => {
@@ -638,7 +545,7 @@ const handleForumMetrics = async () => {
                 });
                 promises_updatetopicpostcount.push(rp)
             });
-            let results = await collectAllPromises(promises_updatetopicpostcount);
+            let results = await utils.collectAllPromises(promises_updatetopicpostcount);
             resolve(results);
         })
     }
@@ -678,7 +585,7 @@ const handleForumMetrics = async () => {
                 where channels.id IS NOT NULL
                 group by channels.id
             `
-            siteDb.query(
+            localdevConnection.query(
                 query_batchcountpostsinchannel,
                 (err, results) => {
                     if (err) console.log(err);
@@ -693,7 +600,7 @@ const handleForumMetrics = async () => {
             let promises_updatechannelstallies = [];
             countResults.forEach(row => {
                 let rp = new Promise(rpResolve => {
-                    siteDb.query(
+                    localdevConnection.query(
                         `UPDATE rainlab_forum_channels SET count_topics=?, count_posts=? where id=?;`,
                         [
                             row.topicsCount,

@@ -70,9 +70,9 @@ const main = async () => {
 
         //------- refactored
         // let pageInserts = await handlers.handlePages(stagingConnection);
-        // let postInserts = await handlers.handlePosts(stagingConnection);
+        let postInserts = await handlers.handlePosts(stagingConnection);
         // let forumUsers = await handlers.handleForumUsers(localdevConnection);
-        let forumTree = await handlers.handleForumTree(stagingConnection);
+        // let forumTree = await handlers.handleForumTree(stagingConnection);
         // let forumMetrics = await handlers.handleForumMetrics();
 
         resolve()
