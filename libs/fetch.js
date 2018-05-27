@@ -59,7 +59,14 @@ const queries = {
     }
 };
 
-const fetch = async (query, connection) => {
+/**
+ * Simple connection query-and-resolve signature.
+ *   mostly for basic select queries
+ * @param query
+ * @param connection
+ * @returns {Promise<any>}
+ */
+const queryConnection = async (query, connection) => {
     return new Promise(resolve => {
         connection.query(query, function (error, results, fields) {
             if (error) console.error(error);
@@ -69,5 +76,5 @@ const fetch = async (query, connection) => {
 }
 
 module.exports = {
-    queries, fetch
+    queries, queryConnection
 }

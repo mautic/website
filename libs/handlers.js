@@ -25,7 +25,7 @@ const getArrayChunks = (chunk, chunkSize = 100) => {
  */
 const handleUsers = async (connection) => {
     return new Promise(async resolve => {
-        let wpUsers = await fetches.fetch(fetches.queries.getUsers, connection);
+        let wpUsers = await fetches.queryConnection(fetches.queries.getUsers, connection);
         let octoUsers = wpUsers.map(user => {
             let registerdate = new Date(user.user_registered).toISOString().slice(0, 19).replace('T', ' ');
             let updatedate = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -50,7 +50,7 @@ const handleUsers = async (connection) => {
         let processedUsers = 0;
         console.log(`inserting ${octoUsers.length} users`);
         octoUsers.forEach(async user => {
-            await fetches.fetch(fetches.queries.insertUser(user), siteDb);
+            await fetches.queryConnection(fetches.queries.insertUser(user), siteDb);
             processedUsers++;
 
             if (processedUsers % 100 === 0) console.log(`--- processed ${processedUsers}/${octoUsers.length}`)
@@ -72,12 +72,12 @@ const handleUsers = async (connection) => {
  * @returns {Promise<void>}
  */
 const handlePages = async (connection) => {
-    let pages = await fetches.fetch(fetches.queries.getPublishedContentByType('page'), connection);
+    let pages = await fetches.queryConnection(fetches.queries.getPublishedContentByType('page'), connection);
     let pagePromises = [];
     pages.forEach(async (page, index) => {
         let pp = new Promise(async pageResolve => {
             // get page meta keys;
-            let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(page.ID), connection);
+            let pagemeta = await fetches.queryConnection(fetches.queries.getPostMetaRowsForId(page.ID), connection);
             page.urlpath = "";
             page.wpmeta = {};
             pagemeta = pagemeta.filter(meta => {
@@ -112,13 +112,13 @@ const handlePages = async (connection) => {
  * @returns {Promise<void>}
  */
 const handlePosts = async (connection) => {
-    let posts = await fetches.fetch(fetches.queries.getPublishedContentByType('post'), connection);
+    let posts = await fetches.queryConnection(fetches.queries.getPublishedContentByType('post'), connection);
     let postPromises = [];
 
     posts.forEach(async (post, index) => {
         let pp = new Promise(async postResolve => {
             // get page meta keys;
-            let pagemeta = await fetches.fetch(fetches.queries.getPostMetaRowsForId(post.ID), connection);
+            let pagemeta = await fetches.queryConnection(fetches.queries.getPostMetaRowsForId(post.ID), connection);
             post.urlpath = "blog/";
             post.wpmeta = {};
             pagemeta.forEach(meta => {
@@ -152,14 +152,14 @@ const handlePosts = async (connection) => {
  */
 const handleNavs = async (connection) => {
     return new Promise(async resolve => {
-        let navmenus = await fetches.fetch(fetches.queries.getAllNavMenus, connection);
+        let navmenus = await fetches.queryConnection(fetches.queries.getAllNavMenus, connection);
         let processedMenus = 0; // used later to gate our exit inside the foreach loop
         navmenus.forEach(async (menu, index) => {
-            let menuitems = await fetches.fetch(fetches.queries.getNavItemsByMenuId(menu.term_id), connection);
+            let menuitems = await fetches.queryConnection(fetches.queries.getNavItemsByMenuId(menu.term_id), connection);
             let processedItems = 0;
             menuitems.map(async (item, index) => {
                 //-- will use nav_menu_item meta to rebuild page link
-                let itemMeta = await fetches.fetch(fetches.queries.getNavMenuTarget(item.ID), connection);
+                let itemMeta = await fetches.queryConnection(fetches.queries.getNavMenuTarget(item.ID), connection);
                 let targetItemParams = {
                     type: itemMeta.filter(meta => {
                         return meta.meta_key === "_menu_item_object"
@@ -168,7 +168,7 @@ const handleNavs = async (connection) => {
                         return meta.meta_key === "_menu_item_object_id";
                     })[0].meta_value
                 };
-                let targetItem = await fetches.fetch(fetches.queries.getPostById(targetItemParams.id), connection);
+                let targetItem = await fetches.queryConnection(fetches.queries.getPostById(targetItemParams.id), connection);
                 targetItem = targetItem[0];
                 if (targetItem) {
                     menuitems[index] = {
@@ -206,7 +206,7 @@ const handleNavs = async (connection) => {
  * @param connection
  * @returns {Promise<void>}
  */
-const handleForumTree = async (connection) => {
+const handleForumTree = async (connection, cacheRebuild=false) => {
     /*
     * wp | oc
     * __________
@@ -214,15 +214,13 @@ const handleForumTree = async (connection) => {
     * topic | topic > conversation top-level
     * reply | post > message inside a conversation
     * */
-    const cacheRebuild = false;
     const cacheFile = path.resolve(config.paths.cacheBase, 'forums.json');
     let forums, topics, replies;
     if (cacheRebuild) {
-        forums = await fetches.fetch(fetches.queries.getPublishedContentByType('forum'), connection);
-        topics = await fetches.fetch(fetches.queries.getPublishedContentByType('topic'), connection);
-        replies = await fetches.fetch(fetches.queries.getPublishedContentByType('reply'), connection);
-
-
+        //-- get entities from db
+        forums = await fetches.queryConnection(fetches.queries.getPublishedContentByType('forum'), connection);
+        topics = await fetches.queryConnection(fetches.queries.getPublishedContentByType('topic'), connection);
+        replies = await fetches.queryConnection(fetches.queries.getPublishedContentByType('reply'), connection);
         //---------- traversing the forum>topic>reply tree
         topics.forEach(async (topic, index) => {
             let topicReplies = replies.filter(reply => {
@@ -231,10 +229,10 @@ const handleForumTree = async (connection) => {
             topics[index].childReplies = topicReplies;
         });
         forums.forEach(async (forum, index) => {
-            let forumTopics = topics.filter(topic => {
+            let childTopics = topics.filter(topic => {
                 return topic.post_parent == forum.ID;
             });
-            let forumForums = forums.filter(forum => {
+            let childForums = forums.filter(forum => {
                 return forum.post_parent == forum.ID;
             })
             forums[index] = {
@@ -246,8 +244,8 @@ const handleForumTree = async (connection) => {
                 post_title: forum.post_title,
                 post_name: forum.post_name,
                 post_status: forum.post_status,
-                childTopics: forumTopics,
-                childForums: forumForums,
+                childTopics,
+                childForums,
             }
         });
         await config.fwrite(JSON.stringify({
@@ -257,10 +255,10 @@ const handleForumTree = async (connection) => {
         }), cacheFile);
     }
     else {
-        let cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
-        forums = cached.forums;
-        topics = cached.topics;
-        replies = cached.replies;
+        let cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+        forums = cache.forums;
+        topics = cache.topics;
+        replies = cache.replies;
     }
 
     const translateWpForum = (wpforum) => {
@@ -280,7 +278,7 @@ const handleForumTree = async (connection) => {
             startMemberId: wptopic.post_author,
             lastPostId: 0,
             lastPostMemberId: 0,
-            created: utils.wpDateToMySqlTimeStamp(wptopic.post_date),
+            created: utils.formatMysqlTimestamp(wptopic.post_date),
         }
     };
     const translateWpReply = (wpreply) => {
@@ -292,7 +290,7 @@ const handleForumTree = async (connection) => {
             topicId: wpreply.post_parent,
             memberId: wpreply.post_author,
             mtcorgPoints: 0,
-            created: utils.wpDateToMySqlTimeStamp(wpreply.post_date)
+            created: utils.formatMysqlTimestamp(wpreply.post_date)
         }
     };
 
@@ -471,19 +469,18 @@ const handleForumTree = async (connection) => {
  * Create rainlab_forum users from october users
  * @param connection
  */
-const handleForumUsers = async () => {
+const handleForumUsers = async (connection) => {
     return new Promise(async resolve => {
-        let siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
         let moduleLabel = 'FORUM USERS';
         let query_getFeUsers = `SELECT * FROM users;`
         let query_insertForumUser = `INSERT INTO rainlab_forum_members (id, user_id, username, slug, created_at) VALUES (?,?,?,?,?)`;
 
-        let feUsers = await fetches.fetch(query_getFeUsers, siteDb);
+        let frontendUsers = await fetches.queryConnection(query_getFeUsers, connection);
 
         let processedUsers = 0;
         let resolved = 0;
         let promises = [];
-        feUsers.forEach(feUser => {
+        frontendUsers.forEach(feUser => {
             let p = new Promise(resolve => {
                 let values_insertForumUser = [
                     feUser.id,
@@ -492,7 +489,7 @@ const handleForumUsers = async () => {
                     `${feUser.username}_${feUser.id}`,
                     feUser.created_at
                 ];
-                siteDb.query(
+                connection.query(
                     query_insertForumUser,
                     values_insertForumUser,
                     (err, results) => {
@@ -500,8 +497,8 @@ const handleForumUsers = async () => {
                             console.error(err);
                         }
                         resolved++;
-                        resolved % 100 === 0 ? console.log(`------ [${moduleLabel}] processed: ${resolved}/${feUsers.length}`) : null;
-                        resolved === feUsers.length ? console.log(`------ [${moduleLabel} FINISHED]: processed ${resolved} of ${feUsers.length}`) : null;
+                        resolved % 100 === 0 ? console.log(`------ [${moduleLabel}] processed: ${resolved}/${frontendUsers.length}`) : null;
+                        resolved === frontendUsers.length ? console.log(`------ [${moduleLabel} FINISHED]: processed ${resolved} of ${frontendUsers.length}`) : null;
                         resolve(results)
                     })
             })
@@ -536,7 +533,7 @@ const handleForumMetrics = async () => {
     let topicPromisesResolved = 0;
     const loadTopicIds = async () => {
         let query = `select id from rainlab_forum_topics`;
-        let topicIds = await fetches.fetch(query, siteDb);
+        let topicIds = await fetches.queryConnection(query, siteDb);
         return topicIds.map(topic => {
             return topic.id
         });
@@ -599,7 +596,7 @@ const handleForumMetrics = async () => {
                 if (!row.firstpost) {
                     resolve({})
                 }
-                let q = `UPDATE rainlab_forum_topics SET start_member_id = ${row.firstpost.member_id}, last_post_id = ${row.recentpost.id}, last_post_member_id = ${row.recentpost.member_id}, last_post_at = "${utils.wpDateToMySqlTimeStamp(row.recentpost.created_at)}" where id = ${row.topic_id}`;
+                let q = `UPDATE rainlab_forum_topics SET start_member_id = ${row.firstpost.member_id}, last_post_id = ${row.recentpost.id}, last_post_member_id = ${row.recentpost.member_id}, last_post_at = "${utils.formatMysqlTimestamp(row.recentpost.created_at)}" where id = ${row.topic_id}`;
                 siteDb.query(
                     q,
                     (err, results) => {

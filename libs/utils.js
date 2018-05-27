@@ -1,4 +1,4 @@
-const wpDateToMySqlTimeStamp = (date) => {
+const formatMysqlTimestamp = (date) => {
     let d = new Date();
     if (date) {
         d = new Date(date)
@@ -7,5 +7,5 @@ const wpDateToMySqlTimeStamp = (date) => {
 }
 
 module.exports = {
-    wpDateToMySqlTimeStamp
+    formatMysqlTimestamp
 };

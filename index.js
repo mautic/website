@@ -8,7 +8,7 @@ const fetches = require('./libs/fetch');
 const handlers = require('./libs/handlers');
 
 //
-let stagingConnection;
+let stagingConnection, localdevConnection;
 let progress = {};
 //---------------------
 
@@ -58,7 +58,8 @@ const main = async () => {
             pages: false,
         }
         stagingConnection = await config.getDbConnection(config.db_connParams.db_staging);
-        let post_types = await fetches.fetch(fetches.queries.getPublishedTypesCount, stagingConnection);
+        localdevConnection = await config.getDbConnection(config.db_connParams.db_localdev);
+        let post_types = await fetches.queryConnection(fetches.queries.getPublishedTypesCount, stagingConnection);
 
 
         //------- NOT refactored
@@ -68,10 +69,10 @@ const main = async () => {
         // console.timeEnd('navs');
 
         //------- refactored
-        // let pageInserts = await handlers.handlePages(connection);
-        // let postInserts = await handlers.handlePosts(connection);
-        let forumUsers = await handlers.handleForumUsers();
-        // let forumTree = await handlers.handleForumTree(connection);
+        // let pageInserts = await handlers.handlePages(stagingConnection);
+        // let postInserts = await handlers.handlePosts(stagingConnection);
+        // let forumUsers = await handlers.handleForumUsers(localdevConnection);
+        let forumTree = await handlers.handleForumTree(stagingConnection);
         // let forumMetrics = await handlers.handleForumMetrics();
 
         resolve()
