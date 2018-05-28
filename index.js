@@ -72,7 +72,8 @@ const main = async () => {
         // let pageInserts = await handlers.handlePages(stagingConnection);
         // let postInserts = await handlers.handlePosts(stagingConnection);
         // let forumUsers = await handlers.handleForumUsers(localdevConnection);
-        let forumTree = await handlers.handleForumTree(stagingConnection);
+        const cacheRebuild = false;
+        let forumTree = await handlers.handleForumTree(stagingConnection, localdevConnection, cacheRebuild);
         // let forumMetrics = await handlers.handleForumMetrics();
 
         resolve()

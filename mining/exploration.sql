@@ -43,6 +43,9 @@ WHERE posts.post_parent = 103181
       AND post_type = 'reply'
 ORDER BY posts.post_date ASC;
 
+SELECT * from mwp_posts where post_name = 'please-devs-take-note';
+SELECT * from mwp_posts where post_parent = 104242;
+
 SELECT posts.*
 from mwp_posts posts
       WHERE post_type = 'reply'

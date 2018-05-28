@@ -182,25 +182,19 @@ const handleNavs = async (connection) => {
 
 /**
  * Collect forum topics
- * @todo depends on users
- * @param connection
+ * @param stagingConnection
+ * @param cacheRebuild
  * @returns {Promise<void>}
  */
-const handleForumTree = async (connection, cacheRebuild = false) => {
-    /*
-    * wp | oc
-    * __________
-    * forum | channel > top-level groupings
-    * topic | topic > conversation top-level
-    * reply | post > message inside a conversation
-    * */
+const handleForumTree = async (stagingConnection, localdevConnection, cacheRebuild = false) => {
     const cacheFile = path.resolve(config.paths.cacheBase, 'forums.json');
     let forums, topics, replies;
     if (cacheRebuild) {
+        console.log(`rebuilding cache...`);
         //-- get entities from db
-        forums = await fetches.queryConnection(fetches.queries.getPublishedContentByType('forum'), connection);
-        topics = await fetches.queryConnection(fetches.queries.getPublishedContentByType('topic'), connection);
-        replies = await fetches.queryConnection(fetches.queries.getPublishedContentByType('reply'), connection);
+        forums = await fetches.queryConnection(fetches.queries.getPublishedContentByType('forum'), stagingConnection);
+        topics = await fetches.queryConnection(fetches.queries.getPublishedContentByType('topic'), stagingConnection);
+        replies = await fetches.queryConnection(fetches.queries.getPublishedContentByType('reply'), stagingConnection);
         //---------- traversing the forum>topic>reply tree
         topics.forEach(async (topic, index) => {
             let topicReplies = replies.filter(reply => {
@@ -224,6 +218,7 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
                 post_title: forum.post_title,
                 post_name: forum.post_name,
                 post_status: forum.post_status,
+                post_date: forum.post_date,
                 childTopics,
                 childForums,
             }
@@ -233,6 +228,7 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
             topics,
             replies,
         }), cacheFile);
+        console.log(`...rebuilt forum cache`);
     }
     else {
         let cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
@@ -247,6 +243,7 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
         return Object.assign(
             forum,
             {
+                description: forum.post_content,
                 count_topics: forum.childTopics.length,
                 count_posts: forum.childTopics.reduce((current, topic) => {
                     return topic.childReplies.length + current;
@@ -254,40 +251,74 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
             }
         );
     });
-    topics = topics.map(topic => {
-        //-- organize replies by date asc, assign first and last as object keys
-        let organizedReplies = topic.childReplies.sort((a, b) => {
-            return new Date(b.post_date) - (a.post_date);
+    let count_nochild = 0;
+    topics = topics
+        .filter(topic => {
+            count_nochild++;
+            console.log(`NO_CHILD_COUNT:${count_nochild}`);
+            return topic.childReplies.length > 0; // @todo: hack-ish workaround for the -1 replies issue. for now, just filter out topics with empty childReplies.
         })
-        let ret = Object.assign(
-            topic,
-            {
-                firstReply: organizedReplies[0],
-                recentReply: organizedReplies[organizedReplies.length - 1]
-            }
-        );
-        return ret;
-    })
+        .map(topic => {
+            //-- organize replies by date asc, assign first and last as object keys
+            let organizedReplies = topic.childReplies.sort((a, b) => {
+                return new Date(b.post_date) - (a.post_date);
+            })
+            let ret = Object.assign(
+                topic,
+                {
+                    firstReply: organizedReplies[0],
+                    recentReply: organizedReplies[organizedReplies.length - 1]
+                }
+            );
+            return ret;
+        })
 
     //-- model translations
     const translateChannel = (wpforum) => {
         return {
-            parentId: wpforum.post_parent === 0 ? 'null' : wpforum.post_parent,
             id: wpforum.ID,
+            parentId: wpforum.post_parent === 0 ? 'null' : wpforum.post_parent,
             title: wpforum.post_title,
             slug: wpforum.post_name,
+            createdAt: utils.formatMysqlTimestamp(wpforum.post_date),
+            updatedAt: utils.formatMysqlTimestamp(wpforum.post_date),
+            description: wpforum.description,
+            countTopics: wpforum.count_topics,
+            countPosts: wpforum.count_posts,
+            createdAt: wpforum.post_date,
+            updatedAt: wpforum.post_date,
         }
     };
     const translateWpTopic = (wptopic) => {
-        return {
-            id: wptopic.ID,
-            subject: wptopic.post_title,
-            slug: wptopic.post_name,
-            channelId: wptopic.post_parent,
-            startMemberId: wptopic.post_author,
-            lastPostId: 0,
-            lastPostMemberId: 0,
-            created: utils.formatMysqlTimestamp(wptopic.post_date),
+        try {
+            let ret = {
+                id: wptopic.ID,
+                subject: wptopic.post_title,
+                slug: wptopic.post_name,
+                channelId: wptopic.post_parent,
+                startMemberId: wptopic.post_author,
+                lastPostId: 0,
+                lastPostMemberId: 0,
+                lastPostAt: "",
+                countPosts: 0,
+                created: wptopic.post_date,
+            };
+            if (wptopic.childReplies.length > 0) {
+                ret = Object.assign(
+                    ret,
+                    {
+                        startMemberId: wptopic.childReplies[0].post_author,
+                        lastPostId: wptopic.childReplies[wptopic.childReplies.length - 1].ID,
+                        lastPostMemberId: wptopic.childReplies[wptopic.childReplies.length - 1].post_author,
+                        lastPostAt: wptopic.childReplies[wptopic.childReplies.length - 1].post_date,
+                        countPosts: wptopic.childReplies.length,
+                    }
+                )
+            }
+            return ret;
+        }
+        catch (e) {
+            debugger;
         }
     };
     const translateWpReply = (wpreply) => {
@@ -305,108 +336,127 @@ const handleForumTree = async (connection, cacheRebuild = false) => {
 
     //-- model loaders
     const loadForumChannels = async (forums) => {
-        debugger;
-        let processedforums = 0;
-        let forumPromises = forums.map((wpforum, forumIndex) => {
+        let table = `rainlab_forum_channels`;
+        let batchInsertStmt = `insert into rainlab_forum_channels (id, parent_id, title, slug, description, count_topics, count_posts, created_at, updated_at) VALUES `
+
+        let value_statements = forums.map(wpforum => {
             let octoforum = translateChannel(wpforum);
-            let query_insertForum = `insert into rainlab_forum_channels (id, title, slug) VALUES(${octoforum.id}, "${octoforum.title}", "${octoforum.slug}");`;
+            return `(
+                ${octoforum.id}, ${octoforum.parentId || 0}, 
+                "${octoforum.title}", "${octoforum.slug}", 
+                ${stagingConnection.escape(octoforum.description.substring(0, 191))},
+                ${octoforum.countTopics}, ${octoforum.countPosts},
+                "${utils.formatMysqlTimestamp(octoforum.createdAt)}", "${utils.formatMysqlTimestamp(octoforum.updatedAt)}"
+            )`;
+        });
+
+        let chunkInserts = getArrayChunks(value_statements, 500)
+            .map(chunk => {
+                return `${batchInsertStmt} ${chunk.join(',')}`
+            });
+        let resolvedChunks = 0;
+        let chunkPromises = chunkInserts.map(insert => {
             return new Promise(resolve => {
-                siteDb.query(query_insertForum, (err, results) => {
-                    if (err && err.errno !== 1062) {
-                        console.error(err);
-                    }
-                    forums[forumIndex].octoforum = octoforum;
-                    processedforums++;
-                    console.log(`------ [FORUMS] processed: ${processedforums}/${forums.length}`);
-                    resolve(results);
-                })
-            })
-        })
-        return await utils.collectAllPromises(forumPromises);
-    }
-    const loadForumTopics = async (topics) => {
-        let processedtopics = 0;
-        let topicPromises = topics.map(wptopic => {
-            let octotopic = translateWpTopic(wptopic);
-            let table = 'rainlab_forum_topics';
-            let query_insertTopic = `insert into ${table} (id, subject, slug, channel_id, start_member_id, created_at) VALUES (?, ?, ?, ?, ?, ?);`;
-            let values_insertTopic = [
-                octotopic.id,
-                octotopic.subject,
-                octotopic.slug,
-                octotopic.channelId,
-                octotopic.memberId,
-                octotopic.created
-            ];
-            return new Promise(tpResolve => {
-                siteDb.query(
-                    query_insertTopic,
-                    values_insertTopic,
+                localdevConnection.query(
+                    insert,
                     (err, results) => {
-                        if (err && err.errno !== 1062) {
-                            console.error(err);
+                        if (err) {
+                            console.log(err)
+                            debugger;
                         }
-                        processedtopics++;
-                        processedtopics % 100 === 0 ? console.log(`------ [TOPICS] processed: ${processedtopics}/${topics.length}`) : null;
-                        processedtopics === topics.length ? console.log(`------ [TOPICS FINISHED]: processed ${processedtopics} of ${topics.length}`) : null;
-                        tpResolve(results)
-                    })
+                        resolvedChunks++;
+                        console.log(`resolved [channel] chunks: ${resolvedChunks}/${chunkInserts.length}`);
+                        resolve(results)
+                    }
+                )
             })
         });
-        return await utils.collectAllPromises(topicPromises);
+        return await utils.collectAllPromises(chunkPromises);
+    };
+    // @todo: there are quite a few topics that report -1 replies on front-end - indicated no childReplies (not even self?)
+    const loadForumTopics = async (topics) => {
+        let table = 'rainlab_forum_topics';
+
+        let batchInsertStmt = `insert into ${table} (id, subject, slug, channel_id, start_member_id, last_post_id, last_post_member_id, last_post_at, count_posts, created_at, updated_at) VALUES`;
+        let value_statements = topics.map(wptopic => {
+            let octotopic = translateWpTopic(wptopic);
+            return `(
+                ${octotopic.id}, 
+                ${stagingConnection.escape(octotopic.subject)}, ${stagingConnection.escape(octotopic.slug)},
+                ${octotopic.channelId}, 
+                ${octotopic.startMemberId}, ${octotopic.lastPostId}, ${octotopic.lastPostMemberId}, "${utils.formatMysqlTimestamp(octotopic.lastPostAt)}",
+                ${octotopic.countPosts}, 
+                "${utils.formatMysqlTimestamp(octotopic.created)}", "${utils.formatMysqlTimestamp(octotopic.created)}"                 
+            )`;
+
+        })
+        let chunkInserts = getArrayChunks(value_statements, 500)
+            .map(chunk => {
+                return `${batchInsertStmt} ${chunk.join(',')}`
+            });
+        let resolvedChunks = 0;
+        let chunkPromises = chunkInserts.map(insert => {
+            return new Promise(resolve => {
+                localdevConnection.query(
+                    insert,
+                    (err, results) => {
+                        if (err) {
+                            console.log(err)
+                            debugger;
+                        }
+                        resolvedChunks++;
+                        console.log(`resolved [topic] chunks: ${resolvedChunks}/${chunkInserts.length}`);
+                        resolve(results)
+                    }
+                )
+            })
+        })
+
+        return await utils.collectAllPromises(chunkPromises);
     }
-    const batchLoadForumReplies = async (replies) => {
-        return new Promise(resolve => {
-            let table = 'rainlab_forum_posts';
-            let batchInsertStmt = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at, updated_at) VALUES `;
-            let value_statements = replies.map(wpreply => {
-                let octoreply = translateWpReply(wpreply);
-                return `(
+    const loadForumReplies = async (replies) => {
+        let table = 'rainlab_forum_posts';
+        let batchInsertStmt = `INSERT INTO ${table} (id, subject, content, content_html, topic_id, member_id, mtcorg_points, created_at, updated_at) VALUES `;
+        let value_statements = replies.map(wpreply => {
+            let octoreply = translateWpReply(wpreply);
+            return `(
                 ${octoreply.id},
-                ${siteDb.escape(octoreply.subject)},
-                ${siteDb.escape(octoreply.content)}, ${siteDb.escape(octoreply.content_html)}, 
+                ${localdevConnection.escape(octoreply.subject)},
+                ${localdevConnection.escape(octoreply.content)}, ${localdevConnection.escape(octoreply.content_html)}, 
                 ${octoreply.topicId}, ${octoreply.memberId}, 
                 0,
                 "${octoreply.created}", "${octoreply.created}")`
+        });
+
+        let resolvedChunks = 0;
+        let chunkInserts = getArrayChunks(value_statements, 500)
+            .map(chunk => {
+                return `${batchInsertStmt} ${chunk.join(',')}`
             });
-
-            let chunkInserts = getArrayChunks(value_statements, 100)
-                .map(chunk => {
-                    return `${batchInsertStmt} ${chunk.join(',')}`
-                })
-
-            let chunkPromises = [];
-            chunkInserts.forEach(insert => {
-                let p = new Promise(resolve => {
-                    siteDb.query(
-                        insert,
-                        (err, results) => {
-                            if (err) console.log(err)
-                            resolve(results);
-                        }
-                    )
-                })
-                chunkPromises.push(p);
-            });
-
-            Promise.all(chunkPromises)
-                .then(results => {
-                    resolve(results);
-                })
+        let chunkPromises = chunkInserts.map(insert => {
+            return new Promise(resolve => {
+                localdevConnection.query(
+                    insert,
+                    (err, results) => {
+                        if (err) console.log(err);
+                        resolvedChunks++;
+                        console.log(`resolved [reply] chunks: ${resolvedChunks}/${chunkInserts.length}`);
+                        resolve(results);
+                    }
+                )
+            })
         })
-    }
 
-    const siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
+        return await utils.collectAllPromises(chunkPromises);
+    }
 
     //-- execute routines
     return new Promise(async resolve => {
         let resolvedForums = await loadForumChannels(forums);
         let resolvedTopics = await loadForumTopics(topics);
-        let resolvedReplies = await batchLoadForumReplies(replies);
+        let resolvedReplies = await loadForumReplies(replies);
         resolve({
-            resolvedForums,
-            resolvedTopics,
-            resolvedReplies
+            resolvedForums, resolvedTopics, resolvedReplies
         })
     })
 };
@@ -459,6 +509,7 @@ const handleForumUsers = async (connection) => {
 }
 
 /**
+ * @deprecated metrics are now calculated natively in handleForumTree
  * Enriches forum metrics from October, eg: number of posts, first post, most recent post
  * @returns {Promise<void>}
  */
