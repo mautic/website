@@ -27,7 +27,19 @@ const collectAllPromises = async (promises) => {
   });
 };
 
+const getArrayChunks = (chunk, chunkSize = 100) => {
+  let i = 0;
+  let j = 0;
+  let chunks = [];
+  for (i = 0, j = chunk.length; i < j; i += chunkSize) {
+    let slice = chunk.slice(i, i + chunkSize);
+    chunks.push(slice);
+  }
+  return chunks;
+};
+
 module.exports = {
+  getArrayChunks,
   formatMysqlTimestamp,
   collectAllPromises
 };

@@ -6,6 +6,7 @@ const mysql = require('mysql');
 const config = require('./libs/config');
 const fetches = require('./libs/fetch');
 const handlers = require('./libs/handlers');
+const pageposthandlers = require('./libs/PagePostHandlers');
 
 //
 let stagingConnection, localdevConnection;
@@ -43,15 +44,15 @@ const main = async () => {
     // @todo: add a middleware-like mechanism for registering actions.
 
     stagingConnection = await config.getDbConnection(
-      config.db_connParams.db_staging
+        config.db_connParams.db_staging
     );
     localdevConnection = await config.getDbConnection(
-      config.db_connParams.db_localdev
+        config.db_connParams.db_localdev
     );
 
     let post_types = await fetches.queryConnection(
-      fetches.queries.getPublishedTypesCount,
-      stagingConnection
+        fetches.queries.getPublishedTypesCount,
+        stagingConnection
     );
 
     //------- NOT refactored
@@ -61,8 +62,8 @@ const main = async () => {
     // console.timeEnd('navs');
 
     //------- refactored
-    let pageInserts = await handlers.handlePages(stagingConnection);
-    let postInserts = await handlers.handlePosts(stagingConnection);
+    let pageInserts = await pageposthandlers.handlePages(stagingConnection);
+    let postInserts = await pageposthandlers.handlePosts(stagingConnection);
 
     // const cacheRebuild = false;
     // let forumUsers = await handlers.handleForumUsers(localdevConnection);

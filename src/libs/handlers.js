@@ -1,21 +1,8 @@
 const path = require('path');
 const fs = require('fs');
-const mysql = require('mysql');
 const config = require('./config');
 const fetches = require('./fetch');
-const mutators = require('./mutators');
 const utils = require('./utils');
-
-const getArrayChunks = (chunk, chunkSize = 100) => {
-  let i = 0;
-  let j = 0;
-  let chunks = [];
-  for (i = 0, j = chunk.length; i < j; i += chunkSize) {
-    let slice = chunk.slice(i, i + chunkSize);
-    chunks.push(slice);
-  }
-  return chunks;
-};
 
 /**
  * Collects users.
@@ -78,93 +65,6 @@ const handleUsers = async (stagingConnection, localdevConnection) => {
       }
     });
   });
-};
-
-/**
- * Collect page/meta, format and write to fs for october
- */
-const handlePages = async (connection) => {
-  let pages = await fetches.queryConnection(
-      fetches.queries.getPublishedContentByType('page'),
-      connection
-  );
-  let pagePromises = pages.map((page) => {
-    return new Promise(async (pageResolve) => {
-      // get page meta keys;
-      let pagemeta = await fetches.queryConnection(
-          fetches.queries.getPostMetaRowsForId(page.ID),
-          connection
-      );
-      page.urlpath = '';
-      page.wpmeta = {};
-      pagemeta = pagemeta.filter((meta) => {
-        return meta.meta_key !== '_pgm_post_meta';
-      });
-      pagemeta.forEach((meta) => {
-        page.wpmeta[meta.meta_key] = meta.meta_value;
-      });
-
-      let mutatedPage = mutators.mutatePage(page);
-      //-- write content file
-      const contentFilename = `pages/${mutatedPage.fnamebase}.${
-          mutatedPage.fcontentFormat
-          }`;
-      await config.fwrite(
-          mutatedPage.fcontent,
-          path.resolve(config.paths.outContentBase, contentFilename)
-      );
-      //-- write page file
-      await config.fwrite(
-          `${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`,
-          path.resolve(config.paths.outPages, mutatedPage.fname)
-      );
-
-      pageResolve(mutatedPage);
-    });
-  });
-  return await utils.collectAllPromises(pagePromises);
-};
-
-/**
- * Collect post/meta, format and write to fs for october
- */
-const handlePosts = async (connection) => {
-  let posts = await fetches.queryConnection(
-      fetches.queries.getPublishedContentByType('post'),
-      connection
-  );
-  let postPromises = posts.map((post) => {
-    return new Promise(async (postResolve) => {
-      // get page meta keys;
-      let pagemeta = await fetches.queryConnection(
-          fetches.queries.getPostMetaRowsForId(post.ID),
-          connection
-      );
-      post.urlpath = 'blog/';
-      post.wpmeta = {};
-      pagemeta.forEach((meta) => {
-        post.wpmeta[meta.meta_key] = meta.meta_value;
-      });
-      //
-      let mutatedPost = mutators.mutatePage(post);
-
-      //-- write content file
-      const contentFilename = `posts/${mutatedPost.fnamebase}.${
-          mutatedPost.fcontentFormat
-          }`;
-      await config.fwrite(
-          mutatedPost.fcontent,
-          path.resolve(config.paths.outContentBase, contentFilename)
-      );
-      //-- write page file
-      await config.fwrite(
-          `${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`,
-          path.resolve(config.paths.outPosts, mutatedPost.fname)
-      );
-      postResolve(mutatedPost);
-    });
-  });
-  return await utils.collectAllPromises(postPromises);
 };
 
 /**
@@ -417,7 +317,7 @@ const handleForumTree = async (
             )`;
     });
 
-    let chunkInserts = getArrayChunks(value_statements, 500).map((chunk) => {
+    let chunkInserts = utils.getArrayChunks(value_statements, 500).map((chunk) => {
       return `${batchInsertStmt} ${chunk.join(',')}`;
     });
     let resolvedChunks = 0;
@@ -464,7 +364,7 @@ const handleForumTree = async (
       )}"                 
             )`;
     });
-    let chunkInserts = getArrayChunks(value_statements, 500).map((chunk) => {
+    let chunkInserts = utils.getArrayChunks(value_statements, 500).map((chunk) => {
       return `${batchInsertStmt} ${chunk.join(',')}`;
     });
     let resolvedChunks = 0;
@@ -503,7 +403,7 @@ const handleForumTree = async (
     });
 
     let resolvedChunks = 0;
-    let chunkInserts = getArrayChunks(value_statements, 500).map((chunk) => {
+    let chunkInserts = utils.getArrayChunks(value_statements, 500).map((chunk) => {
       return `${batchInsertStmt} ${chunk.join(',')}`;
     });
     let chunkPromises = chunkInserts.map((insert) => {
@@ -806,8 +706,6 @@ const handleForumMetrics = async () => {
 
 module.exports = {
   handleUsers,
-  handlePages,
-  handlePosts,
   handleNavs,
   handleForumTree,
   handleForumUsers,
