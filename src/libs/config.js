@@ -47,7 +47,6 @@ const getDbConnection = async (params) => {
 
 const basepath = path.resolve(__dirname, '..', '..');
 
-debugger;
 module.exports = {
   paths: {
     cacheBase: path.resolve(basepath, 'cache'),

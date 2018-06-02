@@ -20,24 +20,25 @@ const getArrayChunks = (chunk, chunkSize = 100) => {
 /**
  * Collects users.
  * @todo error: connection closes before the last few inserts run
- * @param connection
+ * @param stagingConnection
+ * @param localdevConnection
  * @returns {Promise<void>}
  */
-const handleUsers = async (connection) => {
+const handleUsers = async (stagingConnection, localdevConnection) => {
   return new Promise(async (resolve) => {
     let wpUsers = await fetches.queryConnection(
-      fetches.queries.getUsers,
-      connection
+        fetches.queries.getUsers,
+        stagingConnection
     );
     let octoUsers = wpUsers.map((user) => {
       let registerdate = new Date(user.user_registered)
-        .toISOString()
-        .slice(0, 19)
-        .replace('T', ' ');
+          .toISOString()
+          .slice(0, 19)
+          .replace('T', ' ');
       let updatedate = new Date()
-        .toISOString()
-        .slice(0, 19)
-        .replace('T', ' ');
+          .toISOString()
+          .slice(0, 19)
+          .replace('T', ' ');
       return {
         id: user.ID,
         name: user.display_name,
@@ -55,11 +56,14 @@ const handleUsers = async (connection) => {
 
     // get a new site-db connection
     // @todo: deprecate this for getSiteDbConn
-    let siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
+    // let siteDb = await config.getDbConnection(config.db_connParams.db_localdev);
     let processedUsers = 0;
     console.log(`inserting ${octoUsers.length} users`);
     octoUsers.forEach(async (user) => {
-      await fetches.queryConnection(fetches.queries.insertUser(user), siteDb);
+      await fetches.queryConnection(
+          fetches.queries.insertUser(user),
+          localdevConnection
+      );
       processedUsers++;
 
       if (processedUsers % 100 === 0)
@@ -67,7 +71,7 @@ const handleUsers = async (connection) => {
 
       if (processedUsers === octoUsers.length) {
         console.log(`processed all users`);
-        connection.end((err) => {
+        stagingConnection.end((err) => {
           if (err) throw err;
         });
         resolve();
@@ -81,15 +85,15 @@ const handleUsers = async (connection) => {
  */
 const handlePages = async (connection) => {
   let pages = await fetches.queryConnection(
-    fetches.queries.getPublishedContentByType('page'),
-    connection
+      fetches.queries.getPublishedContentByType('page'),
+      connection
   );
   let pagePromises = pages.map((page) => {
     return new Promise(async (pageResolve) => {
       // get page meta keys;
       let pagemeta = await fetches.queryConnection(
-        fetches.queries.getPostMetaRowsForId(page.ID),
-        connection
+          fetches.queries.getPostMetaRowsForId(page.ID),
+          connection
       );
       page.urlpath = '';
       page.wpmeta = {};
@@ -103,16 +107,16 @@ const handlePages = async (connection) => {
       let mutatedPage = mutators.mutatePage(page);
       //-- write content file
       const contentFilename = `pages/${mutatedPage.fnamebase}.${
-        mutatedPage.fcontentFormat
-      }`;
+          mutatedPage.fcontentFormat
+          }`;
       await config.fwrite(
-        mutatedPage.fcontent,
-        path.resolve(config.paths.outContentBase, contentFilename)
+          mutatedPage.fcontent,
+          path.resolve(config.paths.outContentBase, contentFilename)
       );
       //-- write page file
       await config.fwrite(
-        `${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`,
-        path.resolve(config.paths.outPages, mutatedPage.fname)
+          `${mutatedPage.fconfig}\n==\n{% content '${contentFilename}' %}`,
+          path.resolve(config.paths.outPages, mutatedPage.fname)
       );
 
       pageResolve(mutatedPage);
@@ -126,15 +130,15 @@ const handlePages = async (connection) => {
  */
 const handlePosts = async (connection) => {
   let posts = await fetches.queryConnection(
-    fetches.queries.getPublishedContentByType('post'),
-    connection
+      fetches.queries.getPublishedContentByType('post'),
+      connection
   );
   let postPromises = posts.map((post) => {
     return new Promise(async (postResolve) => {
       // get page meta keys;
       let pagemeta = await fetches.queryConnection(
-        fetches.queries.getPostMetaRowsForId(post.ID),
-        connection
+          fetches.queries.getPostMetaRowsForId(post.ID),
+          connection
       );
       post.urlpath = 'blog/';
       post.wpmeta = {};
@@ -146,16 +150,16 @@ const handlePosts = async (connection) => {
 
       //-- write content file
       const contentFilename = `posts/${mutatedPost.fnamebase}.${
-        mutatedPost.fcontentFormat
-      }`;
+          mutatedPost.fcontentFormat
+          }`;
       await config.fwrite(
-        mutatedPost.fcontent,
-        path.resolve(config.paths.outContentBase, contentFilename)
+          mutatedPost.fcontent,
+          path.resolve(config.paths.outContentBase, contentFilename)
       );
       //-- write page file
       await config.fwrite(
-        `${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`,
-        path.resolve(config.paths.outPosts, mutatedPost.fname)
+          `${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`,
+          path.resolve(config.paths.outPosts, mutatedPost.fname)
       );
       postResolve(mutatedPost);
     });
@@ -171,21 +175,21 @@ const handlePosts = async (connection) => {
 const handleNavs = async (connection) => {
   return new Promise(async (resolve) => {
     let navmenus = await fetches.queryConnection(
-      fetches.queries.getAllNavMenus,
-      connection
+        fetches.queries.getAllNavMenus,
+        connection
     );
     let processedMenus = 0; // used later to gate our exit inside the foreach loop
     navmenus.forEach(async (menu, index) => {
       let menuitems = await fetches.queryConnection(
-        fetches.queries.getNavItemsByMenuId(menu.term_id),
-        connection
+          fetches.queries.getNavItemsByMenuId(menu.term_id),
+          connection
       );
       let processedItems = 0;
       menuitems.map(async (item, index) => {
         //-- will use nav_menu_item meta to rebuild page link
         let itemMeta = await fetches.queryConnection(
-          fetches.queries.getNavMenuTarget(item.ID),
-          connection
+            fetches.queries.getNavMenuTarget(item.ID),
+            connection
         );
         let targetItemParams = {
           type: itemMeta.filter((meta) => {
@@ -196,8 +200,8 @@ const handleNavs = async (connection) => {
           })[0].meta_value
         };
         let targetItem = await fetches.queryConnection(
-          fetches.queries.getPostById(targetItemParams.id),
-          connection
+            fetches.queries.getPostById(targetItemParams.id),
+            connection
         );
         targetItem = targetItem[0];
         if (targetItem) {
@@ -217,8 +221,8 @@ const handleNavs = async (connection) => {
           //-- done with this menu
           let fname = `${menu.term_id}__${menu.slug}.json`;
           await config.fwrite(
-            JSON.stringify({ menu, menuitems }, null, 2),
-            path.resolve(config.paths.outMenus, fname)
+              JSON.stringify({menu, menuitems}, null, 2),
+              path.resolve(config.paths.outMenus, fname)
           );
 
           processedMenus++;
@@ -234,13 +238,14 @@ const handleNavs = async (connection) => {
 /**
  * Collect forum topics
  * @param stagingConnection
+ * @param localdevConnection
  * @param cacheRebuild
  * @returns {Promise<void>}
  */
 const handleForumTree = async (
-  stagingConnection,
-  localdevConnection,
-  cacheRebuild = false
+    stagingConnection,
+    localdevConnection,
+    cacheRebuild = false
 ) => {
   const cacheFile = path.resolve(config.paths.cacheBase, 'forums.json');
   let forums, topics, replies;
@@ -248,16 +253,16 @@ const handleForumTree = async (
     console.log(`rebuilding cache...`);
     //-- get entities from db
     forums = await fetches.queryConnection(
-      fetches.queries.getPublishedContentByType('forum'),
-      stagingConnection
+        fetches.queries.getPublishedContentByType('forum'),
+        stagingConnection
     );
     topics = await fetches.queryConnection(
-      fetches.queries.getPublishedContentByType('topic'),
-      stagingConnection
+        fetches.queries.getPublishedContentByType('topic'),
+        stagingConnection
     );
     replies = await fetches.queryConnection(
-      fetches.queries.getPublishedContentByType('reply'),
-      stagingConnection
+        fetches.queries.getPublishedContentByType('reply'),
+        stagingConnection
     );
     //---------- traversing the forum>topic>reply tree
     topics.forEach(async (topic, index) => {
@@ -288,12 +293,12 @@ const handleForumTree = async (
       };
     });
     await config.fwrite(
-      JSON.stringify({
-        forums,
-        topics,
-        replies
-      }),
-      cacheFile
+        JSON.stringify({
+          forums,
+          topics,
+          replies
+        }),
+        cacheFile
     );
     console.log(`...rebuilt forum cache`);
   } else {
@@ -316,22 +321,22 @@ const handleForumTree = async (
   });
   let count_nochild = 0;
   topics = topics
-    .filter((topic) => {
-      count_nochild++;
-      console.log(`NO_CHILD_COUNT:${count_nochild}`);
-      return topic.childReplies.length > 0; // @todo: hack-ish workaround for the -1 replies issue. for now, just filter out topics with empty childReplies.
-    })
-    .map((topic) => {
-      //-- organize replies by date asc, assign first and last as object keys
-      let organizedReplies = topic.childReplies.sort((a, b) => {
-        return new Date(b.post_date) - a.post_date;
+      .filter((topic) => {
+        count_nochild++;
+        console.log(`NO_CHILD_COUNT:${count_nochild}`);
+        return topic.childReplies.length > 0; // @todo: hack-ish workaround for the -1 replies issue. for now, just filter out topics with empty childReplies.
+      })
+      .map((topic) => {
+        //-- organize replies by date asc, assign first and last as object keys
+        let organizedReplies = topic.childReplies.sort((a, b) => {
+          return new Date(b.post_date) - a.post_date;
+        });
+        let ret = Object.assign(topic, {
+          firstReply: organizedReplies[0],
+          recentReply: organizedReplies[organizedReplies.length - 1]
+        });
+        return ret;
       });
-      let ret = Object.assign(topic, {
-        firstReply: organizedReplies[0],
-        recentReply: organizedReplies[organizedReplies.length - 1]
-      });
-      return ret;
-    });
 
   //-- model translations
   const translateChannel = (wpforum) => {
@@ -368,9 +373,9 @@ const handleForumTree = async (
           startMemberId: wptopic.childReplies[0].post_author,
           lastPostId: wptopic.childReplies[wptopic.childReplies.length - 1].ID,
           lastPostMemberId:
-            wptopic.childReplies[wptopic.childReplies.length - 1].post_author,
+          wptopic.childReplies[wptopic.childReplies.length - 1].post_author,
           lastPostAt:
-            wptopic.childReplies[wptopic.childReplies.length - 1].post_date,
+          wptopic.childReplies[wptopic.childReplies.length - 1].post_date,
           countPosts: wptopic.childReplies.length
         });
       }
@@ -403,12 +408,12 @@ const handleForumTree = async (
                 ${octoforum.id}, ${octoforum.parentId || 0}, 
                 "${octoforum.title}", "${octoforum.slug}", 
                 ${stagingConnection.escape(
-                  octoforum.description.substring(0, 191)
-                )},
+          octoforum.description.substring(0, 191)
+      )},
                 ${octoforum.countTopics}, ${octoforum.countPosts},
                 "${utils.formatMysqlTimestamp(
-                  octoforum.createdAt
-                )}", "${utils.formatMysqlTimestamp(octoforum.updatedAt)}"
+          octoforum.createdAt
+      )}", "${utils.formatMysqlTimestamp(octoforum.updatedAt)}"
             )`;
     });
 
@@ -425,9 +430,9 @@ const handleForumTree = async (
           }
           resolvedChunks++;
           console.log(
-            `resolved [channel] chunks: ${resolvedChunks}/${
-              chunkInserts.length
-            }`
+              `resolved [channel] chunks: ${resolvedChunks}/${
+                  chunkInserts.length
+                  }`
           );
           resolve(results);
         });
@@ -445,17 +450,17 @@ const handleForumTree = async (
       return `(
                 ${octotopic.id}, 
                 ${stagingConnection.escape(
-                  octotopic.subject
-                )}, ${stagingConnection.escape(octotopic.slug)},
+          octotopic.subject
+      )}, ${stagingConnection.escape(octotopic.slug)},
                 ${octotopic.channelId}, 
                 ${octotopic.startMemberId}, ${octotopic.lastPostId}, ${
-        octotopic.lastPostMemberId
-      }, "${utils.formatMysqlTimestamp(octotopic.lastPostAt)}",
+          octotopic.lastPostMemberId
+          }, "${utils.formatMysqlTimestamp(octotopic.lastPostAt)}",
                 ${octotopic.countPosts}, 
                 "${utils.formatMysqlTimestamp(
-                  octotopic.created
-                )}", "${utils.formatMysqlTimestamp(
-        octotopic.created
+          octotopic.created
+      )}", "${utils.formatMysqlTimestamp(
+          octotopic.created
       )}"                 
             )`;
     });
@@ -472,7 +477,7 @@ const handleForumTree = async (
           }
           resolvedChunks++;
           console.log(
-            `resolved [topic] chunks: ${resolvedChunks}/${chunkInserts.length}`
+              `resolved [topic] chunks: ${resolvedChunks}/${chunkInserts.length}`
           );
           resolve(results);
         });
@@ -490,8 +495,8 @@ const handleForumTree = async (
                 ${octoreply.id},
                 ${localdevConnection.escape(octoreply.subject)},
                 ${localdevConnection.escape(
-                  octoreply.content
-                )}, ${localdevConnection.escape(octoreply.content_html)}, 
+          octoreply.content
+      )}, ${localdevConnection.escape(octoreply.content_html)}, 
                 ${octoreply.topicId}, ${octoreply.memberId}, 
                 0,
                 "${octoreply.created}", "${octoreply.created}")`;
@@ -507,7 +512,7 @@ const handleForumTree = async (
           if (err) console.log(err);
           resolvedChunks++;
           console.log(
-            `resolved [reply] chunks: ${resolvedChunks}/${chunkInserts.length}`
+              `resolved [reply] chunks: ${resolvedChunks}/${chunkInserts.length}`
           );
           resolve(results);
         });
@@ -541,8 +546,8 @@ const handleForumUsers = async (connection) => {
     let query_insertForumUser = `INSERT INTO rainlab_forum_members (id, user_id, username, slug, created_at) VALUES (?,?,?,?,?)`;
 
     let frontendUsers = await fetches.queryConnection(
-      query_getFeUsers,
-      connection
+        query_getFeUsers,
+        connection
     );
 
     let processedUsers = 0;
@@ -558,29 +563,29 @@ const handleForumUsers = async (connection) => {
           feUser.created_at
         ];
         connection.query(
-          query_insertForumUser,
-          values_insertForumUser,
-          (err, results) => {
-            if (err && err.errno !== 1062) {
-              console.error(err);
-            }
-            resolved++;
-            resolved % 100 === 0
-              ? console.log(
+            query_insertForumUser,
+            values_insertForumUser,
+            (err, results) => {
+              if (err && err.errno !== 1062) {
+                console.error(err);
+              }
+              resolved++;
+              resolved % 100 === 0
+                  ? console.log(
                   `------ [${moduleLabel}] processed: ${resolved}/${
-                    frontendUsers.length
-                  }`
-                )
-              : null;
-            resolved === frontendUsers.length
-              ? console.log(
+                      frontendUsers.length
+                      }`
+                  )
+                  : null;
+              resolved === frontendUsers.length
+                  ? console.log(
                   `------ [${moduleLabel} FINISHED]: processed ${resolved} of ${
-                    frontendUsers.length
-                  }`
-                )
-              : null;
-            resolve(results);
-          }
+                      frontendUsers.length
+                      }`
+                  )
+                  : null;
+              resolve(results);
+            }
         );
       });
       promises.push(p);
@@ -599,7 +604,7 @@ const handleForumUsers = async (connection) => {
  */
 const handleForumMetrics = async () => {
   const localdevConnection = await config.getDbConnection(
-    config.db_connParams.db_localdev
+      config.db_connParams.db_localdev
   );
 
   //-- enrich topics
@@ -634,11 +639,11 @@ const handleForumMetrics = async () => {
                     GROUP BY topic_id
                     ORDER BY created_at asc;`;
       localdevConnection.query(
-        query_batchgettopicsfirstposts,
-        (err, results) => {
-          if (err) console.log(err);
-          resolve(results);
-        }
+          query_batchgettopicsfirstposts,
+          (err, results) => {
+            if (err) console.log(err);
+            resolve(results);
+          }
       );
     });
   };
@@ -649,11 +654,11 @@ const handleForumMetrics = async () => {
                     GROUP BY topic_id
                     ORDER by created_at DESC;`;
       localdevConnection.query(
-        query_batchgettopicsfirstposts,
-        (err, results) => {
-          if (err) console.log(err);
-          resolve(results);
-        }
+          query_batchgettopicsfirstposts,
+          (err, results) => {
+            if (err) console.log(err);
+            resolve(results);
+          }
       );
     });
   };
@@ -668,11 +673,11 @@ const handleForumMetrics = async () => {
           resolve({});
         }
         let q = `UPDATE rainlab_forum_topics SET start_member_id = ${
-          row.firstpost.member_id
-        }, last_post_id = ${row.recentpost.id}, last_post_member_id = ${
-          row.recentpost.member_id
-        }, last_post_at = "${utils.formatMysqlTimestamp(
-          row.recentpost.created_at
+            row.firstpost.member_id
+            }, last_post_id = ${row.recentpost.id}, last_post_member_id = ${
+            row.recentpost.member_id
+            }, last_post_at = "${utils.formatMysqlTimestamp(
+            row.recentpost.created_at
         )}" where id = ${row.topic_id}`;
         localdevConnection.query(q, (err, results) => {
           if (err) {
@@ -680,7 +685,7 @@ const handleForumMetrics = async () => {
           }
           topicPromisesResolved++;
           console.log(
-            `PROCESSED TOPICS: ${topicPromisesResolved}/${topicPromisesCount}`
+              `PROCESSED TOPICS: ${topicPromisesResolved}/${topicPromisesCount}`
           );
           resolve(results);
         });
@@ -702,21 +707,21 @@ const handleForumMetrics = async () => {
       countResults.forEach((row) => {
         let rp = new Promise((rpResolve) => {
           localdevConnection.query(
-            `update rainlab_forum_topics SET count_posts = ? where id = ?;`,
-            [row.posts, row.id],
-            (err, results) => {
-              topicPromisesResolved++;
-              console.log(
-                `updated topic counts: ${topicPromisesResolved}/${topicPromisesAll}`
-              );
-              rpResolve(results);
-            }
+              `update rainlab_forum_topics SET count_posts = ? where id = ?;`,
+              [row.posts, row.id],
+              (err, results) => {
+                topicPromisesResolved++;
+                console.log(
+                    `updated topic counts: ${topicPromisesResolved}/${topicPromisesAll}`
+                );
+                rpResolve(results);
+              }
           );
         });
         promises_updatetopicpostcount.push(rp);
       });
       let results = await utils.collectAllPromises(
-        promises_updatetopicpostcount
+          promises_updatetopicpostcount
       );
       resolve(results);
     });
@@ -758,11 +763,11 @@ const handleForumMetrics = async () => {
                 group by channels.id
             `;
       localdevConnection.query(
-        query_batchcountpostsinchannel,
-        (err, results) => {
-          if (err) console.log(err);
-          resolve(results);
-        }
+          query_batchcountpostsinchannel,
+          (err, results) => {
+            if (err) console.log(err);
+            resolve(results);
+          }
       );
     });
   };
@@ -773,15 +778,15 @@ const handleForumMetrics = async () => {
       countResults.forEach((row) => {
         let rp = new Promise((rpResolve) => {
           localdevConnection.query(
-            `UPDATE rainlab_forum_channels SET count_topics=?, count_posts=? where id=?;`,
-            [row.topicsCount, row.postsCount, row.id],
-            (err, results) => {
-              channelPromisesResolved++;
-              console.log(
-                `updated topic counts: ${channelPromisesResolved}/${channelPromisesAll}`
-              );
-              rpResolve(results);
-            }
+              `UPDATE rainlab_forum_channels SET count_topics=?, count_posts=? where id=?;`,
+              [row.topicsCount, row.postsCount, row.id],
+              (err, results) => {
+                channelPromisesResolved++;
+                console.log(
+                    `updated topic counts: ${channelPromisesResolved}/${channelPromisesAll}`
+                );
+                rpResolve(results);
+              }
           );
         });
         promises_updatechannelstallies.push(rp);
