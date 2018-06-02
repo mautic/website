@@ -54,6 +54,7 @@ const main = async () => {
     prepare();
     return new Promise(async resolve => {
         //-- register processors here with {process:false}. a gate calls done when all are flagged true
+        // @todo: add a middleware-like mechanism for registering actions.
         progress = {
             pages: false,
         }
