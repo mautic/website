@@ -7,6 +7,7 @@ const config = require('./libs/config');
 const fetches = require('./libs/fetch');
 const handlers = require('./libs/handlers');
 const pageposthandlers = require('./libs/PagePostHandlers');
+const grouphandlers = require('./libs/GroupHandlers');
 
 //
 let stagingConnection, localdevConnection;
@@ -55,20 +56,22 @@ const main = async () => {
         stagingConnection
     );
 
+    let groupInserts = await grouphandlers.handleGroups(stagingConnection, localdevConnection);
+
+    // let pageInserts = await pageposthandlers.handlePages(stagingConnection);
+    // let postInserts = await pageposthandlers.handlePosts(stagingConnection);
+
+    // const cacheRebuild = false;
+    // let forumUsers = await handlers.handleForumUsers(localdevConnection);
+    // let forumTree = await handlers.handleForumTree(stagingConnection, localdevConnection, cacheRebuild);
+    // let forumMetrics = await handlers.handleForumMetrics();
+
     //------- NOT refactored
     // let users = await handlers.handleUsers(connection, localdevConnection);
     // console.time('navs');
     // await handlers.handleNavs(connection);
     // console.timeEnd('navs');
 
-    //------- refactored
-    let pageInserts = await pageposthandlers.handlePages(stagingConnection);
-    let postInserts = await pageposthandlers.handlePosts(stagingConnection);
-
-    // const cacheRebuild = false;
-    // let forumUsers = await handlers.handleForumUsers(localdevConnection);
-    // let forumTree = await handlers.handleForumTree(stagingConnection, localdevConnection, cacheRebuild);
-    // let forumMetrics = await handlers.handleForumMetrics();
 
     resolve();
   });
