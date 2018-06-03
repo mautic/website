@@ -57,6 +57,7 @@ const main = async () => {
     );
 
     let groupInserts = await grouphandlers.handleGroups(stagingConnection, localdevConnection);
+    debugger;
 
     // let pageInserts = await pageposthandlers.handlePages(stagingConnection);
     // let postInserts = await pageposthandlers.handlePosts(stagingConnection);
