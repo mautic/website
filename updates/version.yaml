@@ -1,0 +1,11 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table trka_marketplace_download'
+    - builder_table_create_trka_marketplace_download.php
+1.0.3:
+    - 'Created table trka_marketplace_download_types'
+    - builder_table_create_trka_marketplace_download_types.php
+1.0.4:
+    - 'Updated table trka_marketplace_download'
+    - builder_table_update_trka_marketplace_download.php

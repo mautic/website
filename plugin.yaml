@@ -1,0 +1,6 @@
+plugin:
+    name: 'trka.marketplace::lang.plugin.name'
+    description: 'trka.marketplace::lang.plugin.description'
+    author: 'Kevin Ard'
+    icon: oc-icon-download
+    homepage: ''
