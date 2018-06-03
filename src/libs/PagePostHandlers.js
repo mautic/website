@@ -57,16 +57,16 @@ const mutateContentPage = (page, format = 'md') => {
 };
 
 /**
- * Collect page/meta, format and write to fs for october
+ * Queries db for wp pages, hydrates results with normalized wpmeta key data.
+ * @returns {Promise<any>}
  */
-const handlePages = async (connection) => {
-  let pages = await fetches.queryConnection(
+let fetchAndHydratePages = async (connection) => {
+  let fetchedPages = await fetches.queryConnection(
       fetches.queries.getPublishedContentByType('page'),
       connection
   );
-  let pagePromises = pages.map((page) => {
-    return new Promise(async (pageResolve) => {
-      // get page meta keys;
+  let pageHydrationPromises = fetchedPages.map(async page => {
+    return new Promise(async hydrationResolve => {
       let pagemeta = await fetches.queryConnection(
           fetches.queries.getPostMetaRowsForId(page.ID),
           connection
@@ -79,12 +79,43 @@ const handlePages = async (connection) => {
       pagemeta.forEach((meta) => {
         page.wpmeta[meta.meta_key] = meta.meta_value;
       });
+      hydrationResolve(page);
+    })
+  })
+  return new Promise(resolve => {
+    Promise.all(pageHydrationPromises)
+        .then(results => {
+          resolve(results)
+        })
+  });
+};
+
+/**
+ * Collect page/meta, format and write to fs for october
+ */
+const handlePages = async (connection) => {
+  let fetchedPages = await fetchAndHydratePages(connection);
+
+  // shortcode pages need to be fetched with front-end rendering (axios+cheerio or similar)
+  let scRex = /\[\w.*\].*\[\/.*\]/gi;
+  let shortcodePages = fetchedPages.filter(page => {
+    return scRex.test(page.post_content);
+  });
+
+  let specialPages = fetchedPages.filter(page=>{
+    if(page.post_title === "MautiCamps"){
+      debugger;
+    }
+    return {};
+  })
+
+
+  let pageWritePromises = fetchedPages.map((page) => {
+    return new Promise(async (writeResolve) => {
 
       let mutatedPage = mutateContentPage(page);
       //-- write content file
-      const contentFilename = `pages/${mutatedPage.fnamebase}.${
-          mutatedPage.fcontentFormat
-          }`;
+      const contentFilename = `pages/${mutatedPage.fnamebase}.${ mutatedPage.fcontentFormat }`;
       await config.fwrite(
           mutatedPage.fcontent,
           path.resolve(config.paths.outContentBase, contentFilename)
@@ -95,10 +126,10 @@ const handlePages = async (connection) => {
           path.resolve(config.paths.outPages, mutatedPage.fname)
       );
 
-      pageResolve(mutatedPage);
+      writeResolve(mutatedPage);
     });
   });
-  return await utils.collectAllPromises(pagePromises);
+  return await utils.collectAllPromises(pageWritePromises);
 };
 
 /**
