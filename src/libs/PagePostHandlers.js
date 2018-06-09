@@ -165,7 +165,7 @@ const handlePosts = async (stagingConnection, localdevConnection) => {
             slug: post.post_name,
             excerpt: post.post_excerpt,
             content: contentMd,
-            contentHtml: contentMd,
+            contentHtml: post.post_content,
             publishedAt: utils.formatMysqlTimestamp(post.post_date),
             published: 1,
             createdAt: utils.formatMysqlTimestamp(post.post_date),
