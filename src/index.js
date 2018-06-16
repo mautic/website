@@ -56,11 +56,10 @@ const main = async () => {
         stagingConnection
     );
 
-    let groupInserts = await grouphandlers.handleGroups(stagingConnection, localdevConnection);
-    debugger;
+    // let groupInserts = await grouphandlers.handleGroups(stagingConnection, localdevConnection);
 
     // let pageInserts = await pageposthandlers.handlePages(stagingConnection);
-    // let postInserts = await pageposthandlers.handlePosts(stagingConnection);
+    let postInserts = await pageposthandlers.handlePosts(stagingConnection, localdevConnection);
 
     // const cacheRebuild = false;
     // let forumUsers = await handlers.handleForumUsers(localdevConnection);
