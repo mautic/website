@@ -1,6 +1,4 @@
 const path = require('path');
-const fs = require('fs');
-const mysql = require('mysql');
 const config = require('./config');
 const fetches = require('./fetch');
 const utils = require('./utils');
@@ -101,14 +99,12 @@ const handlePages = async (connection) => {
   let shortcodePages = fetchedPages.filter(page => {
     return scRex.test(page.post_content);
   });
-
   let specialPages = fetchedPages.filter(page=>{
     if(page.post_title === "MautiCamps"){
       debugger;
     }
     return {};
   })
-
 
   let pageWritePromises = fetchedPages.map((page) => {
     return new Promise(async (writeResolve) => {

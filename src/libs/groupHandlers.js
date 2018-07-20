@@ -1,9 +1,11 @@
-const path = require('path');
-const fs = require('fs');
-const config = require('./config');
 const fetches = require('./fetch');
-const utils = require('./utils');
 
+/**
+ * Loads groups from Wordpress. Hydrates with member list and meta keys
+ * @param sourceDbConn
+ * @param targetDbConn
+ * @return {Promise<*>}
+ */
 const loadGroupTables = async (sourceDbConn, targetDbConn) => {
     let wpGroups = await fetches.queryConnection(
         `select * from mwp_bp_groups`,
@@ -41,6 +43,12 @@ const loadGroupTables = async (sourceDbConn, targetDbConn) => {
     });
 };
 
+/**
+ * Loads users  from Wordpress. Hydrates with member list and meta keys
+ * @param sourceDbConn
+ * @param targetDbConn
+ * @return {Promise<*>}
+ */
 const loadUserTables = async (sourceDbConn, targetDbConn) => {
     let wpUsers = await fetches.queryConnection(
         `select * from mwp_users`,
@@ -63,11 +71,37 @@ const loadUserTables = async (sourceDbConn, targetDbConn) => {
             .map(m => {
                 u.usermeta[m.meta_key] = m.meta_value;
             });
+
         return u;
     })
 };
 
+const loadOctoGroups = async (sourceDbConn, targetDbConn) => {
+    let octoGroups = await fetches.queryConnection(
+        `select * from trka_groups_groups`,
+        targetDbConn
+    )
+
+    return octoGroups;
+};
+
+const insertOctoGroups = async (sourceDbConn, targetDbConn, groups) => {
+    let insertStmt = `insert into trka_groups_groups 
+    (name, slug, description, created_at, updated_at) 
+    values 
+    (?,?,?,?,?)`;
+
+    groups.map(g=>{
+
+    })
+    debugger
+};
+
 module.exports = {
+    //-- wp fetches
     loadGroupTables,
-    loadUserTables
+    loadUserTables,
+    //-- october inserts
+    loadOctoGroups,
+    insertOctoGroups
 };
