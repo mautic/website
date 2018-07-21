@@ -4,13 +4,13 @@ const utils = require('./utils');
 
 /**
  * Collects groups into normalized, hydrated json.
- * @param stagingConnection
+ * @param sourceDataConn
  * @returns {Promise<any>}
  */
-const fetchAndHydrateGroups = async (stagingConnection) => {
-  let fetchedGroups = await fetches.queryConnection(`select * from mwp_bp_groups;`, stagingConnection);
-  let fetchedMeta = await fetches.queryConnection(`select * from mwp_bp_groups_groupmeta`, stagingConnection);
-  let fetchedUsers = await fetches.queryConnection(`SELECT * from mwp_bp_groups_members where group_id`, stagingConnection);
+const fetchAndHydrateGroups = async (sourceDataConn) => {
+  let fetchedGroups = await fetches.queryConnection(`select * from mwp_bp_groups;`, sourceDataConn);
+  let fetchedMeta = await fetches.queryConnection(`select * from mwp_bp_groups_groupmeta`, sourceDataConn);
+  let fetchedUsers = await fetches.queryConnection(`SELECT * from mwp_bp_groups_members where group_id`, sourceDataConn);
 
   let hydrated = fetchedGroups.map(group => {
     group.users = fetchedUsers
@@ -35,15 +35,15 @@ const fetchAndHydrateGroups = async (stagingConnection) => {
  * Insert hydrated groups into destination backend
  * @todo: need a dest. backend ;)
  * @param groups
- * @param localdevConnection
+ * @param targetDataConn
  * @returns {Promise<void>}
  */
-const insertGroups = async (groups, localdevConnection) => {
+const insertGroups = async (groups, targetDataConn) => {
 }
 
-const handleGroups = async (stagingConnection, localdevConnection) => {
-  let hydratedGroups = await fetchAndHydrateGroups(stagingConnection);
-  let insertedGroups = await insertGroups(hydratedGroups, localdevConnection);
+const handleGroups = async (sourceDataConn, targetDataConn) => {
+  let hydratedGroups = await fetchAndHydrateGroups(sourceDataConn);
+  let insertedGroups = await insertGroups(hydratedGroups, targetDataConn);
 
   return Promise.resolve(hydratedGroups);
 };
