@@ -542,7 +542,7 @@ const handleForumUsers = async (connection) => {
  */
 const handleForumMetrics = async () => {
     const localdevConnection = await config.getDbConnection(
-        config.db_connParams.db_localdev
+        config.db_connParams.db_destination
     );
 
     //-- enrich topics

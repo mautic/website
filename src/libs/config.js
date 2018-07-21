@@ -14,16 +14,16 @@ const fwrite = async (content, path) => {
 };
 
 const db_connParams = {
-  db_staging: {
+  db_source: {
     host: '127.0.0.1',
-    port: 3309,
+    port: 3306,
     database: 'mt_org_migration',
     user: 'root',
     password: 'dockerpass'
   },
-  db_localdev: {
+  db_destination: {
     host: '127.0.0.1',
-    port: 3310,
+    port: 3307,
     database: 'mtorg_db',
     user: 'root',
     password: 'dockerpass'

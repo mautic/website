@@ -8,17 +8,17 @@ const pageposthandlers = require('./libs/PagePostHandlers');
 const grouphandlers = require('./libs/groupHandlers');
 
 //
-let stagingConnection, localdevConnection;
+let sourceDataConnection, targetDataConnection;
 let progress = {};
 //---------------------
 
 const disconnect = async () => {
     return new Promise((resolve) => {
-        stagingConnection.end((err) => {
+        sourceDataConnection.end((err) => {
             if (err) {
                 throw err;
             }
-            resolve(stagingConnection);
+            resolve(sourceDataConnection);
         });
     });
 };
@@ -35,11 +35,11 @@ const prepare = (remove = false) => {
         mkdirp.sync(path.resolve(config.paths.outContentBase, 'pages'));
         mkdirp.sync(path.resolve(config.paths.outContentBase, 'posts'));
 
-        stagingConnection = await config.getDbConnection(
-            config.db_connParams.db_staging
+        sourceDataConnection = await config.getDbConnection(
+            config.db_connParams.db_source
         );
-        localdevConnection = await config.getDbConnection(
-            config.db_connParams.db_localdev
+        targetDataConnection = await config.getDbConnection(
+            config.db_connParams.db_destination
         );
 
         resolve();
@@ -55,20 +55,20 @@ const main = async () => {
 
         /*let post_types = await fetches.queryConnection(
             fetches.queries.getPublishedTypesCount,
-            stagingConnection
+            sourceDataConnection
         );*/
 
-        // let groupInserts = await grouphandlers.handleGroups(stagingConnection, localdevConnection);
-        // let pageInserts = await pageposthandlers.handlePages(stagingConnection);
-        // let postInserts = await pageposthandlers.handlePosts(stagingConnection);
+        // let groupInserts = await grouphandlers.handleGroups(sourceDataConnection, targetDataConnection);
+        // let pageInserts = await pageposthandlers.handlePages(sourceDataConnection);
+        // let postInserts = await pageposthandlers.handlePosts(sourceDataConnection);
 
         // const cacheRebuild = false;
-        // let forumUsers = await handlers.handleForumUsers(localdevConnection);
-        // let forumTree = await handlers.handleForumTree(stagingConnection, localdevConnection, cacheRebuild);
+        // let forumUsers = await handlers.handleForumUsers(targetDataConnection);
+        // let forumTree = await handlers.handleForumTree(sourceDataConnection, targetDataConnection, cacheRebuild);
         // let forumMetrics = await handlers.handleForumMetrics();
 
         //------- NOT refactored
-        // let users = await handlers.handleUsers(connection, localdevConnection);
+        // let users = await handlers.handleUsers(connection, targetDataConnection);
         // console.time('navs');
         // await handlers.handleNavs(connection);
         // console.timeEnd('navs');
@@ -80,9 +80,9 @@ const main = async () => {
 const processGroups = async () => {
     await prepare();
     return new Promise(async (resolve) => {
-        let octoberGroups = await grouphandlers.loadOctoGroups(stagingConnection, localdevConnection);
-        let wpGroups = await grouphandlers.loadGroupTables(stagingConnection, localdevConnection);
-        let wpUsers = await grouphandlers.loadUserTables(stagingConnection, localdevConnection);
+        let octoberGroups = await grouphandlers.loadOctoGroups(sourceDataConnection, targetDataConnection);
+        let wpGroups = await grouphandlers.loadGroupTables(sourceDataConnection, targetDataConnection);
+        let wpUsers = await grouphandlers.loadUserTables(sourceDataConnection, targetDataConnection);
 
         //-- first pass, make sure all wpGroups are accounted for
         let groupsDiff = wpGroups.filter(wp_g => {
@@ -93,8 +93,8 @@ const processGroups = async () => {
         });
 
         if (groupsDiff.length) {
-            await grouphandlers.insertOctoGroups(stagingConnection, localdevConnection, groupsDiff);
-            octoberGroups = await grouphandlers.loadOctoGroups(stagingConnection, localdevConnection);
+            await grouphandlers.insertOctoGroups(sourceDataConnection, targetDataConnection, groupsDiff);
+            octoberGroups = await grouphandlers.loadOctoGroups(sourceDataConnection, targetDataConnection);
         }
 
         debugger
