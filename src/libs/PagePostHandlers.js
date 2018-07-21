@@ -1,6 +1,4 @@
 const path = require('path');
-const fs = require('fs');
-const mysql = require('mysql');
 const config = require('./config');
 const fetches = require('./fetch');
 const utils = require('./utils');
@@ -101,14 +99,12 @@ const handlePages = async (connection) => {
   let shortcodePages = fetchedPages.filter(page => {
     return scRex.test(page.post_content);
   });
-
-  let specialPages = fetchedPages.filter(page => {
-    if (page.post_title === "MautiCamps") {
+  let specialPages = fetchedPages.filter(page=>{
+    if(page.post_title === "MautiCamps"){
       debugger;
     }
     return {};
   })
-
 
   let pageWritePromises = fetchedPages.map((page) => {
     return new Promise(async (writeResolve) => {
@@ -135,17 +131,17 @@ const handlePages = async (connection) => {
 /**
  * Collect post/meta, format and write to fs for october
  */
-const handlePosts = async (stagingConnection, localdevConnection) => {
+const handlePosts = async (connection) => {
   let posts = await fetches.queryConnection(
       fetches.queries.getPublishedContentByType('post'),
-      stagingConnection
+      connection
   );
   let postPromises = posts.map((post) => {
     return new Promise(async (postResolve) => {
       // get page meta keys;
       let pagemeta = await fetches.queryConnection(
           fetches.queries.getPostMetaRowsForId(post.ID),
-          stagingConnection
+          connection
       );
       post.urlpath = 'blog/';
       post.wpmeta = {};
@@ -154,78 +150,23 @@ const handlePosts = async (stagingConnection, localdevConnection) => {
       });
       //
       let mutatedPost = mutateContentPage(post);
-      //-- polyfill mutatedPost with extra wp vals
-      let contentMd = html2md.html2mdFromString(post.post_content);
-      mutatedPost = Object.assign(
-          mutatedPost,
-          {
-            id: post.ID,
-            userId: 0,
-            title: post.post_title,
-            slug: post.post_name,
-            excerpt: post.post_excerpt,
-            content: contentMd,
-            contentHtml: post.post_content,
-            publishedAt: utils.formatMysqlTimestamp(post.post_date),
-            published: 1,
-            createdAt: utils.formatMysqlTimestamp(post.post_date),
-            updatedAt: utils.formatMysqlTimestamp(post.post_modified),
-          }
-      );
 
-      /*
-        for writing posts to db tables
-      */
-      let query_insertPost = `insert into rainlab_blog_posts 
-      (id, user_id, title, slug, excerpt, content, content_html, published_at, published, created_at, updated_at) 
-      VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
-      let values_insertPost = [
-        mutatedPost.id,
-        mutatedPost.userId,
-        mutatedPost.title,
-        mutatedPost.slug,
-        mutatedPost.excerpt,
-        mutatedPost.content,
-        mutatedPost.contentHtml,
-        mutatedPost.publishedAt,
-        mutatedPost.published,
-        mutatedPost.createdAt,
-        mutatedPost.updatedAt
-      ];
-
-      localdevConnection.query(
-          query_insertPost,
-          values_insertPost,
-          (err, results) => {
-            if (err && err.errno !== 1062) {
-              console.error(err)
-            }
-            postResolve(results)
-          }
-      )
-
-      /*
-        for writing posts as flat files
-      */
       //-- write content file
-      /*
-            const contentFilename = `posts/${mutatedPost.fnamebase}.${
-                mutatedPost.fcontentFormat
-                }`;
-            await config.fwrite(
-                mutatedPost.fcontent,
-                path.resolve(config.paths.outContentBase, contentFilename)
-            );
-            //-- write page file
-            await config.fwrite(
-                `${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`,
-                path.resolve(config.paths.outPosts, mutatedPost.fname)
-            );
-            postResolve(mutatedPost);
-      */
+      const contentFilename = `posts/${mutatedPost.fnamebase}.${
+          mutatedPost.fcontentFormat
+          }`;
+      await config.fwrite(
+          mutatedPost.fcontent,
+          path.resolve(config.paths.outContentBase, contentFilename)
+      );
+      //-- write page file
+      await config.fwrite(
+          `${mutatedPost.fconfig}\n==\n{% content '${contentFilename}' %}`,
+          path.resolve(config.paths.outPosts, mutatedPost.fname)
+      );
+      postResolve(mutatedPost);
     });
   });
-
   return await utils.collectAllPromises(postPromises);
 };
 
