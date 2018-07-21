@@ -137,8 +137,5 @@ const handleNavs = async (connection) => {
 
 module.exports = {
     handleUsers,
-    handleNavs,
-    handleForumTree,
-    handleForumUsers,
-    handleForumMetrics
+    handleNavs
 };

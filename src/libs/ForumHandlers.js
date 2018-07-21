@@ -20,6 +20,7 @@ const handleForumTree = async (
   const cacheFile = path.resolve(config.paths.cacheBase, 'forums.json');
   let forums, topics, replies;
   if (cacheRebuild) {
+    console.time('cache rebuild');
     console.log(`rebuilding cache...`);
     //-- get entities from db
     forums = await fetches.queryConnection(
@@ -72,6 +73,7 @@ const handleForumTree = async (
         cacheFile
     );
     console.log(`...rebuilt forum cache`);
+    console.timeEnd('cache rebuild');
   } else {
     let cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
     forums = cache.forums;
@@ -306,9 +308,10 @@ const handleForumTree = async (
     });
 
     let resolvedChunks = 0;
-    let chunkInserts = utils.getArrayChunks(value_statements, 500).map((chunk) => {
-      return `${batchInsertStmt} ${chunk.join(',')}`;
-    });
+    let chunkInserts = utils.getArrayChunks(value_statements, 500)
+        .map((chunk) => {
+          return `${batchInsertStmt} ${chunk.join(',')}`;
+        });
     let chunkPromises = chunkInserts.map((insert) => {
       return new Promise((resolve) => {
         targetDataConn.query(insert, (err, results) => {
@@ -333,12 +336,12 @@ const handleForumTree = async (
     // let resolvedForums = await loadForumChannels(forums);
     // let resolvedTopics = await loadForumTopics(topics);
     // let resolvedReplies = await loadForumReplies(replies);
-    let resolvedOp = await polyfill_opContent(topics);
+    // let resolvedOp = await polyfill_opContent(topics);
     resolve({
       resolvedForums: false,
       resolvedTopics: false,
       resolvedReplies: false,
-      resolvedOp
+      resolvedOp: false,
     });
   });
 };
