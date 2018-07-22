@@ -1,0 +1,63 @@
+CREATE TABLE mtorg_db.rainlab_translate_messages
+(
+    id int(10) unsigned PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    code varchar(191),
+    message_data mediumtext
+);
+CREATE INDEX rainlab_translate_messages_code_index ON mtorg_db.rainlab_translate_messages (code);
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (1, 'how.can.we.help.you.today', '{"x":"How can we help you today?"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (2, 'find.answers', '{"x":"Find Answers"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (3, 'just.getting.started.or.stumble.across.a.problembrstart.here.in.your.search.for.a.solution', '{"x":"Just getting started or stumble across a problem?<br\\/>Start here in your search for a solution"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (4, 'product.updates', '{"x":"Product Updates"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (5, 'interested.in.what.has.been.released.latelybrreview.updates.to.mautic.here', '{"x":"Interested in what has been released lately?<br\\/>Review updates to Mautic here"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (6, 'whats.new', '{"x":"What''s New"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (7, 'community', '{"x":"Community"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (8, 'help.center', '{"x":"Help Center"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (9, 'marketplace', '{"x":"Marketplace"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (10, 'developers.api', '{"x":"Developers & API"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (11, 'download', '{"x":"Download"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (12, 'registered.today', '{"x":"registered today"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (13, 'fully.translated', '{"x":"fully translated"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (14, 'meeting.this.month', '{"x":"meeting this month"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (15, 'downloads.today', '{"x":"downloads today"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (16, 'view.all', '{"x":"View all"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (17, 'latest.discussions', '{"x":"Latest Discussions"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (18, 'replies', '{"x":"replies"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (19, 'popular.help.topics', '{"x":"Popular Help Topics"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (20, 'about.the.mautic.community', '{"x":"About the Mautic Community"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (21, 'organization', '{"x":"Organization"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (22, 'leadership', '{"x":"Leadership"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (23, 'who.does.what', '{"x":"Who does what"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (24, 'working.groups', '{"x":"Working Groups"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (25, 'volunteers', '{"x":"Volunteers"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (26, 'history', '{"x":"History"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (27, 'how.it.began', '{"x":"How it began"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (28, 'founder', '{"x":"Founder"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (29, 'getting.started', '{"x":"Getting Started"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (30, 'download.install', '{"x":"Download & Install"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (31, 'configuration', '{"x":"Configuration"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (32, 'importing.contacts', '{"x":"Importing Contacts"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (33, 'first.campaign', '{"x":"First Campaign"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (34, 'most.active.mauticians', '{"x":"Most Active Mauticians"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (35, 'legal', '{"x":"Legal"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (36, 'licensing', '{"x":"Licensing"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (37, 'brand.trademark', '{"x":"Brand & Trademark"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (38, 'gdpr', '{"x":"GDPR"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (39, 'mixin.source.code', '{"x":"Mixin Source Code"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (40, 'open.issues', '{"x":"open issues"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (41, 'conversations', '{"x":"conversations"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (42, 'posts', '{"x":"Posts"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (43, 'category', '{"x":"Category"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (44, 'views', '{"x":"Views"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (45, 'last.modified.by', '{"x":"Last modified by"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (46, 'categories', '{"x":"Categories"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (47, 'support', '{"x":"Support"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (48, '', '{"x":null}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (49, 'general.discussion', '{"x":"General Discussion"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (50, 'navigation', '{"x":"Navigation"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (51, 'mautician.profile', '{"x":"Mautician Profile"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (52, 'discussion.activity', '{"x":"Discussion Activity"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (53, 'marketplace.listings', '{"x":"Marketplace Listings"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (54, 'became.a.mautician', '{"x":"became a Mautician"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (55, 'blog', '{"x":"Blog"}');
+INSERT INTO mtorg_db.rainlab_translate_messages (id, code, message_data) VALUES (56, 'recently.active', '{"x":"recently active"}');
