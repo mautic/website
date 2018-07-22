@@ -55,52 +55,76 @@ const mutateContentPage = (page, format = 'md') => {
 };
 
 /**
- * Queries db for wp pages, hydrates results with normalized wpmeta key data.
- * @returns {Promise<any>}
+ * Inner fn for querying posts table for a given type and resolving its metadata.
+ * @param type
+ * @param sourceDbConn
+ * @returns {Promise<*>}
+ * @private
  */
-let fetchAndHydratePages = async (connection) => {
-  let fetchedPages = await fetches.queryConnection(
-      fetches.queries.getPublishedContentByType('page'),
-      connection
+const hydratePostType = async (type, sourceDbConn) => {
+  //-- improved in-memory resolver
+  let items = await fetches.queryConnection(
+      `SELECT * from mwp_posts where post_status = 'publish' and post_type = '${type}';`,
+      sourceDbConn
   );
-  let pageHydrationPromises = fetchedPages.map(async page => {
-    return new Promise(async hydrationResolve => {
-      let pagemeta = await fetches.queryConnection(
-          fetches.queries.getPostMetaRowsForId(page.ID),
-          connection
-      );
-      page.urlpath = '';
-      page.wpmeta = {};
-      pagemeta = pagemeta.filter((meta) => {
-        return meta.meta_key !== '_pgm_post_meta';
-      });
-      pagemeta.forEach((meta) => {
-        page.wpmeta[meta.meta_key] = meta.meta_value;
-      });
-      hydrationResolve(page);
-    })
+  let itemIds = items.map(i => {
+    return i.ID;
   })
-  return new Promise(resolve => {
-    Promise.all(pageHydrationPromises)
-        .then(results => {
-          resolve(results)
+      .join(',');
+  let itemmeta = await fetches.queryConnection(
+      `select * from mwp_postmeta where post_id in (${itemIds})`,
+      sourceDbConn
+  );
+
+  return items.map(i => {
+    let meta = itemmeta
+        .filter(m => {
+          return m.post_id === i.ID;
         })
-  });
+        .reduce((curr, acc) => {
+          curr[acc.meta_key] = acc.meta_value;
+          return curr;
+        }, {});
+
+    return {
+      [type]: i,
+      id: i.ID,
+      meta
+    };
+  })
+}
+
+/**
+ * Convenience wrapper for extracting type=page
+ * @param sourceDbConn
+ * @returns {Promise<*>}
+ */
+const extractPages = async (sourceDbConn) => {
+  return await hydratePostType('page', sourceDbConn);
+};
+
+/**
+ * Convenience wrapper for extracting type=post
+ * @param sourceDbConn
+ * @returns {Promise<*>}
+ */
+const extractPosts = async (sourceDbConn) => {
+  return await hydratePostType('post', sourceDbConn);
 };
 
 /**
  * Collect page/meta, format and write to fs for october
  */
 const handlePages = async (connection) => {
-  let fetchedPages = await fetchAndHydratePages(connection);
+  let fetchedPages = await extractPages(connection);
 
   // shortcode pages need to be fetched with front-end rendering (axios+cheerio or similar)
   let scRex = /\[\w.*\].*\[\/.*\]/gi;
   let shortcodePages = fetchedPages.filter(page => {
     return scRex.test(page.post_content);
   });
-  let specialPages = fetchedPages.filter(page=>{
-    if(page.post_title === "MautiCamps"){
+  let specialPages = fetchedPages.filter(page => {
+    if (page.post_title === "MautiCamps") {
       debugger;
     }
     return {};
@@ -173,5 +197,8 @@ const handlePosts = async (connection) => {
 module.exports = {
   mutateContentPage,
   handlePages,
-  handlePosts
+  handlePosts,
+  extractPages,
+  extractPosts,
+  hydratePostType
 }

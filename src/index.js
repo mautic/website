@@ -2,6 +2,7 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 //
 const config = require('./libs/config');
+const utils = require('./libs/utils');
 const fetches = require('./libs/fetch');
 const handlers = require('./libs/handlers');
 const pageposthandlers = require('./libs/PagePostHandlers');
@@ -54,12 +55,11 @@ const main = async () => {
     //-- register processors here with {process:false}. a gate calls done when all are flagged true
     // @todo: add a middleware-like mechanism for registering actions.
 
-    /*let post_types = await fetches.queryConnection(
+    let post_types = await fetches.queryConnection(
         fetches.queries.getPublishedTypesCount,
         sourceDataConnection
-    );*/
+    );
 
-    // let groupInserts = await grouphandlers.handleGroups(sourceDataConnection, targetDataConnection);
     // let pageInserts = await pageposthandlers.handlePages(sourceDataConnection);
     // let postInserts = await pageposthandlers.handlePosts(sourceDataConnection);
 
@@ -153,8 +153,62 @@ const processGroups = async () => {
   })
 }
 
+const tests = async () => {
+  await prepare();
+  return new Promise(async (resolve) => {
+
+    //-- blindly get all things. this can run very long on big datasets.
+    let fetchEverything = () => {
+      return new Promise(async resolve => {
+        let allTypes = await fetches.queryConnection(fetches.queries.getPublishedTypesCount, sourceDataConnection)
+        allTypes = allTypes
+            .map(t => {
+              return t.post_type;
+            });
+        let promises = allTypes.map(t => {
+          return new Promise(async resolve => {
+            console.log(`loading ${t}...`);
+            let r = await pageposthandlers.hydratePostType(t, sourceDataConnection);
+            console.log(`loaded ${t}. ${r.length} records`);
+            resolve(r);
+          })
+        });
+        let responses = await utils.collectAllPromises(promises);
+        resolve(responses);
+      })
+    }
+
+    //-- get specific types
+    let fetchSome = () => {
+      return new Promise(async resolve => {
+        let pages = await pageposthandlers.extractPages(sourceDataConnection);
+        let posts = await pageposthandlers.extractPosts(sourceDataConnection);
+        resolve({
+          pages, posts
+        })
+      })
+    };
+
+    //-- returns an array of all types. more useful: prints diagnostic info about items counts per type
+    let inspectTables = async () => {
+      let allTypes = await fetches.queryConnection(fetches.queries.getPublishedTypesCount, sourceDataConnection)
+      allTypes.map(t => {
+        console.log(`type: ${t.post_type} \r\n      ${t.cnt} items`);
+        return t.post_type;
+      })
+      return allTypes;
+    }
+
+    let types = await inspectTables();
+
+    let fetched = await fetchSome();
+
+    debugger;
+  })
+}
+
 console.time('complete');
-processGroups().then((res) => {
+tests().then((res) => {
   console.log(`done in...`);
   console.timeEnd('complete');
   process.exit();
