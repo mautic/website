@@ -1,11 +1,38 @@
 1.0.1:
     - 'Initialize plugin.'
 1.0.2:
-    - 'Created table trka_marketplace_download'
-    - builder_table_create_trka_marketplace_download.php
+    - 'Created base tables'
+    - create_trka_marketplace_download.php
+    - create_trka_marketplace_download_types.php
+    - create_trka_marketplace_tags.php
 1.0.3:
-    - 'Created table trka_marketplace_download_types'
-    - builder_table_create_trka_marketplace_download_types.php
+    - 'increment keys'
+    - builder_table_update_trka_marketplace_tags.php
+    - builder_table_update_trka_marketplace_download_types.php
 1.0.4:
+    - 'add download_tags join table'
+    - builder_table_create_trka_marketplace_download_tag.php
+1.0.5:
+    - 'add support for remote repository providers'
+    - builder_table_update_trka_marketplace_download_4.php
+1.0.6:
+    - 'add support for extension review status'
+    - builder_table_update_trka_marketplace_download_5.php
+1.0.7:
+    - 'add review status support'
+    - builder_table_update_trka_marketplace_download_6.php
+1.0.8:
     - 'Updated table trka_marketplace_download'
-    - builder_table_update_trka_marketplace_download.php
+    - builder_table_update_trka_marketplace_download_7.php
+1.0.9:
+    - 'Updated table trka_marketplace_download'
+    - builder_table_update_trka_marketplace_download_8.php
+1.0.10:
+    - 'add categories'
+    - builder_table_create_trka_marketplace_categories.php
+1.0.11:
+    - 'fix category id auto'
+    - builder_table_update_trka_marketplace_categories.php
+1.0.12:
+    - 'add relation to download'
+    - table_update_trka_marketplace_categories_1.php

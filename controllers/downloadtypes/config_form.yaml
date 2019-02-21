@@ -1,0 +1,10 @@
+name: DownloadTypes
+form: $/trka/marketplace/models/downloadtypes/fields.yaml
+modelClass: trka\Marketplace\Models\DownloadTypes
+defaultRedirect: trka/marketplace/downloadtypes
+create:
+    redirect: 'trka/marketplace/downloadtypes/update/:id'
+    redirectClose: trka/marketplace/downloadtypes
+update:
+    redirect: trka/marketplace/downloadtypes
+    redirectClose: trka/marketplace/downloadtypes

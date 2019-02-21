@@ -1,0 +1,4 @@
+title: DownloadTags
+modelClass: trka\Marketplace\Models\DownloadTags
+toolbar:
+    buttons: reorder_toolbar

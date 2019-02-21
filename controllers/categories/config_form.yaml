@@ -1,0 +1,10 @@
+name: Categories
+form: $/trka/marketplace/models/categrory/fields.yaml
+modelClass: trka\Marketplace\Models\Categrory
+defaultRedirect: trka/marketplace/categories
+create:
+    redirect: 'trka/marketplace/categories/update/:id'
+    redirectClose: trka/marketplace/categories
+update:
+    redirect: trka/marketplace/categories
+    redirectClose: trka/marketplace/categories

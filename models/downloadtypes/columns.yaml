@@ -1,0 +1,17 @@
+columns:
+    id:
+        label: id
+        type: number
+        invisible: true
+        sortable: false
+    label:
+        label: label
+        type: text
+        searchable: true
+        invisible: false
+        sortable: true
+    slug:
+        label: 'trka.marketplace::lang.downloadtype.slug'
+        type: text
+        searchable: true
+        sortable: true

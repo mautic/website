@@ -4,3 +4,25 @@ plugin:
     author: 'Kevin Ard'
     icon: oc-icon-download
     homepage: ''
+navigation:
+    main-menu-item:
+        label: 'trka.marketplace::lang.plugin.name'
+        url: trka/marketplace/downloads
+        icon: icon-download
+        sideMenu:
+            side-menu-item-downloads:
+                label: 'trka.marketplace::lang.menulabels.downloads'
+                url: trka/marketplace/downloads
+                icon: icon-download
+            side-menu-item-downloadtypes:
+                label: 'trka.marketplace::lang.menulabels.downloadtypes'
+                url: trka/marketplace/downloadtypes
+                icon: icon-tasks
+            side-menu-item-categories:
+                label: Categories
+                url: trka/marketplace/categories
+                icon: icon-sitemap
+            side-menu-item-tags:
+                label: 'trka.marketplace::lang.menulabels.downloadtags'
+                url: trka/marketplace/downloadtags
+                icon: icon-tags

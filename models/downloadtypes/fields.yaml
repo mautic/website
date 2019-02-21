@@ -1,0 +1,12 @@
+fields:
+    label:
+        label: 'trka.marketplace::lang.menulabels.downloadtypes'
+        span: auto
+        type: text
+    slug:
+        label: 'trka.marketplace::lang.downloadtype.slug'
+        span: auto
+        preset:
+            field: label
+            type: slug
+        type: text

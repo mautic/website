@@ -1,0 +1,26 @@
+columns:
+    id:
+        label: id
+        type: number
+        invisible: false
+        sortable: true
+    name:
+        label: name
+        type: text
+        searchable: true
+        sortable: true
+    description:
+        label: description
+        type: text
+        searchable: true
+        invisible: true
+        sortable: false
+    review_status:
+        label: 'Review Status'
+        type: partial
+        sortable: true
+        path: ~/plugins/trka/marketplace/models/downloads/_review_status_column.htm
+    created_at:
+        label: created_at
+        type: datetime
+        sortable: true

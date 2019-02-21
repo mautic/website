@@ -1,0 +1,10 @@
+columns:
+    label:
+        label: 'trka.marketplace::lang.downloadtype.label'
+        type: text
+        searchable: true
+        sortable: true
+    slug:
+        label: 'trka.marketplace::lang.downloadtype.slug'
+        type: text
+        sortable: true

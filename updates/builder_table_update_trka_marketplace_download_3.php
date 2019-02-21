@@ -3,7 +3,7 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateTrkaMarketplaceDownload extends Migration
+class BuilderTableUpdateTrkaMarketplaceDownload3 extends Migration
 {
     public function up()
     {

@@ -1,0 +1,12 @@
+fields:
+    label:
+        label: 'trka.marketplace::lang.downloadtags.label'
+        span: auto
+        type: text
+    slug:
+        label: 'trka.marketplace::lang.downloadtags.slug'
+        span: auto
+        preset:
+            field: label
+            type: slug
+        type: text

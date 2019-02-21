@@ -1,0 +1,84 @@
+fields:
+    name:
+        label: 'trka.marketplace::lang.download.name'
+        required: true
+        span: left
+        type: text
+    slug:
+        label: 'trka.marketplace::lang.download.slug'
+        span: right
+        required: true
+        preset:
+            field: name
+            type: slug
+        type: text
+    review_status:
+        label: 'Review Status'
+        required: true
+        options:
+            pending: 'Pending Approval'
+            under-review: 'Review In Progress'
+            approved: Approved
+            rejected: Rejected
+        span: full
+        cssClass: ''
+        type: radio
+    type:
+        label: 'Download Type'
+        type: relation
+        nameFrom: label
+        span: auto
+    category:
+        label: Category
+        type: relation
+        nameFrom: label
+        span: auto
+secondaryTabs:
+    fields:
+        user:
+            label: Owner
+            nameFrom: name
+            descriptionFrom: description
+            span: full
+            type: relation
+            tab: 'trka.marketplace::lang.download.tabs.file'
+        repository_provider:
+            label: 'Repository Provider'
+            options:
+                github.com: Github
+            emptyOption: None
+            span: auto
+            type: dropdown
+            tab: 'trka.marketplace::lang.download.tabs.file'
+        repository_url:
+            label: 'Repository URL'
+            span: auto
+            type: text
+            tab: 'trka.marketplace::lang.download.tabs.file'
+        tags:
+            label: Tags
+            tab: 'trka.marketplace::lang.download.tabs.details'
+            type: taglist
+            separator: space
+            mode: relation
+            nameFrom: label
+            span: auto
+        package_icon:
+            label: Icon
+            mode: image
+            imageWidth: '164'
+            imageHeight: '164'
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+            tab: 'trka.marketplace::lang.download.tabs.details'
+        description:
+            label: 'trka.marketplace::lang.download.description'
+            tab: 'trka.marketplace::lang.download.tabs.details'
+            span: full
+            stretch: true
+            size: ''
+            type: textarea

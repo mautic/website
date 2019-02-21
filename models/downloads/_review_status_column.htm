@@ -1,0 +1,31 @@
+<?php
+$iconClass = '';
+$iconText = $value;
+switch($value){
+    case 'pending':
+        $iconClass = 'icon-exclamation-triangle';
+        $iconText = 'Pending Review';
+        break;
+    case 'under-review':
+        $iconClass = 'icon-forward';
+        $iconText = 'Review In Progress';
+        break;
+    case 'rejected':
+        $iconClass = 'icon-times-circle';
+        $iconText = 'Rejected';
+        break;
+    case 'approved':
+        $iconClass='icon-check';
+        $iconText = 'Approved';
+        break;
+    default:
+        $iconText = $value;        
+}
+
+if($iconClass === ''){
+    echo $iconText;
+}
+else{
+    echo "<i class='$iconClass'>&nbsp;</i><span>$iconText</span>";
+}
+?>

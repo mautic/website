@@ -1,0 +1,10 @@
+name: DownloadTags
+form: $/trka/marketplace/models/downloadtags/fields.yaml
+modelClass: trka\Marketplace\Models\DownloadTags
+defaultRedirect: trka/marketplace/downloadtags
+create:
+    redirect: 'trka/marketplace/downloadtags/update/:id'
+    redirectClose: trka/marketplace/downloadtags
+update:
+    redirect: trka/marketplace/downloadtags
+    redirectClose: trka/marketplace/downloadtags

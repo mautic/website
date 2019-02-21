@@ -1,0 +1,4 @@
+title: DownloadTypes
+modelClass: trka\Marketplace\Models\DownloadTypes
+toolbar:
+    buttons: reorder_toolbar
