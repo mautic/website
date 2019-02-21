@@ -3,12 +3,12 @@
 use October\Rain\Database\Updates\Migration;
 use Schema;
 
-class add_point_field_to_users_table extends Migration
+class add_accepted_answer extends Migration
 {
     public function up()
     {
-        Schema::table('users', function ($table) {
-            $table->mediumInteger('mtcorg_points')
+        Schema::table('rainlab_forum_posts', function ($table) {
+            $table->boolean('mtcorg_acceptedanswer')
                 ->default(0)
                 ->nullable();
         });
@@ -16,11 +16,10 @@ class add_point_field_to_users_table extends Migration
 
     public function down()
     {
-        Schema::table('users', function ($table) {
+        Schema::table('rainlab_forum_posts', function ($table) {
             $table->dropColumn([
-                'mtcorg_points'
+                'mtcorg_acceptedanswer'
             ]);
         });
     }
 }
-

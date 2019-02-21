@@ -1,8 +1,27 @@
 1.0.1:
-    - Initialize plugin.
+- Initialize plugin.
 1.0.2:
-    - Add point profile field to users table.
-    - add_point_field_to_users_table.php
+- Add point profile field to users table.
+- add_point_field_to_users_table.php
 1.0.3:
-    - Add point field to forum posts table.
-    - add_point_field_to_forum_posts_table.php
+- Add point field to forum posts table.
+- add_point_field_to_forum_posts_table.php
+1.0.4:
+- Add User extra fields
+- add_user_extra_profile_fields.php
+1.0.5:
+- Add accepted answer flag to forum post
+- add_accepted_answer.php
+1.0.6:
+- Add pivot for downloads<->tags
+- create_pivot_download_tags.php
+1.0.7:
+- Repair column name typo
+- modify_pivot_downloads_tag_columnname.php
+1.0.8:
+- Add pivot for rainlab.blog.post<->tags
+- create_pivot_post_tag.php
+1.0.9:
+- Add support for user-contributed blog posts
+- Add support for posts' suggested edits
+- add_content_contributor_edit.php

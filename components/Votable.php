@@ -2,6 +2,7 @@
 
 use Auth;
 use \Rainlab\Forum\Models\Post as ForumPost;
+use RainLab\Forum\Models\Post;
 
 class Votable extends \Cms\Classes\ComponentBase
 {
@@ -36,13 +37,32 @@ class Votable extends \Cms\Classes\ComponentBase
                 $post = ForumPost::where('id', $item)
                     ->first();
                 $post->modVotes($mutate);
-                return [
-                    '#votesCnt' => $post->mtcorg_points
-                ];
-                break;
 
+                return \Redirect::refresh();
+                break;
         }
     }
 
+    /**
+     * Ajax handler to flag provided post as accepted answer in a topic.
+     * @return array|bool
+     * @todo: this handler is misplaced in Votable. Find a better home for it.
+     */
+    public function onToggleAccept()
+    {
+        $item = post('item');
+        $post = Post::where('id', $item)->first();
+        if (!$post) {
+            return false;
+        }
 
+        $post->setAccepted(!$post->mtcorg_acceptedanswer);
+
+        //-- stability/less optimistic: rather than assume $post, return a fresh topic->acceptedAnswer
+        $accepted = $post->topic->acceptedAnswer();
+        if(null === $accepted){
+            return $this->page['accepted_answer_id'] = null;
+        }
+        $this->page['accepted_answer_id'] = $post->topic->acceptedAnswer()->id;
+    }
 }

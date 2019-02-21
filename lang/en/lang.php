@@ -10,5 +10,11 @@
     'votable' => [
         'votable' => 'Votable',
         'votable_description' => 'Allows handlers for arbitrarily up/downvoting items'
+    ],
+    'editableBlogPost' => [
+        'component' => [
+            'name' => 'Editable Blog Post',
+            'description' => 'Provides handler for frontend users to save contributed blog posts'
+        ]
     ]
 ];
