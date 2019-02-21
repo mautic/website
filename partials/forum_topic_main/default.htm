@@ -1,0 +1,50 @@
+[viewBag]
+==
+<div class="rainlab-forum">
+	{% flash %}
+		<div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		</div>
+	{% endflash %}
+
+	{% if topic %}
+		<div class="row">
+			{% put sidebarTop %}
+				<div id="topicControlPanel">
+					{% partial "@controlpanel" %}
+				</div>
+			{% endput %}
+
+			{% put sidebar %}
+			{% partial 'forum_discussion_latest/list_partial' %}
+			{% endput %}
+
+			<div class="col-12">
+				<span id="post-accepted-style" style="display: none;">{% partial '@_post-accepted-style' accepted_answer_id=accepted_answer_id %}
+				</span>
+				{% partial "@posts" %}
+				{% partial "@pagination" %}
+
+				<h4>Reply to this discussion</h4>
+				{% if not topic.canPost %}
+					<p>
+						You cannot edit posts or make replies:
+						{% if not member %}You should be logged in before you can post.{% endif %}
+						{% if member.is_banned %}Your account is banned.{% endif %}
+						{% if topic.is_locked %}This topic is locked.{% endif %}
+					</p>
+				{% else %}
+					{% partial "@postform" %}
+				{% endif %}
+			</div>
+		</div>
+
+	{% elseif channel %}
+		<h4>Create a new discussion topic</h4>
+		{% partial "@createform" %}
+
+	{% else %}
+		<p>Topic not found</p>
+	{% endif %}
+</div>

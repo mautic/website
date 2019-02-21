@@ -1,0 +1,17 @@
+<style>
+	.post-accepted .icon-row .accept {
+		display: none;
+	}
+</style>
+{% if accepted_answer_id %}
+	<style>
+		#post-{{ accepted_answer_id }} .icon-row .not-accept {
+			display: none;
+		}
+
+		#post-{{ accepted_answer_id }} .icon-row .accept {
+			display: inherit;
+		}
+	</style>
+{% endif %}
+

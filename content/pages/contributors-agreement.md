@@ -1,3 +1,5 @@
+#Contributor's Agreement
+
 Thank you for your interest in the Mautic Association (the "Association"). In order to clarify the intellectual property license granted with Contributions from any person or entity, the Association must have a Contributor License Agreement ("CLA") indicating agreement to the license terms below. This license is for your protection as a Contributor as well as the protection of the Association and its users. Please read this document carefully and keep a copy for your records. Successful acceptance of a code submission or merged "pull request" to the Association's online repository indicates acceptance of the CLA.
 
 You accept and agree to the following terms and conditions for Your present and future Contributions submitted to the Association. In return, the Association shall not use Your Contributions in a way that is contrary to the public benefit or inconsistent with its nonprofit status and bylaws in effect at the time of the Contribution.

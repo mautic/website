@@ -1,0 +1,33 @@
+[blogPosts recent_blog_posts]
+pageNumber = "{{ :page }}"
+categoryFilter = "marketer-blog"
+postsPerPage = 5
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/blog-component-category"
+postPage = "blog/blog-component-single"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 1
+categoryPage = "blog/blog-component-category"
+==
+{%set categories = blogCategories.category %}
+
+<h4 class="pt-6 mt-6">Blog Categories</h4>
+<hr class="my-1" />
+<div class="list-group list-group-transparent mb-0">
+ {% component 'blogCategories' %}
+</div>
+
+{% set posts =  recent_blog_posts.posts %}
+<h4 class="pt-6 mt-6">Latest Articles</h4>
+<hr class="my-1" />
+<div class="list-group list-group-transparent mb-0">
+	{% for post in posts %}
+    	<a href="{{ post.url }}" class="list-group-item list-group-item-action pl-0">
+    		<span class="icon mr-3"><i class="fe fe-file"></i></span>
+    			{{ post.title}}
+    	</a>
+	{% endfor %}
+</div>

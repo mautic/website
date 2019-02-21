@@ -1,0 +1,150 @@
+description = "Frontend form for user-contributed content (blogs, etc)"
+
+[globalTagsList]
+
+==
+<?php
+function onStart(){
+}
+?>
+==
+
+<form class="blog--form_new-user-content" id="blog--form_new-user-content">
+	<div class="form-group">
+		<label class="form-label">Title</label>
+		<input type="text" class="form-control" name="title" placeholder="Title" value="{{ post ? post.title : '' }}">
+	</div>
+
+	<div class="form-group">
+		<label class="form-label">Tags</label>
+		<div class="selectize-control form-control multi" id="user-contribute-content--post-tags">
+			<div class="selectize-input items not-full has-options has-items">
+				<input name="global_tags" type="text" autocomplete="off" tabindex="" style="width: 4px;">
+			</div>
+			<div class="selectize-dropdown multi form-control" style="display: none;">
+				<div class="selectize-dropdown-content"></div>
+			</div>
+		</div>
+		<small class="form-text text-muted">
+			Only existing tags can be chosen. Tags may be created or modified by the reviewers.
+		</small>
+	</div>
+
+	<div class="form-group">
+		<label for="" class="form-label sr-only">Post Content</label>
+		<div id="user-contribute-content--post-content" style="height: 75vh;">
+			{{ post ? post.content_html|raw : '' }}
+		</div>
+	</div>
+
+	<div class="control-bar pull-right">
+		<input type="hidden" name="postid" value="{{ post ? post.id : 0 }}">
+		<div class="selectgroup">
+			<label class="selectgroup-item">
+				<input type="radio" name="status" value="draft" class="selectgroup-input" checked="">
+				<span class="selectgroup-button">Save as Draft</span>
+			</label>
+			<label class="selectgroup-item">
+				<input type="radio" name="status" value="submitted" class="selectgroup-input">
+				<span class="selectgroup-button">Submit for Approval</span>
+			</label>
+		</div>
+		<button type="submit" class="btn btn-brand-purple">Submit</button>
+	</div>
+</form>
+
+{% put scripts %}
+	<script src="{{ 'dist/assets/js/vendors/selectize.min.js'|theme }}"></script>
+	{# --prepare editors-- #}
+	<script>
+		var quill_options = {
+			theme: 'snow'
+		};
+		var editors = {
+			content: new Quill('#user-contribute-content--post-content', quill_options),
+		};
+
+		var getRealHTML = function (editor) {
+			return editor.container.querySelector('.ql-editor').innerHTML;
+		}
+
+		var onChangeHandler = function (evt, ...args) {
+			var contentlength = this.getLength();
+		};
+
+		var editorsMap = Object.keys(editors);
+		editorsMap.forEach(function (k) {
+			editors[k].on('editor-change', function (evt, ...args) {
+				onChangeHandler.call(editors[k], [evt, args]);
+			})
+		});
+
+		$(document).ready(function () {
+			//-- prepare selectize input
+			var tagsInput = $('#user-contribute-content--post-tags');
+			tagsInput.selectize({
+				delimiter: ',',
+				persist: false,
+				valueField: 'id',
+				labelField: 'label',
+				searchField: 'label',
+				options: [
+					{# @todo: I *hate* the php-in-js thing. make a better way. #}
+					{% for t in globalTagsList.tags %}
+					{id:{{ t.id }}, label: "{{ t.label }}"},
+					{% endfor %}
+				],
+				{% if post %}
+				items: [
+					{% for t in post.globalTags %}
+					{id: {{ t.id }}, label: "{{ t.label }}"},
+					{% endfor %}
+				],
+				{% endif %}
+			});
+		})
+	</script>
+
+	{# --save action-- #}
+	<script>
+		var commitChanges = function (form) {
+			var fieldsOb = {};
+			var fields = $(form).serializeArray();
+			editorsMap.forEach(function (k) {
+				fields.push({name: k, value: getRealHTML(editors[k])})
+			});
+
+			fields.forEach(function (f) {
+				fieldsOb[f.name] = f.value
+			});
+
+			document.querySelectorAll('.is-invalid').forEach(function (elem) {
+				elem.classList.remove('is-invalid');
+			});
+
+			$.request('onSaveEditablePost', {
+				data: fieldsOb,
+				loading: $.oc.stripeLoadIndicator,
+				success: function (data, status, request) {
+					console.log(...arguments)
+				},
+				error: function (request, status, error) {
+					var errMessages = request.responseJSON.messages;
+					var errFields = request.responseJSON.fields;
+					for (let k in errFields) {
+						document.querySelector('#user-edit-field-' + k).classList.add('is-invalid');
+					}
+					$.oc.flashMsg({
+						'text': errMessages.join('<br>'),
+						'class': 'error',
+						'interval': 3
+					});
+				}
+			});
+		};
+
+		$('#blog--form_new-user-content').on('submit', function () {
+			commitChanges(this);
+		});
+	</script>
+{% endput %}

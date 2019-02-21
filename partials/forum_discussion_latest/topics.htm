@@ -1,0 +1,51 @@
+==
+<div class="row">
+	<div class="col-12">
+	    {% partial "forum_channel_main/title" %}
+		<div class="card">
+			<div class="table-responsive">
+				<table class="table card-table table-vcenter">
+					<thead>
+					<tr>
+						<th>{{'Posts'|_}}</th>
+						<th class="text-left">{{'Category'|_}}</th>
+						<th class="text-center">{{'Replies'|_}}</th>
+						<th class="text-center">{{'Views'|_}}</th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for topic in topics %}
+						<tr class="forum-topic">
+							<td>
+							    <div class="topic-indicator {{ topic.hasNew ? 'has-new' }}"></div>
+								<h5>
+									{% if topic.is_sticky %}<strong>Sticky:</strong>{% endif %}
+									{% if topic.is_locked %}<i class="icon icon-lock"></i> <strong>Locked:</strong>{% endif %}
+									<a class="card-link" href="{{ topic.url }}">{{ topic.subject }}</a>
+									<div class="pt-2 text-muted">
+									    <small>{{'Last modified by'|_}} <a href="{{ topic.last_post_member.url }}" class="card-link text-brand-purple">{{ topic.last_post_member.username }}</a> <span class="font-weight-bold px-1">&middot;</span> {% partial "forum_channel_usergroup/timestamp" date=topic.last_post_at %}</small>
+								    </div>
+								</h5>
+							</td>
+							<td class="counter-column text-left">
+							    <p>{{ (topic.channel.title) }}</p>
+							</td>
+							<td class="counter-column text-center">
+								<p>{{ (topic.count_posts-1) }}</p>
+							</td>
+							<td class="counter-column text-center">
+								<p>{{ topic.count_views }}</p>
+							</td>
+						</tr>
+					{% endfor %}
+					{% if not topics|length %}
+						<tr>
+							<td colspan="100">{{'There are no questions in this channel'|_}}.</td>
+						</tr>
+					{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,23 @@
+[viewBag]
+==
+{{ form_open({ request: 'onPost' }) }}
+<div class="row" id="postForm">
+	<input type="hidden" name="topic" value="{{ topic.id }}"/>	
+	<div class="col-md-12">
+		<div class="form-group mb-0">
+				<textarea
+					id="topicContent"
+					name="content"
+					rows="6"
+					class="form-control">{{ form_value('content') }}</textarea>
+		</div>
+	</div>
+	<div class="col-12">
+    	<small class="help-block pull-right text-muted">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</small>
+    	<div class="post-buttons mt-2">
+    		<button type="submit" class="btn btn-brand-purple">Post a Reply</button>
+    	</div>
+    	
+    </div>
+</div>
+{{ form_close() }}

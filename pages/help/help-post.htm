@@ -1,0 +1,50 @@
+title = "Help Post"
+url = "/help/:slug"
+layout = "help"
+is_hidden = 0
+child_of = "help/help-featured"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "page-title"
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/help-post"
+localeUrl[fr] = "/help-post"
+localeUrl[pgl] = "/help-post"
+
+[blogPost helpPost]
+slug = "{{ :slug }}"
+categoryPage = "help/help-featured"
+==
+{% put sidebar %}
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function (){
+        function createAnchor(id, name) {
+            var anchor = document.createElement('a');
+            anchor.innerHTML = '<span class="icon mr-3"><i class="fe fe-chevron-right"></i></span>' + name;
+            anchor.setAttribute("class", "list-group-item list-group-item-action pl-0");
+            anchor.setAttribute("href", "{{post.url}}#" + id);
+            return anchor;
+        }
+     
+     $("h2").each(function(){
+          if(this.id) {
+              $("#toc").append(createAnchor(this.id, $(this).text()));
+          }
+    });
+});
+</script>
+
+<h4 class="pt-6 mt-6">Sections</h4>
+<hr class="my-1" />
+<div class="list-group list-group-transparent mb-0" id="toc">
+</div>
+{% endput %}
+
+{% if post %}
+	{% component 'helpPost' %}
+{% else %}
+	<p>Couldn't find that post.</p>
+{% endif %}

@@ -1,0 +1,15 @@
+<div class="row">
+	<div class="col col-login mx-auto">
+		<div class="text-center mb-6">
+		</div>
+
+		<div id="partialUserResetForm">
+			{% if __SELF__.code == null %}
+				{% partial __SELF__ ~ '::restore' %}
+			{% else %}
+				{% partial __SELF__ ~ '::reset' %}
+			{% endif %}
+		</div>
+	</div>
+</div>
+

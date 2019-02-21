@@ -1,7 +1,11 @@
-title = "Documentation"
+title = "Mautic User Documentation"
 url = "/support/docs"
-layout = "default"
+layout = "documentation"
 is_hidden = 0
-==
 
-<pre>this is docs index</pre>
+[viewBag]
+localeUrl[de] = "/mautic-user-documentation"
+localeUrl[fr] = "/mautic-user-documentation"
+localeUrl[pgl] = "/mautic-user-documentation"
+==
+{% content 'docs/getting-started.md' %}

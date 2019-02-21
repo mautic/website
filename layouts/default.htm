@@ -1,45 +1,56 @@
-description = "Default layout"
+description = "Default layout. 12/3/9 header/sidebar/content"
 
 [session]
 security = "all"
 
 [votable]
 
-[staticPage]
-useContent = 1
-default = 0
+[breadcrumbs component_breadcrumbs]
+main-ol-class = "breadcrumb bg-transparent pl-0"
+main-li-class = "breadcrumb-item"
+active-class = "active"
+disabled-class = "disabled"
+
+[localePicker]
+forceUrl = 0
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-    {% component 'session' %}
-    {% partial 'site/assets-common' %}
-    {% partial 'site/site-meta-common' %}
+	{% component 'session' %}
+	{% partial 'site/assets-common' %}
+	{% partial 'site/site-meta-common' %}
 </head>
 <body class="">
 <div class="page">
-    <div class="page-main">
-        {% partial 'site/header' %}
-        <div class="my-3 my-md-5">
-            <div class="container">
-                <div class="row page-header text-center">
-                    <h1 class="col-12">{{ this.page.title }}</h1>
-                </div>
-                <div class="row">
-                    <div class="col-12">{% page %}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% partial 'site/footer' %}
+	<div class="page-main">
+		{% partial 'site/header' %}
+		<div class="my-3 my-md-5">
+			<div class="container">
+				<div class="small">
+			        {% component 'component_breadcrumbs' %}
+			    </div>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="card">
+							<div class="card-body">
+								<div class="text-wrap p-lg-6">
+									{% page %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 mb-4">
+						{% placeholder sidebarTop %}
+						{% placeholder sidebar %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% partial 'site/footer' %}
 </div>
 
-<!-- scripts -->
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-{% framework extras %}
-{% scripts %}
+{% partial 'site/assets-common-bottom' %}
 </body>
 </html>

@@ -1,0 +1,9 @@
+[viewBag]
+==
+<ul class="list-group list-group-flush card">
+	{% for post in posts %}
+		<li class="list-group-item p-5" data-post-id="{{ post.id }}" id="post-{{ post.id }}">
+			{% partial "@post" post=post %}
+		</li>
+	{% endfor %}
+</ul>

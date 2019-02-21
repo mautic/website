@@ -1,8 +1,8 @@
 name: MauticDotOrg
-description: 'Mautic.org site theme. Based on Tabler [https://github.com/tabler/tabler]'
+description: 'Mautic.org site theme.'
 author: 'Kevin Ard'
-homepage: 'http://mautic.org'
+homepage: 'https://www.mautic.org'
 code: ''
 site:
- name: "Mautic.org"
- tagline: "Supporting the World's Largest Open-Source Marketing Automation Project"
+    name: Mautic.org
+    tagline: 'Supporting the World''s Largest Open-Source Marketing Automation Project'

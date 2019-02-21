@@ -1,0 +1,23 @@
+{# usage:
+	getDisplayAvatar(userInstance, "avatar-md mr-3", 64)`
+#}
+{% macro getDisplayAvatar(user, containerClasses, thumbSize, avatarStatus) %}
+	{% if user.avatar %}
+		<div class="avatar {{ containerClasses }}" style="background-image: url({{ user.avatarThumb(thumbSize) }})">{{ avatarStatus|raw }}</div>
+	{% else %}
+		<div class="avatar {{ containerClasses }}">{{ user.name|split(' ')[0]|first|upper }}{{ user.name|split(' ')[1]|first|upper }} {{ avatarStatus|raw }}</div>
+	{% endif %}
+{% endmacro %}
+
+{# usage:
+	<small class="d-block text-muted">{{ usermacros.getUserSubline(user, " | ") }}</small>
+#}
+{% macro getUserSubline(user, separator) %}
+	{# @todo @note I did this first using a custom twig filter. That sacrifices native translations and a bit of other flexibility. turns out, this is better.  #}
+	{% set subline = [] %}
+	{% if user.mtcorg_location %} {% set subline = subline|merge([user.mtcorg_location]) %} {% endif %}
+	{% set points = user.points %}
+	{% if points %} {% set subline = subline|merge([points ~ " points"]) %} {% endif %}
+
+	{{ subline|join(separator) }}
+{% endmacro %}

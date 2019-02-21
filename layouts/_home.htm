@@ -1,0 +1,31 @@
+description = "Home. full-width content, no page header"
+
+[session]
+security = "all"
+
+[votable]
+==
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+	{% component 'session' %}
+	{% partial 'site/assets-common' %}
+	{% partial 'site/site-meta-common' %}
+</head>
+<body class="">
+<div class="page">
+	<div class="page-main">
+		{% partial 'site/header' %}
+		<div class="my-3 my-md-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">{% page %}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% partial 'site/footer' %}
+</div>
+{% partial 'site/assets-common-bottom' %}
+</body>
+</html>

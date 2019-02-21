@@ -1,0 +1,48 @@
+{% import 'macros/user' as usermacros %}
+<div class="card" data-test="user-card">
+	<div class="card-body p-3">
+		<div class="d-flex align-items-center">
+			{{ usermacros.getDisplayAvatar(download.user, "avatar-md mr-3", 64) }}
+			<div>
+				<div><a href="{{ 'mauticians/profile-single'|page({user:download.user.username}) }}">{{ download.user.name }} {{ download.user.surname }}</a></div>
+				<small class="d-block text-muted">{{ usermacros.getUserSubline(download.user, " | ") }}</small>
+			</div>
+		</div>
+	</div>
+	<div class="card-footer p-2 d-flex">
+		<div class="tags">
+			<div class="tag tag-brand-secondary text-muted">
+				{{ download.user.activated_at|date('Y') }}
+			</div>
+			{% if download.user.usergroups|length %}
+				{% for group in download.user.usergroups|slice(0,1) %}
+					{% if group.group_type == "mauticamp" %}
+						<div class="tag tag-brand-purple">
+							<span class="tag-prepend"><i class="fe mtc-mautic"></i></span>
+							<a href="{{ 'mauticamps/mauticamp-single'|page({groupslug:group.slug}) }}" class="tag-addon tag-gray">
+								{{ group.name }}
+							</a>
+						</div>
+					{% else %}
+						<a href="#" class="btn btn-{{ group.group_color }} btn-xs">
+							<i class="fe {{ group.group_icon }}" data-toggle="tooltip" title="" data-original-title="{{ group.name }}"></i>
+						</a>
+					{% endif %}
+				{% endfor %}
+				{% if download.user.usergroups|length > 1 %}
+					<div class="tag tag-gray">
+						{#<a href="{{ 'mauticamps/mauticamp-single'|page({groupslug:group.slug}) }}" class="tag-gray">#}
+						+{{ download.user.usergroups|length - 1 }} More
+						{#</a>#}
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
+		{% if download.user.marketplace|length %}
+			<a href="#" class="btn btn-cyan btn-xs">
+				<i class="fe fe-shopping-bag" data-toggle="tooltip" title="" data-original-title="Marketplace Listings"></i>
+			</a>
+		{% endif %}
+		<span class="flex-grow-1"></span>
+	</div>
+</div>

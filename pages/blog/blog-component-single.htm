@@ -1,0 +1,46 @@
+title = "Blog Post"
+url = "/blog/post/:slug/:mode?"
+layout = "sidebar-right"
+is_hidden = 0
+child_of = "blog/blog-component-recent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "page-title"
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/recent-posts"
+localeUrl[fr] = "/recent-posts"
+localeUrl[pgl] = "/recent-posts"
+
+[blogPost blog_posts_single]
+slug = "{{ :slug }}"
+categoryPage = "blog/blog-component-category"
+
+[editableBlogPost]
+[suggestable]
+[userProfile user]
+[globalRelationships relations]
+==
+<?php
+function onEnd()
+{
+    if ($this->post)
+{
+$this->page->title = $this->post->title;
+$this['editable'] = $this->post->userCanEdit();
+$this['editing'] = $this->param('mode')==='edit' && $this['editable']===true;
+// @todo: return a redirect to view if mode===edit && editable ===false
+}
+}
+?>
+==
+{% if post %}
+	{% put sidebarBottom %}
+	{% partial 'sidebars/global_relations_lists' relationships=relations.parse(post) %}
+	{% endput %}
+
+	{% component 'blog_posts_single' %}
+{% else %}
+	<p>Couldn't find that post :'(</p>
+{% endif %}

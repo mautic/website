@@ -1,0 +1,70 @@
+title = "User - Marketplace"
+url = "/mauticians/:user/contributions/:mode?/:slug?/"
+layout = "sidebar-left"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/user-marketplace"
+localeUrl[fr] = "/user-marketplace"
+localeUrl[pgl] = "/user-marketplace"
+
+[userProfile]
+username = "{{ :user }}"
+
+[editableBlogPost]
+==
+{% if profile %}
+	{% put sidebar %}
+	{% partial 'component_userProfile/user-sidebar' user=profile %}
+	{% endput %}
+
+	{# --header-- #}
+	<div class="row">
+		<div class="col-12 page-header d-flex">
+			<h1 class="page-title-icon mb-1">User Contributed Content</h1>
+		</div>
+	</div>
+
+	{# --blog cards-- #}
+	{% if profile.contributed_posts|length %}
+		<div class="row row-deck">
+			{% for post in profile.contributed_posts %}
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-header p-2">
+							<h3 class="card-title"><a href="{{ 'blog/blog-component-single'|page({slug:post.slug}) }}" target="_blank">{{ post.title }}</a></h3>
+						</div>
+						<div class="card-body p-2">
+							{{ html_limit(post.content_html, 100, '...') }}
+						</div>
+						<div class="card-footer p-2">
+							<div class="control-bar pull-right">
+								{% if isOwnProfile %}<a href="{{ 'blog/blog-component-single'|page({slug:post.slug, mode:'edit'}) }}" class="btn"><span class="btn-icon fe fe-edit p-1"></span> Edit</a>{% endif %}
+								<a href="{{ 'blog/blog-component-single'|page({slug:post.slug, mode: ''}) }}" class="btn"><span class="btn-icon fe fe-book p-1"></span> Read More</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if isOwnProfile %}
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Add new Content</h3>
+					</div>
+					<div class="card-body">
+						{% partial 'component_blog/form_add_edit' %}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endif %}

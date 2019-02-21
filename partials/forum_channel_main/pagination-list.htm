@@ -1,0 +1,79 @@
+==
+{% set paginationEnabled =
+    records.currentPage > 1 or
+    records.lastPage > 1 or
+    records.lastPage > records.currentPage
+%}
+
+{% if paginationEnabled %}
+    {# How many pages to display around the current page #}
+    {% set n = 2 %}
+
+    {% set currentPageZeroBased = records.currentPage-1 %}
+
+    {% set pageLinks = [] %}
+    {% set pageSet = [] %}
+
+    {% set startOffset = max(currentPageZeroBased - n, 0) %}
+    {% if (startOffset + 2*n+1) > (records.lastPage-1) %}
+        {% set startOffset = max(records.lastPage - 2*n - 1, 0) %}
+    {% endif %}
+
+    {% for page in 1..records.lastPage %}
+        {% set pageLinks = pageLinks|merge([page]) %}
+    {% endfor %}
+
+    {% set activeBlock = pageLinks|slice(startOffset, 2*n + 1) %}
+
+    {% if startOffset > 0 %}
+        {% set pageSet = pageSet|merge([1]) %}
+
+        {% if startOffset > 1 %}
+            {% set pageSet = pageSet|merge(['...']) %}
+        {% endif %}
+    {% endif %}
+
+    {% set pageSet = pageSet|merge(activeBlock) %}
+
+    {% set diffToEnd = (records.lastPage-1) - (startOffset + 2*n+1) + 1 %}
+
+    {% if diffToEnd > 0 %}
+        {% if diffToEnd > 1 %}
+            {% set pageSet = pageSet|merge(['...']) %}
+        {% endif %}
+
+        {% set pageSet = pageSet|merge([records.lastPage]) %}
+    {% endif %}
+
+    <div class="pagination btn-group">
+        {% if records.currentPage > 1 %}
+                <a class="btn btn-sm btn-secondary" href="{{ paginationUrl ~ (records.currentPage - 1) }}">
+                    &larr; Previous
+                </a>
+        {% else %}
+                <span class="btn btn-sm btn-secondary">
+                    &larr; Previous
+                </span>
+        {% endif %}
+
+        {% for page in pageSet %}
+            {% if page == '...' %}
+                <span class="interval btn btn-sm btn-secondary">
+                    {{ page }}
+                </span>
+            {% else %}
+                    <a class="btn btn-sm {{ page == records.currentPage ? 'btn-brand-purple' : 'btn-secondary' }}" href="{{ paginationUrl ~ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if records.lastPage > records.currentPage %}
+                <a href="{{ paginationUrl ~ (records.currentPage + 1) }}"  class="btn btn-sm btn-secondary">
+                    Next &rarr;
+                </a>
+        {% else %}
+                <span class="btn btn-sm btn-secondary">
+                    Next &rarr;
+                </span>
+        {% endif %}
+    </div>
+{% endif %}

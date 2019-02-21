@@ -1,0 +1,20 @@
+title = "About Mautic Marketing Automation"
+url = "/about"
+layout = "default"
+meta_title = "About"
+meta_description = "Mautic was created for a specific purpose and with a specific vision. Learn why we do what we do and why open source marketing automation exists."
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/about-mautic-marketing-automation"
+localeUrl[fr] = "/about-mautic-marketing-automation"
+localeUrl[pgl] = "/about-mautic-marketing-automation"
+==
+{% put sidebar %}
+{% partial 'sidebars/about' %}
+{% endput %}
+{% content 'pages/about.md' %}

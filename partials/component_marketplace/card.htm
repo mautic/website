@@ -1,0 +1,59 @@
+==
+{% import 'macros/user' as usermacros %}
+<div class="col-lg-3">
+	<div class="card">
+		{% set status_message = '' %}
+		{% set status_class = '' %}
+
+		{% if download.review_status == 'pending' %}
+			{% set status_message = 'Pending Review' %}
+			{% set status_class = 'bg-red' %}
+		{% elseif download.review_status == 'under-review' %}
+			{% set status_message = 'Under Review' %}
+			{% set status_class = 'bg-orange' %}
+		{% elseif download.review_status == 'approved' %}
+			{% set status_message = 'Approved' %}
+			{% set status_class = 'bg-green' %}
+		{% endif %}
+
+		<div class="card-status {{ status_class }}"></div>
+
+		<a href="{{ 'marketplace/single'|page({slug:download.slug}) }}">
+			<img class="card-img-top" src="{{ download.package_icon.getPath }}">
+		</a>
+		<div class="card-body d-flex flex-column">
+			<h4>
+				<a class="card-link" href="{{ 'marketplace/single'|page({slug:download.slug}) }}">
+					{% if download.review_status != 'approved' %}
+						<small>[{{ status_message }}] {{ download.name }}</small>
+					{% else %}
+						{{ download.name }}
+					{% endif %}
+				</a>
+			</h4>
+			<div class="text-muted">{{ download.description|raw }}</div>
+			<div class="tags">
+				{% if(download.tags|length) %}
+					{% for tag in download.tags %}
+						<span class="tag tag-rounded">{{ tag.label }} <span class="small">[{{ tag.slug }}]</span></span>
+					{% endfor %}
+				{% else %}
+					No Tags
+				{% endif %}
+			</div>
+			<div class="d-flex align-items-center pt-5 mt-auto">
+				{{ usermacros.getDisplayAvatar(download.user, "avatar-md mr-2", 64) }}
+				<div>
+					<a href="{{ 'mauticians/profile-single'|page({user:download.user.username}) }}"
+					   class="text-default">{{ download.user.name ~ ' ' ~ download.user.surname }}</a>
+					<small class="d-block text-muted"><i class="small fe fe-clock mr-1"></i>{{ download.updated_at.diffForHumans }}</small>
+				</div>
+				<div class="ml-auto text-muted">
+					<a href="#" class="icon d-none d-md-inline-block ml-3">
+						<i class="fe fe-heart mr-1"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+title = "Content Router"
+url = "/content/:contentslug"
+layout = "sidebar-right"
+meta_title = ""
+meta_description = ""
+==
+
+{% put sidebar %}
+{% partial 'sidebars/about' user=profile %}
+{% endput %}
+
+{% set slug = this.param['contentslug'] %}
+
+content router page: {{ slug }}

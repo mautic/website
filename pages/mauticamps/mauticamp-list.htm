@@ -1,0 +1,111 @@
+title = "Mauticamps"
+url = "/mauticamps"
+layout = "blank"
+meta_title = "Mauticamps"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[usergroups]
+group_type = "mauticamp"
+==
+<?php
+function onEnd(){
+}
+?>
+==
+{% import 'macros/user' as usermacros %}
+
+{% put scripts %}
+	<script type="text/javascript">
+		function submitSearch() {
+			var txt = $('#interest-search').val();
+			$('.card-body').each(function () {
+				if ($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1) {
+					$(this).parent().parent().fadeIn();
+				} else {
+					$(this).parent().parent().fadeOut();
+				}
+			});
+		}
+		$(document).ready(function () {
+//    $('.card-body').parent().parent().show();
+			$('#search').click(submitSearch());
+
+			$('#interest-search').keypress(function (e) {
+				if (!e) {
+					var e = window.event;
+				}
+				if (e.keyCode == 13 || $(this).val().length > 0) {
+					submitSearch();
+				}
+			});
+
+		});
+	</script>
+{% endput %}
+
+{% put before %}
+	<div class="page-header d-block text-center">
+		<h1 class="p-5">Find your camp.</h1>
+	</div>
+	<div class="row col-6 mx-auto mb-6 pb-6">
+		<div class="input-group input-group-lg">
+			<input type="text" id="interest-search" class="form-control" placeholder="Where are you?">
+			<span class="input-group-append">
+          <button id="search" class="btn btn-brand-purple" type="button">Go!</button>
+        </span>
+		</div>
+	</div>
+{% endput %}
+
+<div class="row row-deck">
+	{% for group in groups %}
+		<div class="col-lg-4">
+			<div class="card">
+				<div class="card-status bg-brand-purple"></div>
+				<div class="card-header">
+					<span class="fe fe-triangle mr-2"></span>
+					<h4 class="card-title">
+						<a href="{{ 'mauticamps/mauticamp-single'|page({groupslug:group.slug}) }}">{{ group.name }}</a>
+					</h4>
+				</div>
+				{% if group.notices|length %}
+					{% for notice in group.notices %}
+						<div class="card-alert alert mb-0 small alert-{{ notice.color_class|default('success') }}">
+							<a href="{{ notice.link_target|default('javascript:void(0)') }}"
+							   class="btn btn-sm float-right btn-{{ notice.color_class|default('success') }}">
+								{{ notice.button_text }}
+							</a>
+							{{ notice.title }}
+						</div>
+					{% endfor %}
+				{% endif %}
+				<div class="card-body d-flex flex-column">
+					<div class="text-muted">{{ group.description|raw }}</div>
+					<div class="d-flex align-items-center pt-5 mt-auto">
+						{# @todo: this stacks recent users, include admins also, regardless of recency #}
+						{% set users = group.recentUsers|slice(0,20)|reverse %}
+						{% if users|length %}
+							<div class="avatar-list avatar-list-stacked">
+								{% for user in users %}
+									{{ usermacros.getDisplayAvatar(user, "", 32) }}
+								{% endfor %}
+							</div>
+						{% endif %}
+						<div class="ml-auto text-muted mt-1">
+							<div class="tag tag-brand-purple">
+								<span class="tag-prepend"><i class="fe fe-users"></i></span>
+								<span class="tag-addon tag-gray">{{ group.users|length }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+
+{# <img class="card-img-top" src="{{group.group_image.getPath()}}" alt="Mauticamp for Mautic - {{group.title}}"> #}

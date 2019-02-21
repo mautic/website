@@ -1,0 +1,18 @@
+[viewBag]
+==
+<div class="col-md-6 pl-0">
+	{{ form_open({ method: 'get' }) }}
+	<div class="search-box">
+		<input type="text" name="search" class="form-control" placeholder="Search topics" value="{{ input('search')|e }}">
+	</div>
+	{{ form_close() }}
+</div>
+<div class="col-md-6 text-right pr-0">
+	{% if isGuest %}
+		<a href="#" class="btn btn-secondary" disabled>Log in to post a new topic</a>
+	{% else %}
+		<a href="{{ topicPage|page }}?channel={{ channel.id }}" class="btn btn-primary btn-block">
+			Post a new question
+		</a>
+	{% endif %}
+</div>

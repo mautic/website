@@ -1,0 +1,243 @@
+title = "Profile - Single"
+url = "/mauticians/:user/:mode?"
+layout = "sidebar-left"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/profile-single"
+localeUrl[fr] = "/profile-single"
+localeUrl[pgl] = "/profile-single"
+
+[RainLab\User\Components\Account account]
+
+[userProfile]
+username = "{{ :user }}"
+==
+<?php
+function onEnd()
+{
+    if ($this->profile) {
+if ($this['isOwnProfile'] && $this->param('mode') === 'edit') {
+$this['editing'] = true;
+}
+}
+}
+?>
+==
+
+{% if profile %}
+	{% put sidebar %}
+	{% partial 'component_userProfile/user-sidebar' user=profile %}
+	{% endput %}
+
+	<div class="row">
+		<div class="col-12 page-header d-flex">
+			<h1 class="page-title-icon mb-1">User Profile</h1>
+			<div class="page-title-actions mb-1 ml-auto">
+				{% if isOwnProfile %}
+					{% if editing %}
+						<a href="javascript:void(0)" id="profile-save-button" class="btn"><span class="icon btn-icon fe fe-save"></span>Done</a>
+						{% if errors %}
+							<div class="list-group form-errors">
+								{% for error in errors %}
+									{{ error }}
+								{% endfor %}
+							</div>
+						{% endif %}
+					{% else %}
+						<a href="{{ 'mauticians/profile-single'|page({user:profile.username, mode:'edit'}) }}" class="btn">
+							<span class="icon btn-icon fe fe-user"></span>Edit Your Profile</a>
+						</a>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="col-12">
+			<div class="card">
+				{% if editing %}
+					<div class="card-header">
+						<h3 class="card-title">About</h3>
+						<div class="progress progress-sm ml-auto" style="flex-basis: 30%">
+							<div class="progress-bar bg-red" style="width: 0%"></div>
+						</div>
+						<div class="fe fe-alert-triangle progress-overflow text-danger" style="font-size: 130%; display: none;"></div>
+					</div>
+					<div class="card-body" id="user-edit-field-about" data-input-limit="500">
+						{% if profile.mtcorg_about %}
+							{{ profile.mtcorg_about|raw }}
+						{% endif %}
+					</div>
+				{% else %}
+					<div class="card-header">
+						<h3 class="card-title">About</h3>
+					</div>
+					<div class="card-body">
+						{% if profile.mtcorg_about %}
+							{{ profile.mtcorg_about|raw }}
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="col-12">
+			<div class="card">
+				{% if editing %}
+					<div class="card-header">
+						<h3 class="card-title">Professional Info</h3>
+						<div class="progress progress-sm ml-auto" style="flex-basis: 30%">
+							<div class="progress-bar bg-red" style="width: 0%"></div>
+						</div>
+						<div class="fe fe-alert-triangle progress-overflow text-danger" style="font-size: 130%; display: none;"></div>
+					</div>
+					<div class="card-body" id="user-edit-field-professional" data-input-limit="1000">
+						{% if profile.mtcorg_professional %}
+							{{ profile.mtcorg_professional|raw }}
+						{% endif %}
+					</div>
+				{% else %}
+					<div class="card-header">
+						<h3 class="card-title">Professional Info</h3>
+					</div>
+					<div class="card-body">
+						{% if profile.mtcorg_professional %}
+							{{ profile.mtcorg_professional|raw }}
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	{% if editing %}
+		{% put scripts %}
+			{# --prepare editors-- #}
+			<script>
+				var quill_options = {
+					theme: 'snow'
+				};
+				var editors = {
+					about: new Quill('#user-edit-field-about', quill_options),
+					professional: new Quill('#user-edit-field-professional', quill_options)
+				};
+
+				var getRealHTML = function (editor) {
+					return editor.container.querySelector('.ql-editor').innerHTML;
+				}
+
+				var onChangeHandler = function (evt, ...args) {
+					var _card = this.container.closest('.card');
+					var limit = parseInt(this.container.dataset.inputLimit);
+					var pct = (getRealHTML(this).length / limit) * 100;
+
+					var bar = _card.querySelector('.card-header .progress-bar');
+					var barColor = 'bg-secondary';
+					if (pct > 50) {
+						barColor = 'bg-warning';
+					}
+					if (pct > 85) {
+						barColor = 'bg-danger';
+					}
+
+					if (!bar.classList.contains(barColor)) {
+						bar.classList.forEach(function (c) {
+							if (c.indexOf('bg') === 0) {
+								bar.classList.remove(c)
+							}
+						});
+						bar.classList.add(barColor);
+					}
+					bar.style.width = Math.floor(pct) + '%';
+
+					var overflowDisplay = getRealHTML(this).length > limit ? 'inherit' : 'none';
+					_card.querySelector('.card-header .progress-overflow').style.display = overflowDisplay;
+				};
+
+				var editorsMap = Object.keys(editors);
+				editorsMap.forEach(function (k) {
+					editors[k].on('editor-change', function (evt, ...args) {
+						onChangeHandler.call(editors[k], [evt, args]);
+					})
+				});
+			</script>
+
+			{# --save action-- #}
+			<script>
+				var commitChanges = function () {
+					var fieldsOb = {};
+					//-- remaining page fields are collected by id naming convention.
+					var pageFields = document.querySelectorAll("[id^='user-edit-']");
+					pageFields.forEach(function (field) {
+						var fieldName = field.id.replace('user-edit-field-', '');
+						//-- handle quills
+						if (editorsMap.indexOf(fieldName) > -1) {
+							fieldsOb[fieldName] = getRealHTML(editors[fieldName]);
+						}
+						//-- handle plain inputs
+						else {
+							fieldsOb[fieldName] = field.value;
+						}
+					});
+
+					document.querySelectorAll('.is-invalid').forEach(function (elem) {
+						elem.classList.remove('is-invalid');
+					})
+
+					$.request('onUpdateProfile', {
+						data: fieldsOb,
+						loading: $.oc.stripeLoadIndicator,
+						success: function (data, status, request) {
+							console.log(...arguments)
+						},
+						error: function (request, status, error) {
+							var errMessages = request.responseJSON.messages;
+							var errFields = request.responseJSON.fields;
+							for (let k in errFields) {
+								document.querySelector('#user-edit-field-' + k).classList.add('is-invalid');
+							}
+							$.oc.flashMsg({
+								'text': errMessages.join('<br>'),
+								'class': 'error',
+								'interval': 3
+							});
+						}
+					});
+				};
+
+				$('#profile-save-button').on('click', function () {
+					commitChanges();
+				});
+
+				{#
+				// @deprecated: this would be a lot of work on the user end = bad ux
+				var commitOneField = function (field, value) {
+					debugger;
+				}
+				$('.user-edit-save').on('click', function (evt) {
+					// using delegation, this handler can facade any number of field save actions.
+					// map evt.target.dataset.field to css #user-edit-field-${fieldname}, and find value there
+					var field = evt.target.dataset.field;
+					var valueEl = $('#user-edit-field-' + field);
+					var value;
+					// handle quills
+					if (editorsMap.indexOf(field) > -1) {
+						value = getRealHTML(editors[field]);
+
+					}
+					// handle plain inputs
+					else {
+					}
+
+					debugger;
+				})
+				#}
+
+			</script>
+		{% endput %}
+	{% endif %}
+{% endif %}

@@ -1,0 +1,36 @@
+title = "Category Page"
+url = "/blog/category/:slug/:page?"
+layout = "sidebar-right"
+is_hidden = 0
+child_of = "blog/blog-component-recent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "category-title"
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/recent-posts"
+localeUrl[fr] = "/recent-posts"
+localeUrl[pgl] = "/recent-posts"
+
+[blogPosts blog_posts_category]
+pageNumber = "{{ :page }}"
+categoryFilter = "{{ :slug }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/blog-component-category"
+postPage = "blog/blog-component-single"
+==
+<?php
+function onEnd()
+{
+	if ($this->category)
+	{
+		$this->page->title = $this->category->name;
+	}
+}
+?>
+==
+<h1 id="category-title">{{category.name}}</h1>
+{% component 'blog_posts_category' %}

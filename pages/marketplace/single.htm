@@ -1,0 +1,163 @@
+title = "Marketplace"
+url = "/marketplace/:slug?"
+layout = "sidebar-right"
+meta_title = "Marketplace"
+is_hidden = 0
+child_of = "marketplace/listing"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/marketplace"
+localeUrl[fr] = "/marketplace"
+localeUrl[pgl] = "/marketplace"
+localeUrl[pt-br] = "/marketplace"
+localeUrl[jp] = "/marketplace"
+
+[singleDownload]
+slug = "{{ :slug }}"
+
+[globalRelationships relations]
+==
+<?php
+function onEnd(){
+if($this->download){
+$this->page->title = $this->download->name;
+}
+}
+?>
+==
+
+{% if(extension.repository) %}
+
+	{% if download.review_status != 'approved' %}
+		{% if download.review_status == 'pending' %}
+			{% set status_class = 'alert-danger' %}
+			{% set status_message = 'Review of this extension hasn\'t started. Exercise caution. ' %}
+		{% elseif download.review_status == 'under-review' %}
+			{% set status_class = 'alert-warning' %}
+			{% set status_message = 'This extension is currently under review, but hasn\'t yet been accepted.' %}
+		{% endif %}
+		<div class="alert {{ status_class }}" role="alert">{{ status_message }}</div>
+	{% endif %}
+
+	{% partial 'component_marketplace/single_download' %}
+
+	{% put sidebar %}
+		{% set release = extension.allReleases|slice(0,1)[0] %}
+		<div class="card">
+			<div class="card-body p-3 text-center">
+				<div class="row">
+					<div class="col">
+						<div class="h2 m-0">1,200</div>
+						<div class="text-muted">Downloads</div>
+					</div>
+					<div class="col">
+						<div class="h2 m-0">0</div>
+						<div class="text-muted">Reviews</div>
+					</div>
+					<div class="col">
+						<div class="h2 m-0">0</div>
+						<div class="text-muted">Ratings</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# sidebar card: user #}
+	{% partial 'user/user_card_small' user=download.user %}
+
+		{# sidebar card: latest release #}
+		<div class="card p-3">
+			<div class="d-flex align-items-center">
+                <span class="stamp stamp-md bg-dark mr-3">
+                  <i class="fe fe-bookmark"></i>
+                </span>
+				<div>
+					<h4 class="m-0"><a href="javascript:void(0)" class="card-link">
+							<small>{{ release.name }}</small>
+						</a></h4>
+					<small class="text-muted">Latest stable release</small>
+				</div>
+			</div>
+		</div>
+
+		{# sidebar card: support #}
+		<div class="card p-3">
+			<div class="d-flex align-items-center">
+                <span class="stamp stamp-md bg-warning mr-3">
+                  <i class="fe fe-life-buoy"></i>
+                </span>
+				<div>
+					<h4 class="m-0">
+						<a href="https://github.com/{{ extension.repoPath }}/issues" target="_blank" class="card-link">
+							Ask
+							<small>Support Question</small>
+						</a>
+					</h4>
+					<small class="text-muted">{{ extension.stats.open_issues }} {{ 'open issues'|_ }}</small>
+				</div>
+			</div>
+		</div>
+
+		{# sidebar card: release history #}
+		<div class="card">
+			<div class="card-header">
+				<div class='card-options'>
+					<a href="https://github.com/{{ extension.repoPath }}/releases"
+					   class="btn btn-secondary btn-sm"
+					   target="_blank">{{ 'View all'|_ }}</a>
+				</div>
+				<h3 class="card-title">Previous Releases</h3></div>
+			<table class="table card-table">
+				<thead>
+				<tr>
+					<th>Version</th>
+					<th class="text-right">Release Date</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for release in extension.allReleases|slice(1, 5) %}
+					<tr>
+						<td><a href="{{ release.uri }}" target="_blank">{{ release.name }}</a></td>
+						<td class='text-right'>{{ release.published|date("m/d/Y") }}</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+	{% partial 'sidebars/global_relations_lists' relationships=relations.parse(download) %}
+		<h4 class="pt-6 mt-6">Related Mixins</h4>
+		<hr class="my-1"/>
+		<div class="list-group list-group-transparent mb-0">
+			<a href="{{ 'content/about'|page }}" class="list-group-item list-group-item-action pl-0">
+				<span class="icon mr-3"><i class="fe fe-info"></i></span>About
+			</a>
+			<a href="{{ 'content/leadership'|page }}" class="list-group-item list-group-item-action pl-0 ">
+				<span class="icon mr-3"><i class="fe fe-navigation"></i></span>Leadership
+			</a>
+			<a href="{{ 'content/logos-and-graphics'|page }}"
+			   class="list-group-item list-group-item-action pl-0 ">
+				<span class="icon mr-3"><i class="fe fe-image"></i></span>Logos and Graphics
+			</a>
+			<a href="{{ 'content/contact-information'|page }}"
+			   class="list-group-item list-group-item-action pl-0 ">
+				<span class="icon mr-3"><i class="fe fe-phone"></i></span>Contact Information
+			</a>
+			<a href="{{ 'content/licensing'|page }}" class="list-group-item list-group-item-action pl-0 ">
+				<span class="icon mr-3"><i class="fe fe-file-text"></i></span>Licensing
+			</a>
+			<a href="{{ 'content/mautic-trademark'|page }}"
+			   class="list-group-item list-group-item-action pl-0 ">
+				<span class="icon mr-3"><i class="fe mtc-mautic"></i></span>Mautic Trademark
+			</a>
+		</div>
+	{% endput %}
+{% else %}
+	<h1>Download not found.</h1>
+{% endif %}
+
+
+

@@ -1,0 +1,28 @@
+[viewBag]
+==
+<div class="row">
+	{% for channel in channels %}
+	    {% if channel.relations.children %}
+		    {% for channel in channel.children %}
+        		<div class="col-lg-4">
+        			<div class="card">
+        				<div class="card-body bg-icon bg-{{channel.slug}}">
+        					<h3 class="card-title"><a class="card-link" href="{{ 'forum/channel'|page({channelslug:channel.slug}) }}">{{ channel.title }}</a>
+        					<div class="text-muted small pt-3">
+        						{{ channel.count_topics|number_format(0,'',',') }} {{'conversations'|_}}
+        					</div>
+        					</h3>
+        				</div>
+        			</div>
+        		</div>
+        	{% endfor %}
+        {% endif %}
+	{% endfor %}
+</div>
+<div class="row">
+    <div class="col">
+        <h2>{{'Latest Discussions'|_}}</h2>
+    </div>
+</div>
+
+{% component 'forum_discussion_latest' %}

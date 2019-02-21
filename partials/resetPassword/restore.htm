@@ -1,0 +1,17 @@
+<form
+	class="card"
+	data-request="{{ __SELF__ }}::onRestorePassword"
+	data-request-update="'{{ __SELF__ }}::reset': '#partialUserResetForm'">
+	<div class="card-body pb-6">
+		<div class="card-title">
+			Lost your password?
+		</div>
+		<div class="form-group">
+			<label for="userRestoreEmail">Email</label>
+			<input name="email" type="email" class="form-control" id="userRestoreEmail" placeholder="Enter your email">
+		</div>
+		<div class="form-footer">
+			<button type="submit" class="btn btn-brand-purple btn-block">Restore password</button>
+		</div>
+	</div>
+</form>

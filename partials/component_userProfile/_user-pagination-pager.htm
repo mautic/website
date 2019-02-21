@@ -1,0 +1,43 @@
+{# set page range #}
+{% set rangeWidth = 12 %}
+{% set min = users.currentPage - (rangeWidth/2) %}
+{% set max = users.currentPage + (rangeWidth/2) %}
+{% if min < 1 %} {% set min = 1 %} {% endif %}
+{% if max > users.lastPage %} {% set max = users.lastPage %} {% endif %}
+
+{% if users.lastPage > 1 %}
+	<ul class="pagination">
+		{% if users.currentPage > 1 %}
+			<li class="page-item">
+				<a class="page page-link " href="{{ users.previousPageUrl }}&q={{ query }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+			</li>
+		{% else %}
+			<li class="page-item">
+				<a class="page page-link disabled" href="javascript:void(0)"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+			</li>
+		{% endif %}
+
+
+		{% for page in min..max %}
+			{% set active = users.currentPage == page %}
+
+			<li class="page-item {{ active ? 'active' : null }}">
+				<a class="page page-link" style="{{ active ? 'text-align:center;' : null }}"
+				   href="{{ this.page.baseFileName | page }}?q={{ query }}&amp;page={{ page }}">
+					{{ page }}
+					{#{% if active %} <span class="text-light" style="font-size: 70%;"> of {{ users.lastPage }}</span>{% endif %}#}
+				</a>
+			</li>
+		{% endfor %}
+
+		{% if users.lastPage > users.currentPage %}
+			<li class="page-item">
+				<a href="{{ users.nextPageUrl }}&q={{ query }}" class="page page-link"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+			</li>
+		{% else %}
+			<li class="page-item">
+				<a href="javascript:void(0)" class="page page-link disabled"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+			</li>
+		{% endif %}
+	</ul>
+{% endif %}

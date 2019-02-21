@@ -1,0 +1,47 @@
+title = "Mauticians"
+url = "/mauticians"
+layout = "blank"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/mauticians"
+localeUrl[fr] = "/mauticians"
+localeUrl[pgl] = "/mauticians"
+
+[userProfiles]
+per_page = 18
+==
+<div class="page-header">
+	<h1 class="m-0">Mauticians</h1>
+	<div class="page-subtitle" id="pager-subtitle">{% partial 'component_userProfile/_user-pagination-header' users=users %}</div>
+	<div class="page-options d-flex">
+		<select class="form-control custom-select w-auto">
+			<option value="asc">Newest</option>
+			<option value="desc">Oldest</option>
+		</select>
+
+		<div class="input-icon ml-2">
+      <span class="input-icon-addon">
+        <i class="fe fe-search"></i>
+      </span>
+			<input type="text"
+				   class="form-control w-10"
+				   name="q"
+				   value="{{ query }}"
+				   data-request="onUserSearch"
+				   data-track-input="300"
+				   data-request-update="'component_userProfile/_user-search-results':'#users-list','component_userProfile/_user-pagination-header':'#pager-subtitle','component_userProfile/_user-pagination-pager':'#pager-pager'"
+				   placeholder="Search Mauticians">
+		</div>
+	</div>
+</div>
+<div id="pager-pager">
+	{% partial 'component_userProfile/_user-pagination-pager' users=users %}
+</div>
+<div class="row" id="users-list">
+	{% partial 'component_userProfile/_user-search-results' users=users %}
+</div>

@@ -1,0 +1,70 @@
+{% if relationships.blog_posts|length %}
+	<div class="card">
+		<div class="card-header">
+			<h5>More Reading</h5>
+		</div>
+		<ul class="list-group card-list-group">
+			{% for i in relationships.blog_posts %}
+				<li class="list-group-item">
+					<a href="{{ 'blog/blog-component-single'|page({slug:i.slug}) }}"
+					   target="_blank"
+					   class="{{ i.id == post.id ? 'active' : null }}">
+						{{ i.title }}
+					</a>
+					<div class="tags">
+						{% for t in i.globalTags %}
+							<span class="tag">{{ t.label }}</span>
+						{% endfor %}
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}
+
+{% if relationships.downloads|length %}
+	<div class="card">
+		<div class="card-header"><h5>From the Marketplace</h5></div>
+		<ul class="list-group card-list-group">
+			{% for i in relationships.downloads %}
+				<li class="list-group-item">
+					<a href="{{ 'marketplace/single'|page({slug:i.slug}) }}"
+					   target="_blank"
+					   class="">
+						{{ i.name }}
+					</a>
+					<div class="tags">
+						{% for t in i.globalTags %}
+							<span class="tag">{{ t.label }}</span>
+						{% endfor %}
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}
+
+{#
+{% for t in post.globaltags %}
+	<h4>{{ t.label }}</h4>
+	#}
+{# Blog #}{#
+
+	<h5>More Reading</h5>
+	<ul>
+		{% for i in t.blog_posts %}
+			<li>{{ i.title }}</li>
+		{% endfor %}
+	</ul>
+
+	#}
+{# Marketplace #}{#
+
+	<h5>From the Marketplace</h5>
+	<ul>
+		{% for i in t.downloads %}
+			<li>{{ i.name }}</li>
+		{% endfor %}
+	</ul>
+{% endfor %}
+#}

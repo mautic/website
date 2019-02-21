@@ -1,11 +1,32 @@
-title = "Community Home"
-url = "/forum"
-layout = "default"
+title = "Categories"
+url = "/forum/:filter?"
+layout = "forum"
+meta_title = "Get Answers"
+is_hidden = 0
+child_of = "content/community"
+hide_crumb = 1
+crumb_title = "Find Answers"
+remove_crumb_trail = 0
+crumb_disabled = 0
 
-[forumChannels cmpForumChannelsMain]
+[viewBag]
+localeUrl[de] = "/mautic-community-forums"
+localeUrl[fr] = "/mautic-community-forums"
+localeUrl[pgl] = "/mautic-community-forums"
+
+[filterableForumChannels forum_discussion_forum]
 memberPage = "forum/member"
 channelPage = "forum/channel"
 topicPage = "forum/topic"
-==
+filterSlug = "{{ :filter }}"
+defaultSlug = "discussion"
 
-{% component 'cmpForumChannelsMain' %}
+[forumTopics forum_discussion_latest]
+memberPage = "user/profile-single"
+topicPage = "forum/topic"
+topicsPerPage = 10
+
+[localePicker]
+forceUrl = 0
+==
+{% component 'forum_discussion_forum' %}

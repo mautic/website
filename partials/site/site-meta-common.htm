@@ -1,17 +1,24 @@
+==
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="Content-Language" content="en"/>
-<meta name="msapplication-TileColor" content="#2d89ef">
-<meta name="theme-color" content="#4188c9">
+<meta name="theme-color" content="#4e5e9e">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
-<link rel="icon" href="{{ 'favicon.ico' | theme }}" type="image/x-icon"/>
-<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico"/>
+
 <!-- -->
+<link rel="icon" href="{{ 'assets/graphics/favicon-32.png'|theme }}" sizes="32x32" />
+<link rel="icon" href="{{ 'assets/graphics/favicon-192.png'|theme }}" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="{{ 'assets/graphics/favicon-180.png'|theme }}" />
+<meta name="msapplication-TileImage" content="{{ 'assets/graphics/favicon-270.png'|theme }}" />
+<meta name="msapplication-TileColor" content="#4e5e9e">
+
+<!-- -->
+{% set metattitile = this.page.meta_title ? this.page.meta_title : this.page.title %}
 <meta name="description" content="{{ this.page.meta_description }}">
-<meta name="title" content="{{ this.page.meta_title }}">
-<title>{{this.theme.config.site.name}} | {{this.page.meta_title}}</title>
+<meta name="title" content="{{ metattitile }}">
+<title>{{this.theme.config.site.name}} | {{ metattitile }}</title>

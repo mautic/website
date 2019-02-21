@@ -1,0 +1,76 @@
+title = "Marketplace"
+url = "/marketplace/"
+layout = "blank"
+meta_title = "Marketplace"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/marketplace"
+localeUrl[fr] = "/marketplace"
+localeUrl[pgl] = "/marketplace"
+localeUrl[pt-br] = "/marketplace"
+localeUrl[jp] = "/marketplace"
+
+[downloadListing]
+==
+<?php
+function onEnd(){
+if($this->download){
+$this->page->title = $this->download->name;
+}
+}
+?>
+==
+
+{% put scripts %}
+	<script type="text/javascript">
+		function submitSearch() {
+			var txt = $('#interest-search').val();
+			$('.card-body').each(function () {
+				if ($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1) {
+					$(this).parent().parent().fadeIn();
+				} else {
+					$(this).parent().parent().fadeOut();
+				}
+			});
+		}
+		$(document).ready(function () {
+//    $('.card-body').parent().parent().show();
+			$('#search').click(submitSearch());
+
+			$('#interest-search').keypress(function (e) {
+				if (!e) {
+					var e = window.event;
+				}
+				if (e.keyCode == 13 || $(this).val().length > 0) {
+					submitSearch();
+				}
+			});
+		});
+	</script>
+{% endput %}
+
+{% put before %}
+	<div class="page-header d-block text-center">
+		<h1 class="p-5">Customize it.</h1>
+	</div>
+	<div class="row col-6 mx-auto mb-6 pb-6">
+		<div class="input-group input-group-lg">
+			<input type="text" id="interest-search" class="form-control" placeholder="What do you need it to do?">
+			<span class="input-group-append">
+          <button id="search" class="btn btn-brand-purple" type="button">Go!</button>
+        </span>
+		</div>
+	</div>
+{% endput %}
+
+<div class="row row-deck">
+	{% for download in downloads %}
+		{% partial 'component_marketplace/card' download=download %}
+	{% endfor %}
+</div>
+

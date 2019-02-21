@@ -1,0 +1,196 @@
+title = "Mauticamp"
+url = "/mauticamps/:groupslug"
+layout = "sidebar-left"
+meta_title = "Mauticamp"
+is_hidden = 0
+child_of = "mauticamps/mauticamp-list"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "group-title"
+crumb_disabled = 0
+
+[usergroup]
+slug = "{{ :groupslug }}"
+==
+<?php
+function onEnd()
+{
+	if($this['group']){
+		$this->page->title = $this['group']->name;
+}
+}
+?>
+==
+{% import 'macros/user' as usermacros %}
+
+{% if group %}
+	{# title
+	{% put pageBanner %}
+		{{ group.name }}
+	{% endput %}#}
+
+	{# default sidebar #}
+	{% put sidebar %}
+	{% partial 'component_usergroup/usergroup-sidebar' %}
+	{% endput %}
+
+	{# sidebar slots #}
+	{% if group.sidebar_slots|length %}
+		{% put sidebar_slots %}
+			{% for slot in group.sidebar_slots %}
+				<div class="card p-3">
+					<div class="d-flex align-items-center">
+						<span class="stamp stamp-md mr-3 {{ slot.container_styles }}">
+						  <i class="fe {{ slot.icon_class }}"></i>
+						</span>
+						<div>
+							{# @todo in the mock below, the last word of h4>a is wrapped with small. This looks nice. use some crafy twig to make it happen  #}
+							<h4 class="m-0">
+								<a href="{{ slot.link_target|default('javascript:void(0)') }}">{{ slot.title }}</a>
+							</h4>
+							{#<h4 class="m-0">
+								<a href="javascript:void(0)">Slack
+									<small>Channel</small>
+								</a>
+							</h4>#}
+							<small class="text-muted">{{ slot.subtext }}</small>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% endput %}
+	{% endif %}
+
+	<!-- header card -->
+	<div class="card">
+		{% if group.notices|length %}
+			{% for notice in group.notices %}
+				<div class="card-alert alert mb-0 small alert-{{ notice.color_class|default('success') }}">
+					<a
+						href="{{ notice.link_target|default('javascript:void(0)') }}"
+						class="btn btn-sm float-right btn-{{ notice.color_class|default('success') }}">
+						{{ notice.button_text }}
+					</a>
+					{{ notice.title }}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<div class="card-body">
+			<h1 class="d-none" id="group-title">{{ group.name }}</h1>
+			<div>
+				<p>{{ group.description|raw }}</p>
+			</div>
+			{{ group.homepage_content_html|raw }}
+		</div>
+		<div class="card-footer d-flex">
+			{# left #}
+			{% if user %}
+				{% if user.isInGroup(group) %}
+					<button
+						data-request="onRemoveSelf"
+						class="btn btn-outline-brand-purple btn-sm">
+						<span class="fe fe-arrow-right-circle"></span> Leave this Group
+					</button>
+				{% else %}
+					<button
+						data-request="onAddSelf"
+						class="btn btn-outline-brand-purple btn-sm">
+						<span class="fe fe-arrow-right-circle"></span> Join
+					</button>
+				{% endif %}
+			{% else %}
+				<button class="btn btn-outline-brand-purple btn-sm">Sign-In to Join this group</button>
+			{% endif %}
+
+			<span class="flex-grow-1"></span>
+		</div>
+	</div>
+
+	<div class="row">
+		{# CARD: Recent discussion#}
+		{% if group.forum_channel %}
+			{% set topics = group.recentTopics|slice(0,6) %}
+			<div class="col">
+				<!-- discussions card -->
+				<div class="card">
+					<div class="card-header">
+						<div class="card-options">
+							<a href="{{ 'mauticamps/mauticamp-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
+								View all
+							</a>
+						</div>
+						<h3 class="card-title">Recent Group Posts</h3>
+					</div>
+					{% if topics|length %}
+						<table class="table card-table">
+							<tbody>
+							{% for topic in topics %}
+								<tr>
+									<td width="1"><i class="fe fe-bookmark text-muted"></i></td>
+									<td>{{ topic.subject|truncate(25) }}</td>
+									<td class="text-right" width="100"><span class="text-muted small">{{ topic.last_post_at.diffForHumans() }}</span></td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					{% else %}
+						<div class="card-body">
+							<p>Nothing Here Yet. <br>
+								<a href="{{ 'mauticamps/mauticamp-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">Start the conversation</a>
+							</p>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+
+		{# CARD: Recent Users #}
+		<div class="col">
+			<!-- users card -->
+			<div class="card">
+				<div class="card-header">
+					<div class="card-options">
+						<a href="{{ 'mauticamps/mauticamp-members'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
+							View all
+						</a>
+					</div>
+					<h3 class="card-title">Recently Active Mauticians</h3>
+				</div>
+				<div class="card-body o-auto">
+					<ul class="list-unstyled list-separated">
+						{% set users = group.recentUsers|slice(0,6) %}
+						{% for user in users %}
+							<li class="list-separated-item">
+								<div class="row align-items-center">
+									<div class="col-auto">
+										{{ usermacros.getDisplayAvatar(user, "avatar-md d-block", 32) }}
+									</div>
+									<div class="col">
+										<div>
+											<a href="{{ 'mauticians/profile-single'|page({user:user.username}) }}" target="_blank" class="text-inherit">{{ user.name }} {{ user.surname }}</a>
+										</div>
+										<small class="d-block item-except text-sm text-muted h-1x">{{ user.username }}</small>
+									</div>
+									{#<div class="col-auto">
+										<div class="item-action dropdown">
+											<a href="javascript:void(0)" data-toggle="dropdown" class="icon" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+											<div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-181px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
+												<a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-tag"></i> Action </a>
+												<a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-edit-2"></i> Another action </a>
+												<a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-message-square"></i> Something else here</a>
+												<div class="dropdown-divider"></div>
+												<a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-link"></i> Separated link</a>
+											</div>
+										</div>
+									</div>#}
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+{% else %}
+	<p>Couldn't find that group</p>
+{% endif %}

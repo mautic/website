@@ -1,0 +1,25 @@
+title = "Account"
+url = "/login"
+layout = "blank"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/account"
+localeUrl[fr] = "/account"
+localeUrl[pgl] = "/account"
+
+[RainLab\User\Components\Account account]
+paramCode = "code"
+forceSecure = 0
+redirect = "forum/home"
+
+[session]
+security = "all"
+==
+
+{% component 'session' %}
+{% component 'account' %}

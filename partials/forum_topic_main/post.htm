@@ -1,0 +1,137 @@
+[viewBag]
+==
+<div class="row">
+	{# topic subject header #}
+	{% if topic.first_post.id == post.id %}
+		<div class="col-12">
+			<small class="float-right text-muted mt-3">{% partial "@timestamp" date=post.created_at %}</small>
+			<h1 id="post-title">{{ topic.subject }}</h1>
+			<h2 class="d-none" id="channel-title" slug="{{ topic.channel.slug }}">{{ topic.channel.title }}</h2>
+			<hr/>
+		</div>
+	{% endif %}
+
+	<div class="col-12">
+		{% if topic.first_post.id != post.id %}
+			<small class="float-right text-muted">{% partial __SELF__ ~ "::timestamp" date=post.created_at %}</small>
+		{% endif %}
+		<div class="pull-left avatar avatar-md mr-4" style="background-image: url({{ post.member.user.avatarThumb(50) }})"></div>
+		<a href="{{ 'mauticians/profile-single'|page({user:post.member.user.username}) }}" class="author font-weight-bold text-dark">{{ post.member.user.name }} {{ post.member.user.surname }}</a>
+		{% if post.created_at != post.updated_at %}
+			<p>
+				<small class="text text-muted">
+					Last updated {% partial __SELF__ ~ "::timestamp" date=post.updated_at %}
+				</small>
+			</p>
+		{% endif %}
+
+		{% if post.member.is_banned %}
+			<div class="status text-danger" title="Banned">
+				<i class="fe fe-alert-triangle"></i>
+			</div>
+		{% elseif post.member.is_moderator %}
+			<div class="status" title="Moderator">
+				<i class="fe fe-star icon-star text-brand-gold"></i>
+			</div>
+		{% endif %}
+	</div>
+
+	{% if mode == 'edit' %}
+		<div class="col-12">
+			{{ form_ajax('onUpdate', {update: { '@post' : '#post-'~post.id}}) }}
+			<div class="col-12">
+				<!-- Passable fields -->
+				<input type="hidden" name="mode" value="save"/>
+				<input type="hidden" name="post" value="{{ post.id }}"/>
+				{% if topic.first_post.id == post.id %}
+					<div class="form-group">
+						<label class="form-label">Subject</label>
+						<input type="text" name="subject" class="form-control" value="{{ topic.subject }}"/>
+					</div>
+				{% endif %}
+				<div class="form-group">
+					<textarea
+						data-test="topic-edit-content"
+						class="form-control" name="content" rows="6" placeholder="Content...">{{ post.content }}</textarea>
+				</div>
+			</div>
+			<div class="col-12">
+				<div class="actions pull-right">
+					<button
+						data-test="topic-edit-submit"
+						type="submit" class="save btn btn-outline-secondary btn-sm">Submit
+					</button>
+					<a href="javascript:;"
+					   data-test="post-edit-delete-button"
+					   data-request="{{ __SELF__ }}::onUpdate"
+					   data-request-data="post: {{ post.id }}, mode: 'delete'"
+					   data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+					   data-request-confirm="Are you sure?"
+					   class="delete btn btn-outline-secondary btn-sm">Delete</a>
+					<a href="javascript:;"
+					   data-request="{{ __SELF__ }}::onUpdate"
+					   data-request-data="post: {{ post.id }}, mode: 'view'"
+					   data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+					   class="cancel btn btn-outline-secondary btn-sm">Cancel</a>
+				</div>
+			</div>
+			{{ form_close() }}
+		</div>
+	{% elseif mode == 'delete' %}
+		<div class="col-12">
+			<div class="text">
+				<p><em>Post has been deleted</em></p>
+			</div>
+		</div>
+	{% else %}
+		<div class="p-2 mt-4">
+			<p>{{ post.content_html|raw }}</p>
+		</div>
+		<div class="col-12">
+			<div class="actions">
+				<div class="pull-right">
+					{# accept answer #}
+					<a href="javascript;"
+					   class="accept-answer"
+					   data-request="onToggleAccept"
+					   data-request-update="'forum_topic_main/_post-accepted-style':'#post-accepted-style'"
+					   data-request-data="item:{{ post.id }}">
+						<span id="accepted_{{ post.id }}" class="post-accepted">{% partial 'forum_topic_main/_post-accepted-icons' %}</span>
+					</a>
+					{# @devnote: spacer is important for ux. without it, it's very easy for dom space to cause vote to toggle accepted #}
+					<span class="spacer mx-2"></span>
+					{# upvote #}
+					<a href="javascript;"
+					   class="vote upvote"
+					   data-request="onVote"
+					   data-request-data="vote:'up', item:{{ post.id }}, itemtype:'rainlab.forum.post'">
+						<i class="fa fa-caret-up">&nbsp;</i>
+					</a>
+					{# votes count #}
+					<span id="votesCnt">{{ post.mtcorg_points }}</span>
+					{# downvote #}
+					<a href="javascript;"
+					   class="vote upvote pl-1"
+					   data-request="onVote"
+					   data-request-data="vote:'down', item:{{ post.id }}, itemtype:'rainlab.forum.post'">
+						<i class="fa fa-caret-down">&nbsp;</i>
+					</a>
+				</div>
+				{% if topic.canPost %}
+					<a href="javascript:;"
+					   class="quote pull-left btn btn-outline-secondary btn-sm"
+					   data-request-data="post: {{ post.id }}"
+					   data-quote-button>Quote</a>
+				{% endif %}
+				{% if topic.canPost and post.canEdit and mode != 'edit' and mode != 'delete' %}
+					<a href="javascript:;"
+					   class="btn btn-outline-secondary btn-sm ml-2 pull-left edit"
+					   data-test="post-edit-button"
+					   data-request="onUpdate"
+					   data-request-data="post: {{ post.id }}"
+					   data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'">Edit</a>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+</div>

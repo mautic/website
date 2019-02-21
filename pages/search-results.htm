@@ -1,0 +1,21 @@
+title = "Search results"
+url = "/search-results"
+layout = "help"
+description = "Search results page"
+meta_title = "Search results"
+meta_description = "Your search results"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[searchResults]
+resultsPerPage = 10
+showProviderBadge = 1
+noResultsMessage = "Your search returned no results."
+visitPageMessage = "Visit page"
+==
+<h1>Search Results</h2>
+
+{% component 'searchResults' %}

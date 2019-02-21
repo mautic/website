@@ -1,0 +1,25 @@
+title = "Developers"
+url = "/developers"
+layout = "blank"
+meta_title = "Developers & API"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/developers"
+localeUrl[fr] = "/developers"
+localeUrl[pgl] = "/developers"
+
+[blogPosts dev_posts]
+pageNumber = "{{ :page }}"
+categoryFilter = "developers"
+postsPerPage = 5
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "developers/home"
+postPage = "developers/post-single"
+==
+{% component 'dev_posts' %}

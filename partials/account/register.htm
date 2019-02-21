@@ -1,0 +1,55 @@
+==
+<div class="row">
+<div class="col col-login mx-auto">
+  <div class="text-center mb-6">
+    <img src="./assets/brand/tabler.svg" class="h-6" alt="">
+  </div>
+  <form class="card" data-request="onRegister">
+    <div class="card-body p-6">
+      <div class="card-title">Create a new account</div>
+      <div class="form-group">
+        <label class="form-label" for="registerName">Name</label>
+        <input name="name" type="text" class="form-control" placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="registerEmail">Email address</label>
+        <input name="email" type="email" class="form-control" placeholder="Enter your email">
+      </div>
+       {% if loginAttribute == "username" %}
+            <div class="form-group">
+                <label class="form-label" for="registerUsername">Username</label>
+                <input
+                    name="username"
+                    type="text"
+                    class="form-control"
+                    id="registerUsername"
+                    placeholder="Enter your username" />
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="form-label" for="registerPassword">Password</label>
+            <input
+                name="password"
+                type="password"
+                class="form-control"
+                id="registerPassword"
+                placeholder="Choose a password" />
+        </div>
+      
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input">
+          <span class="custom-control-label">Agree to the <a href="{{ 'content/privacy-policy'|page() }}">terms and policy</a></span>
+        </label>
+      </div>
+      <div class="form-footer">
+        <button type="submit" class="btn btn-brand-purple btn-block">Create new account</button>
+      </div>
+    </div>
+  </form>
+  <div class="text-center text-muted">
+    Already have account? <a href="{{ 'account/login'|page()}}">Sign in</a>
+  </div>
+</div>
+</div>

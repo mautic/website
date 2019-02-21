@@ -1,0 +1,93 @@
+[viewBag]
+==
+{% import 'macros/user' as usermacros %}
+<div class="card card-profile">
+	<div class="card-header" style="background-image: url({{ user.avatarThumb(300)}})";"></div>
+	{% if editing %}
+		<div class="card-body text-center">
+			<div class="form-group">
+				<input type="text" class="form-control" name="name" id="user-edit-field-name" value="{{ user.name }}" placeholder="First Name">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="surname" id="user-edit-field-surname" value="{{ user.surname }}" placeholder="Last Name">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="mtcorg_location" id="user-edit-field-location" value="{{ user.mtcorg_location }}" placeholder="Location">
+			</div>
+		</div>
+	{% else %}
+		<div class="card-body text-center">
+			<h3 class="mb-3 font-weight-bold">{{ user.name }} {{ user.surname }}</h3>
+			<p class="mb-3">{{ user.username }}</p>
+			<p class="mb-4"><span class="text-muted">{{ usermacros.getUserSubline(user, " | ") }}</span></p>
+			<ul class="social-links list-inline mb-0 mt-2">
+				<!--<li class="list-inline-item">
+					<a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+				</li>
+				<li class="list-inline-item">
+					<a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+				</li>
+				<li class="list-inline-item">
+					<a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="1234567890"><i class="fa fa-phone"></i></a>
+				</li>
+				<li class="list-inline-item">
+					<a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="@skypename"><i class="fa fa-skype"></i></a>
+				</li>-->
+			</ul>
+		</div>
+	{% endif %}
+</div>
+
+{% if user.usergroups|length %}
+	<div class="p-1">
+		{% for group in user.usergroups if group.group_type == 'mauticamp' %}
+			<div class="tag tag-brand-purple">
+				<span class="tag-prepend"><i class="fe mtc-mautic"></i></span>
+				<a href="{{ 'mauticamps/mauticamp-single'|page({groupslug:group.slug}) }}" class="tag-addon tag-gray">
+					{{ group.name }}
+				</a>
+			</div>
+		{% endfor %}
+		{% for group in user.usergroups if group.group_type == 'working-group' %}
+			<a href="{{ 'working-groups/single'|page({groupslug:group.slug}) }}" class="btn btn-gray btn-xs">
+				<i class="fe {{ group.group_icon }}" data-toggle="tooltip" title="" data-original-title="{{ group.name }}"></i>
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<div class="card mt-3">
+	<div class="card-header">
+		<h3 class="card-title">{{ 'Navigation'|_ }}</h3>
+	</div>
+	<div class="card-body p-0">
+		<div class="list-group list-group-transparent mb-0">
+			<a href="{{ 'mauticians/profile-single'|page({user:user.username, mode:''}) }}" class="list-group-item list-group-item-action">
+				<span class="icon mr-3"><i class="fe fe-user"></i></span>{{ 'Mautician Profile'|_ }}
+			</a>
+			<a href="{{ 'mauticians/profile-forum'|page({user:user.username}) }}" class="list-group-item list-group-item-action">
+				<span class="icon mr-3"><i class="fe fe-bookmark"></i></span>{{ 'Discussion Activity'|_ }}
+			</a>
+			<a href="{{ 'mauticians/profile-marketplace'|page({user:user.username}) }}" class="list-group-item list-group-item-action">
+				<span class="icon mr-3"><i class="fe fe-shopping-bag"></i></span>{{ 'Marketplace Listings'|_ }}
+			</a>
+			<a href="{{ 'mauticians/profile-contributions'|page({user:user.username}) }}" class="list-group-item list-group-item-action">
+				<span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contributed Content'|_ }}
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="card p-3">
+	<div class="d-flex align-items-center">
+    <span class="stamp stamp-md bg-dark mr-3">
+      <i class="fe fe-clock"></i>
+    </span>
+		<div>
+			<h4 class="m-0"><a href="javascript:void(0)">
+					<small>{{ user.activated_at|date('M d, Y') }}</small>
+				</a></h4>
+			<small class="text-muted">{{ user.name }} {{ 'became a Mautician'|_ }}</small>
+		</div>
+	</div>
+</div>

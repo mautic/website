@@ -1,5 +1,5 @@
-For an optimal Mautic experience, it is recommended your servers meet the following requirements.  
-
+<p class="lead">For an optimal Mautic experience, it is recommended your server or hosting provider meet the following requirements. In addition, verify your email service provider is capable of sending large volume emails. 
+</p>
 
 
 <table class="table table-bordered table-striped">
@@ -48,9 +48,9 @@ For an optimal Mautic experience, it is recommended your servers meet the follow
 </tbody>
 </table>
 
+<hr />
 #### Footnotes
-
+<small class="text-muted">
 [1] In order to use SEO URLs, you will need to have the Apache mod_rewrite extension installed.  
-
-
 [2] In order to use SEO URLs, extra configuration is required.
+</small>

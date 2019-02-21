@@ -1,0 +1,11 @@
+{#{{ dump(post) }}#}
+
+<h4 class="pt-6 mt-6">Add a Suggestion</h4>
+<hr class="my-1">
+<form data-request="onAddSuggestion" class="blog--form_suggest-edit" id="blog--form_suggest-edit">
+	<div class="form-group">
+		<textarea class="form-control" name="suggestion" rows="6" placeholder="Your suggestion"></textarea>
+	</div>
+	<input type="hidden" name="postid" value="{{ post.id }}">
+	<button type="submit" class="btn btn-brand-purple">Add</button>
+</form>

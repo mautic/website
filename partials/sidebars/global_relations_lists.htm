@@ -1,0 +1,23 @@
+{% if relationships.blog_posts|length %}
+	<h4 class="pt-6 mt-6">Related Reading</h4>
+	<hr class="my-1"/>
+	<div class="list-group list-group-transparent mb-0">
+		{% for i in relationships.blog_posts %}
+			<a href="{{ 'blog/blog-component-single'|page({slug:i.slug}) }}" class="list-group-item list-group-item-action pl-0">
+				<span class="icon mr-3"><i class="fe fe-info"></i></span>{{ i.title }}
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% if relationships.downloads|length %}
+	<h4 class="pt-6 mt-6">Related Mixins</h4>
+	<hr class="my-1"/>
+	<div class="list-group list-group-transparent mb-0">
+		{% for i in relationships.downloads %}
+			<a href="{{ 'marketplace/single'|page({slug:i.slug}) }}" class="list-group-item list-group-item-action pl-0">
+				<span class="icon mr-3"><i class="fe fe-info"></i></span>{{ i.name }}
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}

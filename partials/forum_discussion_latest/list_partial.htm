@@ -1,0 +1,13 @@
+==
+<h4 class="pt-6 mt-6">Trending Discussions</h4>
+<hr class="my-1" />
+<div class="list-group list-group-transparent mb-0">
+	{% for topic in topics %}
+    	<a href="{{ topic.url }}" class="list-group-item list-group-item-action pl-0">
+    		<span class="icon mr-3"><i class="fe fe-bookmark"></i></span>
+    		{{ topic.subject|length > 25 ? topic.subject|slice(0, 25) ~ '...' : topic.subject  }}
+    	</a>
+	{% endfor %}
+	<a href="{{'forum/home'|page()}}" class="mt-2 card-link">
+	<span class="icon mr-3 text-decoration-none"><i class="fe fe-arrow-right"></i></span>See all</a>
+</div>

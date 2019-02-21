@@ -1,0 +1,59 @@
+title = "Translations"
+url = "/translations"
+layout = "blank"
+meta_title = "Translations"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[usergroups]
+==
+<div class="page-header">
+  <h1 class="m-0">
+    Translations
+  </h1>
+</div>
+<div class="row">
+    <div class="card">
+                  <div class="table-responsive">
+                    <table class="table card-table table-vcenter text-nowrap">
+                      <thead>
+                        <tr>
+                          <th class="w-1"></th>
+                          <th>Language</th>
+                          <th>Coordinator</th>
+                          <th>Reviewers</th>
+                          <th>Translators</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                    	{% for group in groups if group.group_type == 'translation' %}
+                    	  <tr>
+                              <td><i class="{{group.group_icon}}"></i></td>
+                              <td><a href="{{ 'translations/translation-single'|page({groupslug:group.slug}) }}">{{group.name}}</a></td>
+                              <td>
+                                {{group.owner.name}}
+                              </td>
+                              <td>
+                                group reviewers count
+                              </td>
+                              <td>
+                                group translators count
+                              </td>
+                              <td>
+                                <span class="status-icon bg-success"></span> 100%
+                              </td>
+                            </tr>
+	                    {% endfor %}
+                	 </tbody>
+                    </table>
+                  </div>
+                </div>
+
+
+</div>
+
+{# <img class="card-img-top" src="{{group.group_image.getPath()}}" alt="Mauticamp for Mautic - {{group.title}}"> #}

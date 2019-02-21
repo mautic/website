@@ -1,0 +1,32 @@
+title = "Recent Posts"
+url = "/blog/:page?"
+layout = "sidebar-right"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+crumb_title = "Blog"
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/recent-posts"
+localeUrl[fr] = "/recent-posts"
+localeUrl[pgl] = "/recent-posts"
+
+[blogPosts blog_posts_recent]
+pageNumber = "{{ :page }}"
+categoryFilter = "marketer-blog"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/blog-component-category"
+postPage = "blog/blog-component-single"
+
+==
+{% put sidebar %}
+<h4 class="pt-6">Popular Articles</h4>
+<hr class="py-1">
+{% partial 'sidebars/blog' %}
+{% endput %}
+
+{% component 'blog_posts_recent' %}

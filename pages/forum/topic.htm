@@ -1,15 +1,38 @@
 title = "Forum Topic"
 url = "/forum/topic/:slug"
-layout = "default"
+layout = "sidebar-right"
+is_hidden = 0
+child_of = "forum/channel"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "post-title"
+crumb_disabled = 0
 
-[forumTopic cmpForumTopicMain]
-memberPage = "forum/member"
+[forumTopic forum_topic_main]
+slug = "{{ :slug }}"
+postsPerPage = 20
+memberPage = "user/profile-single"
 channelPage = "forum/channel"
+
+[forumTopics trending_discussions]
+memberPage = "user/profile-single"
+topicPage = "forum/topic"
+topicsPerPage = 5
 ==
+<?php
+function onStart(){
+}
+
 function onEnd()
 {
-//$this->page->title = 'Topic: ' . $this->page->components['cmpForumTopicMain']->topic;
+    if ($this['forum_topic_main']->getTopic()) {
+$this->page->title = $this['forum_topic_main']->getTopic()['subject'];
+$accepted = $this['topic']->posts->where('mtcorg_acceptedanswer', 1)->first();
+if ($accepted) {
+$this['accepted_answer_id'] = $accepted->id;
 }
+}
+}
+?>
 ==
-
-{% component 'cmpForumTopicMain' %}
+{% component 'forum_topic_main' %}

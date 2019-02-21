@@ -1,0 +1,20 @@
+title = "Search"
+url = "/search"
+layout = "default"
+description = "Search the site"
+meta_title = "Search the site"
+meta_description = "Search the site to find relevant information"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[searchInput]
+useAutoComplete = 1
+autoCompleteResultCount = 5
+showProviderBadge = 1
+searchPage = "search-results.htm"
+==
+<h2>Search the site</h2>
+{% component 'searchInput' %}

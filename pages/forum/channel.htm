@@ -1,14 +1,23 @@
 title = "Forum Channel"
-url = "/forum/channel/:slug"
-layout = "default"
+url = "/forum/channel/:channelslug"
+layout = "forum"
+is_hidden = 0
+child_of = "forum/home"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "channel-title"
+crumb_disabled = 0
 
-[forumChannel cmpForumChannelMain]
-memberPage = "forum/member"
+[forumChannel forum_channel_main]
+slug = "{{ :channelslug }}"
+memberPage = "user/profile-single"
 topicPage = "forum/topic"
 ==
+<?php
 function onEnd()
 {
-	$this->page->title = 'Channel: ' . $this['channel']['title'];
+$this->page->title = $this['channel']['title'];
 }
+?>
 ==
-{% component 'cmpForumChannelMain' %}
+{% component 'forum_channel_main' %}

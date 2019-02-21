@@ -1,0 +1,41 @@
+==
+{% put sidebarTop %}
+	{# @todo: this should be injected conditionally by the post. #}
+	{# @todo: post model should support notices, similar to groups, to allow conditionally injecting #}
+	<div class="card">
+		<img src="{{ post.featured_images[0].getPath() }}" class="card-img-top"/>
+		<div class="card-footer">
+			<a href="#" class="btn btn-brand-purple d-block">Read more in this series</a>
+		</div>
+	</div>
+{% endput %}
+
+{% put sidebar %}
+	{% set author = post.user %}
+	{% set contributed = false %}
+	{% if post.contributor %}
+		{% set author = post.contributor %}
+		{% set contributed = true %}
+	{% endif %}
+{% partial 'component_usergroup/user-card-small' user=author %}
+{% partial 'sidebars/blog' %}
+{% partial 'component_blog/suggested_edits' %}
+{% partial 'component_blog/form_suggest_edit' %}
+{% endput %}
+
+<div class="content">
+	{% if editing %}
+		{% partial 'component_blog/form_add_edit' %}
+	{% else %}
+		<div class="row">
+			<div class="col">
+				<h1 id="page-title" class="page-title mt-0 pb-6">{{ post.title }}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				{{ post.content_html|raw }}
+			</div>
+		</div>
+	{% endif %}
+</div>

@@ -1,0 +1,37 @@
+[viewBag]
+
+[blogPosts featuredHelpPosts]
+pageNumber = "{{ :page }}"
+categoryFilter = "help-center"
+postsPerPage = 5
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "help/help-featured"
+postPage = "help/help-post"
+==
+{% set posts =  featuredHelpPosts.posts %}
+
+<h4 class="pt-6 mt-6">Popular Help Topics</h4>
+<hr class="my-1" />
+<div class="list-group list-group-transparent mb-0">
+	{% for post in posts %}
+    	<a href="{{ post.url }}" class="list-group-item list-group-item-action pl-0">
+    		<span class="icon mr-3"><i class="fe fe-file-text"></i></span>{{ post.title }}
+    	</a>
+	{% endfor %}
+    	<a href="{{ 'help/help-featured'|page() }}" class="card-link mt-2"><i class="fe fe-arrow-right mr-3"></i>See all</a>	
+</div>
+
+<h4 class="pt-6 mt-6">Get Help</h4>
+<hr class="my-1" />
+<div class="list-group list-group-transparent mb-0">
+    	<a href="{{ 'forum/channel'|page( {channelslug:'support'}) }}" class="list-group-item list-group-item-action pl-0">
+    		<span class="icon mr-3"><i class="fe fe-bookmark"></i></span>Support Questions
+    	</a>
+    	<a href="https://mautic.slack.com" target="_blank" class="list-group-item list-group-item-action pl-0">
+    		<span class="icon mr-3"><i class="fe fe-slack"></i></span>Slack Channels
+    	</a>
+    	<a href="{{ 'mauticians/profile-list'|page() }}" class="list-group-item list-group-item-action pl-0">
+    		<span class="icon mr-3"><i class="fe fe-user"></i></span>Find a Mautician
+    	</a>
+</div>

@@ -1,0 +1,83 @@
+title = "Translation"
+url = "/translations/:groupslug"
+layout = "sidebar-left"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[usergroup]
+slug = "{{ :groupslug }}"
+
+[viewBag]
+localeUrl[de] = "/translation"
+localeUrl[fr] = "/translation"
+localeUrl[pgl] = "/translation"
+localeUrl[pt-br] = "/translation"
+localeUrl[jp] = "/translation"
+==
+{% if group %}
+
+	{% put sidebar %}
+	{% partial 'component_usergroup/usergroup-sidebar' %}
+	{% endput %}
+    
+    <div class="card">
+        <div class="card-body">
+            <h1 id="group-title">{{group.name}}</h1>
+            {{group.homepage_content_html|raw}}
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-outline-brand-purple btn-sm">
+            	<span class="fe fe-arrow-right-circle"></span> Join
+            </button>
+        </div>
+    </div>
+    <div class="row">
+		{% if group.forum_channel %}
+			<div class="col">
+				<div class="card">
+					<div class="card-header">
+    					<div class="card-options">
+    					    <a href="{{ 'mauticamps/mauticamp-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
+    							View all
+    						</a>
+    					</div>
+						<h3 class="card-title">{{'Language Discussions'|_}}</h3>
+					</div>
+					<table class="table card-table">
+                    <tbody><tr>
+                      <td width="1"><i class="fe fe-bookmark text-muted"></i></td>
+                      <td>Random post #1</td>
+                      <td class="text-right" width="100"><span class="text-muted small">3 hours ago</span></td>
+                    </tr>
+                    <tr>
+                      <td><i class="fe fe-bookmark text-muted"></i></td>
+                      <td>Group post added here</td>
+                      <td class="text-right"><span class="text-muted small">4 hours ago</span></td>
+                    </tr>
+                    <tr>
+                      <td><i class="fe fe-bookmark text-muted"></i></td>
+                      <td>Yes, this is a group topic post</td>
+                      <td class="text-right"><span class="text-muted small">Yesterday</span></td>
+                    </tr>
+                    <tr>
+                      <td><i class="fe fe-bookmark text-muted"></i></td>
+                      <td>This is an amazing group, but I have a question</td>
+                      <td class="text-right"><span class="text-muted small">2 days ago</span></td>
+                    </tr>
+                    <tr>
+                      <td><i class="fe fe-bookmark text-muted"></i></td>
+                      <td>Welcome to the best Mauticamp here!</td>
+                      <td class="text-right"><span class="text-muted small">1 week ago</span></td>
+                    </tr>
+                  </tbody>
+                 </table>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% else %}
+	<p>Couldn't find that group</p>
+{% endif %}

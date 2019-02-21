@@ -1,0 +1,73 @@
+description = "Marketplace form for user-upload of new mixin"
+==
+<?php
+function onStart(){
+$this->addJs('assets/marketplace__form.js');
+}
+?>
+==
+<form data-request="onAddNewMarketplaceDownload" class="marketplace--form_new-download">
+	{# repo url #}
+	<div class="form-group">
+		<label class="form-label">Repository URL</label>
+		  <div class="input-icon">
+            <span class="input-icon-addon">
+              <i class="fe fe-github"></i>
+            </span>
+            <input type="text" class="form-control" name="repository_url" placeholder="" value="">
+          </div>
+		<small class="form-text text-muted">
+			Enter the url of your github repo
+		</small>
+	</div>
+	{# name #}
+	<div class="form-group">
+		<label class="form-label">Mixin Name</label>
+		<input type="text" class="form-control" name="name" placeholder="" value="">
+		<small class="form-text text-muted">
+			The name of your mixin, as it will show in the Marketplace.
+		</small>
+	</div>
+
+	{# file
+	<div class="form-group">
+		<div class="form-label">Package File</div>
+		<div class="custom-file" id="marketplace--input_package-file">
+			<input type="file" class="custom-file-input" name="package_icon" accept=".zip">
+			<label class="custom-file-label">Choose file</label>
+		</div>
+	</div>#}
+
+	{# image #}
+        	<div class="form-group">
+        		<div class="form-label">Image</div>
+        		<div class="custom-file">
+        			<input type="file" class="custom-file-input" name="package_icon" accept=".jpg,.jpeg,.png">
+        			<label class="custom-file-label">Choose file</label>
+        		</div>
+        	</div>
+        	{# type #}
+        	<div class="form-group">
+        		<div class="form-label">Mixin Type</div>
+        		<div class="selectgroup w-100">
+                  <label class="selectgroup-item">
+                    <input type="radio" name="type" value="extension" class="selectgroup-input" checked="true">
+                    <span class="selectgroup-button">Extension</span>
+                  </label>
+                  <label class="selectgroup-item">
+                    <input type="radio" name="type" value="theme" class="selectgroup-input">
+                    <span class="selectgroup-button">Theme</span>
+                  </label>
+                  <label class="selectgroup-item">
+                    <input type="radio" name="type" value="workflow" class="selectgroup-input disabled" disabled="true">
+                    <span class="selectgroup-button text-muted">Workflow</span>
+                  </label>
+                </div>
+        	</div>
+	{# description #}
+	<div class="form-group">
+		<label class="form-label">Description</label>
+		<textarea class="form-control" name="description" rows="12" placeholder=""></textarea>
+	</div>
+	<button type="submit" class="btn btn-brand-purple">Upload</button>
+</form>

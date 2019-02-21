@@ -1,0 +1,21 @@
+[viewBag]
+==
+<li class="nav-item">
+	<a href="{{ 'home'|page }}" class="nav-link "><i class="fe fe-users"></i> {{'Community'|_}}</a>
+</li>
+<li class="nav-item">
+	<a href="{{ 'help/help-featured'|page() }}" class="nav-link "><i class="fe fe-book"></i> {{'Help Center'|_}}</a>
+</li>
+<li class="nav-item">
+	<a href="{{ 'forum/home'|page( {filter: ''}) }}" class="nav-link "><i class="fe fe-life-buoy"></i> {{'Find Answers'|_}}</a>
+</li>
+<li class="nav-item">
+	<a href="{{ 'marketplace/listing'|page }}" class="nav-link "><i class="fe fe-shopping-bag"></i> {{'Marketplace'|_}}</a>
+</li>
+<li class="nav-item">
+	<a href="{{ 'developers/home'|page }}" class="nav-link "><i class="fe fe-power"></i> {{'Developers & API'|_}}</a>
+</li>
+{#---#}
+<li class="nav-item d-lg-none">
+	<a href="{{ 'download'|page() }}" class="d-block mt-2 mb-4 btn btn-sm btn-brand-purple"> {{'Download'|_}}</a>
+</li>

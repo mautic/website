@@ -1,0 +1,54 @@
+description = "Downloads. 12/3/9 header/sidebar/content"
+
+[session]
+security = "all"
+
+[votable]
+
+[breadcrumbs component_breadcrumbs]
+main-ol-class = "breadcrumb bg-transparent pl-0"
+main-li-class = "breadcrumb-item"
+active-class = "active"
+disabled-class = "disabled"
+==
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+	{% component 'session' %}
+	{% partial 'site/assets-common' %}
+	{% partial 'site/site-meta-common' %}
+</head>
+<body class="">
+<div class="page">
+	<div class="page-main">
+		{% partial 'site/header' %}
+		<div class="my-3 my-md-5">
+			<div class="container">
+			<div class="small">
+			        {% component 'component_breadcrumbs' %}
+			    </div>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="card">
+							<div class="card-body">
+								<div class="text-wrap p-lg-6">
+									{% page %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 mb-4">
+						{# @todo: the only difference vs. layout/default is this sidebar. refactor so sb is injected, remove this layout. #}
+						{% partial 'sidebars/download' %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% partial 'site/footer' %}
+</div>
+
+{% partial 'site/assets-common-bottom' %}
+
+</body>
+</html>

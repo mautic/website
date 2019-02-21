@@ -1,0 +1,45 @@
+description = "Blank: No sidebar, no layout-level page header"
+
+[session]
+security = "all"
+
+[votable]
+
+[localePicker]
+forceUrl = 0
+==
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+	{% component 'session' %}
+	{% partial 'site/site-meta-common' %}
+	{% partial 'site/assets-common' %}
+</head>
+<body class="">
+<div class="page">
+	<div class="page-main">
+		{% partial 'site/header' %}
+		<div class="my-3 my-md-5">
+			<div class="container">
+				{% if placeholder('pageHeader') %}
+					<div class="page-header">
+						<h1 class="page-title">
+							{% placeholder pageHeader %}
+						</h1>
+					</div>
+				{% endif %}
+
+				{% if placeholder('before') %}
+					{% placeholder before %}
+				{% endif %}
+
+				{% page %}
+			</div>
+		</div>
+	</div>
+	{% partial 'site/footer' %}
+</div>
+
+{% partial 'site/assets-common-bottom' %}
+</body>
+</html>

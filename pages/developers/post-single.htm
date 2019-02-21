@@ -1,0 +1,24 @@
+title = "Developer Post"
+url = "/developer/:slug"
+layout = "default"
+is_hidden = 0
+child_of = "developers/home"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumbElementTitle = "post-title"
+crumb_disabled = 0
+
+[blogPost devPost]
+slug = "{{ :slug }}"
+categoryPage = "developers/home"
+
+[viewBag]
+localeUrl[de] = "/developer-post"
+localeUrl[fr] = "/developer-post"
+localeUrl[pgl] = "/developer-post"
+==
+{% if post %}
+	{% component 'devPost' %}
+{% else %}
+	<p>Couldn't find that post :'(</p>
+{% endif %}

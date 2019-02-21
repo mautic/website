@@ -1,0 +1,48 @@
+==
+{% set posts = __SELF__.posts %}
+
+<div class="row">
+	{% for post in posts %}
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body d-flex pr-3">
+				    <div class="d-flex mr-auto">
+				        <div class="d-flex flex-column">
+    				        <h3><a href="{{ post.url }}" class='card-link'>{{ post.title }}</a></h3>
+    				        <div class="pt-1 text-muted">{{ post.summary|raw }}</div>
+        				    <div class="pt-5 mt-auto">
+        						Posted
+        						{% if post.categories.count %} in {% endif %}
+        						{% for category in post.categories %}
+        							<a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+        						{% endfor %}
+        						on {{ post.published_at|date('M d, Y') }}
+        					</div>
+        				</div>
+					</div>
+				    <div class="ml-1 col-6"><a href="{{ post.url }}"><img src="{{ post.featured_images[0].getPath() }}" class="rounded border" /></a></div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<h3>{{ noPostsMessage }}</h3>
+	{% endfor %}
+</div>
+
+{% if posts.lastPage > 1 %}
+	<ul class="pagination">
+		{% if posts.currentPage > 1 %}
+			<li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a></li>
+		{% endif %}
+
+		{% for page in 1..posts.lastPage %}
+			<li class="{{ posts.currentPage == page ? 'active' : null }}">
+				<a href="{{ this.page.baseFileName|page({ (pageParam): page }) }}">{{ page }}</a>
+			</li>
+		{% endfor %}
+
+		{% if posts.lastPage > posts.currentPage %}
+			<li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage+1) }) }}">Next &rarr;</a></li>
+		{% endif %}
+	</ul>
+{% endif %}
