@@ -21,7 +21,7 @@
 								<h5>
 									{% if topic.is_sticky %}<strong>Sticky:</strong>{% endif %}
 									{% if topic.is_locked %}<i class="icon icon-lock"></i> <strong>Locked:</strong>{% endif %}
-									<a href="{{ topic.url }}" class='card-link'>{{ topic.subject }}</a>
+									<a href="{{ 'mauticamps/mauticamp-topic'|page({groupslug:group.slug, topicslug:topic.slug}) }}"  class='card-link'>{{ topic.subject }}</a>
 									<div class="pt-2 text-muted">
 									    <small>Last modified by <a href="{{ 'mauticians/profile-single'|page({user:topic.last_post_member.user.username}) }}" class="card-link text-brand-purple">{{ topic.last_post_member.user.username }}</a> <span class="font-weight-bold px-1">&middot;</span> {% partial "forum_channel_usergroup/timestamp" date=topic.last_post_at %}</small>
 								    </div>
