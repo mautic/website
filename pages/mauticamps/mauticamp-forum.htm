@@ -8,6 +8,12 @@ crumb_title = "Discussions"
 remove_crumb_trail = 0
 crumb_disabled = 0
 
+[forumTopic forum_topic_main]
+slug = "{{ :slug }}"
+postsPerPage = 20
+memberPage = "user/profile-single"
+channelPage = "forum/channel"
+
 [usergroup]
 slug = "{{ :groupslug }}"
 ==
@@ -26,6 +32,13 @@ $this->page->title = $this['group']->name . ' Forum';
 	{% put sidebar %}
 	{% partial 'component_usergroup/usergroup-sidebar' %}
 	{% endput %}
+
+
+{% if channel %}
+<h4>Create a new discussion topic @ {{ group.forum_channel.title  }}  </h4>
+{% partial "@createform" returnUrl=topicPage|page  %}
+{% endif %}
+
 
 	{% if group.forum_channel %}
 		{% set channel = group.forum_channel %}
