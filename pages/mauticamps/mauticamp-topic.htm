@@ -10,10 +10,12 @@ memberPage = "forum/member"
 channelPage = "forum/channel"
 slug = {{ :topicslug }}
 ==
+<?php
 function onEnd()
 {
 $this->page->title = $this['forum_topic_main']->getTopic()['subject'];
 }
+?>
 ==
 
 
