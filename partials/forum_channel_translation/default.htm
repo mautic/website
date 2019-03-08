@@ -1,0 +1,7 @@
+<div class="rainlab-forum">
+	{% partial "forum_channel_main/topics" topics=channel.topics group=group %}
+	{% if topics %}
+		{% partial "forum_channel_main/pagination" %}
+	{% endif %}
+</div>
+
