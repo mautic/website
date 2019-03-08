@@ -1,0 +1,100 @@
+[viewBag]
+==
+{# @todo all partials should be refactored into logical use-groups not cmp-groups. eg: this should be partials/user/user-card-small, sibling of all other user partials #}
+{# note: user is a ref to Auth::getUser(); groupuser refences the card user object.  #}
+
+{% import 'macros/user' as usermacros %}
+<div class="card" data-test="user-card">
+	<div class="card-body p-3">
+		<div class="d-flex align-items-center">
+			{% set avatarStatus = "" %}
+			{% if groupuser.hasGroupRole(group,"trka:groups:group_moderator") %}
+				{% set avatarStatus = '<span class="avatar-status bg-brand-gold-lighter" title="Group Moderator"></span>' %}
+			{% endif %}
+			{% if groupuser.hasGroupRole(group,"trka:groups:group_administrator") %}
+				{% set avatarStatus = '<span class="avatar-status bg-brand-gold" title="Group Administrator"></span>' %}
+			{% endif %}
+			{{ usermacros.getDisplayAvatar(groupuser, "avatar-md mr-3", 64, avatarStatus) }}
+			<div>
+				<div><a href="{{ 'mauticians/profile-single'|page({user:groupuser.username}) }}">{{ groupuser.name }}</a></div>
+				<small class="d-block text-muted">{{ usermacros.getUserSubline(groupuser, " | ") }}</small>
+			</div>
+		</div>
+	</div>
+	<div class="card-footer p-2 d-flex">
+		<div class="tags">
+			<div class="tag tag-brand-secondary text-muted">
+				{{ groupuser.activated_at|date('Y') }}
+			</div>
+			{% if groupuser.usergroups|length %}
+				{% for group in groupuser.usergroups|slice(0,1) %}
+					{% if group.group_type == "mauticamp" %}
+						<div class="tag tag-brand-purple">
+							<span class="tag-prepend"><i class="fe mtc-mautic"></i></span>
+							<a href="{{ 'translations/translation-single'|page({groupslug:group.slug}) }}" class="tag-addon tag-gray">
+								{{ group.name }}
+							</a>
+						</div>
+					{% else %}
+						<a href="#" class="btn btn-{{ group.group_color }} btn-xs">
+							<i class="fe {{ group.group_icon }}" data-toggle="tooltip" title="" data-original-title="{{ group.name }}"></i>
+						</a>
+					{% endif %}
+				{% endfor %}
+				{% if groupuser.usergroups|length > 1 %}
+					<div class="tag tag-gray">
+						{#<a href="{{ 'translations/translation-single'|page({groupslug:group.slug}) }}" class="tag-gray">#}
+						+{{ groupuser.usergroups|length - 1 }} More
+						{#</a>#}
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
+
+		{% if groupuser.marketplace|length %}
+			<a href="#" class="btn btn-cyan btn-xs">
+				<i class="fe fe-shopping-bag" data-toggle="tooltip" title="" data-original-title="Marketplace Listings"></i>
+			</a>
+		{% endif %}
+		<span class="flex-grow-1"></span>
+	</div>
+
+	{# admin controls #}
+	{% if user.hasGroupRole(group, 'trka:groups:group_administrator') %}
+		<div class="card-footer p-2 d-flex">
+			<span class="flex-grow-1"></span>
+			<button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Action
+			</button>
+			<div class="dropdown-menu" x-placement="bottom-end" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+				{% if groupuser.hasGroupRole(group,"trka:groups:group_administrator") %}
+					<button
+						data-request="onModifyRoles"
+						data-request-data="role: 'trka:groups:group_administrator', action: 'remove', userid:{{ groupuser.id }}"
+						class="dropdown-item">Revoke Administrator
+					</button>
+				{% else %}
+					<button
+						data-request="onModifyRoles"
+						data-request-data="role: 'trka:groups:group_administrator', action: 'add', userid:{{ groupuser.id }}"
+						class="dropdown-item">Make Administrator
+					</button>
+				{% endif %}
+				<div role="separator" class="dropdown-divider"></div>
+				{% if groupuser.hasGroupRole(group,"trka:groups:group_moderator") %}
+					<button
+						data-request="onModifyRoles"
+						data-request-data="role: 'trka:groups:group_moderator', action: 'remove', userid:{{ groupuser.id }}"
+						class="dropdown-item">Revoke Moderator
+					</button>
+				{% else %}
+					<button
+						data-request="onModifyRoles"
+						data-request-data="role: 'trka:groups:group_moderator', action: 'add', userid:{{ groupuser.id }}"
+						class="dropdown-item">Make Moderator
+					</button>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+</div>
