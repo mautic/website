@@ -2,6 +2,8 @@
 
 {% import 'macros/user' as usermacros %}
 
+{% set release = extension.allReleases|slice(0,1)[0] %}
+
 <div class="card card-aside">
 	<a href="#" class="card-aside-column" style="background-image: url({{ download.package_icon.getPath() }})"></a>
 	<div class="card-body d-flex flex-column">
@@ -28,36 +30,39 @@
 				<small class="d-block text-muted">Uploaded {{ download.created_at|date('Y/m/d') }} | Last
 					Updated {{ download.updated_at|date('Y/m/d') }}</small>
 			</div>
-			<div class="ml-auto">
-				<a href="{{ download.package_file.getPath() }}" class="btn btn-brand-purple"><i
-						class="fe fe-download"></i></a>
+			<div class="ml-auto mt-2">
+				<a href="{{ extension.repoUrl }}" target="_blank" class="btn btn-outline-brand-purple btn-sm"><i class="fe fe-github mr-2"></i> Repository</a>
+				{#<a target="_blank" href="{{ release.assets }}" class="btn btn-brand-purple"><i
+						class="fe fe-download"></i></a>#}
 			</div>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-	{% set release = extension.allReleases|slice(0,1)[0] %}
 	{# latest release #}
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-			     <div class="card-options text-muted small">
-			        Released {{ release.published|date("m/d/Y") }}
+			     <div style="margin-left: auto;order: 100;">
+					 {% for download in release.assets %}
+						 <span><a href="{{ download.downloadUri }}" target="_blank" class="tag tag-primary">{{ download.name }}</a></span>
+					 {% endfor %}
 			     </div>
-				<h3 class="card-title">{{ release.name }} <span class="small text-muted">Latest Stable Release</span></h4>
+				<h3 class="card-title">{{ release.name }} <span class="small text-muted">Latest Stable Release {{ release.published|date("m/d/Y") }}</span></h3>
 			</div>
 			<div class="card-body">
 				<div>
-					{{ release.content_md|md }}
-    				<div>
+					{{ extension.parseReadme|md }}
+					{#{{ release.content_md|md }}#}
+    				{#<div>
                         <div class="alert alert-primary mt-5">
         					<span class="font-weight-bold pr-2">{{'Mixin Source Code'|_}}: </span>
         					{% for type, download in release.source %}
         						<a href="{{download}}" target="_blank" class="tag tag-primary">{{release.name}}.{{ type }}</a>
         					{% endfor %}
         				</div>
-    				</div>
+    				</div>#}
 				</div>
 			</div>
 		</div>
