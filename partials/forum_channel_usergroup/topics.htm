@@ -2,10 +2,8 @@
 ==
 <div class="row">
 	<div class="col-12">
+		{% partial "forum_channel_main/title" %}
 		<div class="card">
-			<div class="card-header">
-				{% partial "forum_channel_usergroup/title" %}
-			</div>
 			<div class="table-responsive">
 				<table class="table card-table table-striped table-vcenter">
 					<thead>
@@ -26,7 +24,7 @@
 									{# @todo: should usergroup topics link to a layout with the same group sidebar, etc? #}
 									<a href="{{ 'mauticamps/mauticamp-topic'|page({groupslug:group.slug, topicslug:topic.slug}) }}">{{ topic.subject }}</a>
 									<div class="pt-2 text-muted">
-									    <small>Last modified by <a href="{{ topic.last_post_member.url }}">{{ topic.last_post_member.username }}</a> &middot; {% partial "forum_channel_usergroup/timestamp" date=topic.last_post_at %}</small>
+									    <small>Last modified by <a href="{{ 'mauticians/profile-single'|page({user:topic.last_post_member.user.username}) }}" class="card-link text-brand-purple">{{ topic.last_post_member.username }}</a> &middot; {% partial "forum_channel_usergroup/timestamp" date=topic.last_post_at %}</small>
 								    </div>
 								</h5>
 							</td>
