@@ -1,5 +1,5 @@
 title = "Forum Topic"
-url = "/mauticamps/:groupslug/:topicslug"
+url = "/translation/:groupslug/:topicslug"
 layout = "sidebar-left"
 
 [usergroup]
@@ -18,7 +18,7 @@ $this->page->title = $this['forum_topic_main']->getTopic()['subject'];
 
 
 {% put sidebar %}
-{% partial 'component_usergroup/usergroup-sidebar' %}
+{% partial 'component_translation/translation-sidebar' %}
 {% endput %}
 
 {% component 'forum_topic_main' %}

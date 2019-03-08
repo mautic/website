@@ -1,8 +1,8 @@
-title = "Mauticamp Forum"
-url = "/mauticamps/:groupslug/forum"
+title = "Translation Forum"
+url = "/translation/:groupslug/forum"
 layout = "sidebar-left"
 is_hidden = 0
-child_of = "mauticamps/mauticamp-single"
+child_of = "translation/translation-single"
 hide_crumb = 0
 crumb_title = "Discussions"
 remove_crumb_trail = 0
@@ -24,12 +24,12 @@ $this->page->title = $this['group']->name . ' Forum';
 	{% endput %}#}
 
 	{% put sidebar %}
-	{% partial 'component_usergroup/usergroup-sidebar' %}
+	{% partial 'component_translation/translation-sidebar' %}
 	{% endput %}
 
 	{% if group.forum_channel %}
 		{% set channel = group.forum_channel %}
-		{% partial 'forum_channel_usergroup/default.htm' channel=group.forum_channel group=group %}
+		{% partial 'forum_channel_translation/default.htm' channel=group.forum_channel group=group %}
 	{% endif %}
 
 {% else %}

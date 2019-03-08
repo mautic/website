@@ -1,17 +1,17 @@
-title = "Mauticamp Mauticians"
-url = "/mauticamps/:groupslug/mauticians"
+title = "Translation Mauticians"
+url = "/translation/:groupslug/mauticians"
 layout = "sidebar-left"
 is_hidden = 0
-child_of = "mauticamps/mauticamp-single"
+child_of = "translation/translation-single"
 hide_crumb = 0
 crumb_title = "Mauticians"
 remove_crumb_trail = 0
 crumb_disabled = 0
 
 [viewBag]
-localeUrl[de] = "/mauticamp-mauticians"
-localeUrl[fr] = "/mauticamp-mauticians"
-localeUrl[pgl] = "/mauticamp-mauticians"
+localeUrl[de] = "/translation-mauticians"
+localeUrl[fr] = "/translation-mauticians"
+localeUrl[pgl] = "/transltion-mauticians"
 
 [usergroup]
 slug = "{{ :groupslug }}"
@@ -25,7 +25,7 @@ $this->page->title = $this['group']->name . ' Members';
 ==
 {% if group %}
 	{% put sidebar %}
-	{% partial 'component_usergroup/usergroup-sidebar' %}
+	{% partial 'component_translation/translation-sidebar' %}
 	{% endput %}
 
 	{% set userisgroupadmin=user.hasGroupRole(group, 'admin') %}
@@ -37,7 +37,7 @@ $this->page->title = $this['group']->name . ' Members';
 			<h3 class="col-sm-12">Administrators</h3>
 			{% for groupuser in group.administrators %}
 				<div class="col-sm-12 col-lg-4 mb-4">
-					{% partial 'component_usergroup/user-card-small'
+					{% partial 'component_translation/user-card-small'
 						groupuser=groupuser
 						group=group %}
 				</div>
@@ -50,7 +50,7 @@ $this->page->title = $this['group']->name . ' Members';
 			<h3 class="col-sm-12">Moderators</h3>
 			{% for groupuser in group.moderators %}
 				<div class="col-sm-12 col-lg-4 mb-4">
-					{% partial 'component_usergroup/user-card-small'
+					{% partial 'component_translation/user-card-small'
 						groupuser=groupuser
 						group=group %}
 				</div>
@@ -63,7 +63,7 @@ $this->page->title = $this['group']->name . ' Members';
 			<h3 class="col-sm-12">Members</h3>
 			{% for groupuser in group.unprivileged %}
 				<div class="col-sm-12 col-lg-4 mb-4">
-					{% partial 'component_usergroup/user-card-small'
+					{% partial 'component_translation/user-card-small'
 						groupuser=groupuser
 						group=group %}
 				</div>

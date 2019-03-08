@@ -20,7 +20,7 @@ localeUrl[jp] = "/translation"
 {% if group %}
 
 	{% put sidebar %}
-	{% partial 'component_usergroup/usergroup-sidebar' %}
+	{% partial 'component_translation/translation-sidebar' %}
 	{% endput %}
     
     <div class="card">
@@ -40,7 +40,7 @@ localeUrl[jp] = "/translation"
 				<div class="card">
 					<div class="card-header">
     					<div class="card-options">
-    					    <a href="{{ 'mauticamps/mauticamp-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
+    					    <a href="{{ 'translation/translation-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
     							View all
     						</a>
     					</div>
@@ -69,7 +69,7 @@ localeUrl[jp] = "/translation"
                     </tr>
                     <tr>
                       <td><i class="fe fe-bookmark text-muted"></i></td>
-                      <td>Welcome to the best Mauticamp here!</td>
+                      <td>Welcome to the best Translation group here!</td>
                       <td class="text-right"><span class="text-muted small">1 week ago</span></td>
                     </tr>
                   </tbody>
