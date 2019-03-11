@@ -3,7 +3,7 @@ url = "/forum/:filter?"
 layout = "forum"
 meta_title = "Get Answers"
 is_hidden = 0
-child_of = "content/community"
+child_of = "community"
 hide_crumb = 1
 crumb_title = "Find Answers"
 remove_crumb_trail = 0
@@ -29,5 +29,16 @@ filterSlug = "{{ :filter }}"
 
 [localePicker]
 forceUrl = 0
+==
+<?php
+function onEnd(){
+
+if(!empty($_GET['search'])){
+$this->page->title = 'Search: '. $_GET['search'];
+}elseif(isset($_GET['page']) && $_GET['page'] > 1){
+$this->page->title = 'Latest Discussions';
+}
+}
+?>
 ==
 {% component 'forum_discussion_forum' %}
