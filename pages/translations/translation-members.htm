@@ -1,0 +1,76 @@
+title = "Translations Mauticians"
+url = "/translations/:groupslug/mauticians"
+layout = "sidebar-left"
+is_hidden = 0
+child_of = "translations/translation-single"
+hide_crumb = 0
+crumb_title = "Mauticians"
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+localeUrl[de] = "/translation-mauticians"
+localeUrl[fr] = "/translation-mauticians"
+localeUrl[pgl] = "/translation-mauticians"
+
+[usergroup]
+slug = "{{ :groupslug }}"
+==
+<?php
+function onEnd()
+{
+$this->page->title = $this['group']->name . ' Members';
+}
+?>
+==
+{% if group %}
+	{% put sidebar %}
+	{% partial 'component_usergroup/usergroup-sidebar' urlPrefix='translations/translation' %}
+	{% endput %}
+
+	{% set userisgroupadmin=user.hasGroupRole(group, 'admin') %}
+
+	<h1 class="d-none" id="group-title">{{ group.name }}</h1>
+
+	{% if group.administrators|length %}
+		<div class="row">
+			<h3 class="col-sm-12">Administrators</h3>
+			{% for groupuser in group.administrators %}
+				<div class="col-sm-12 col-lg-4 mb-4">
+					{% partial 'component_usergroup/user-card-small'
+						groupuser=groupuser
+						group=group %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if group.moderators|length %}
+		<div class="row">
+			<h3 class="col-sm-12">Moderators</h3>
+			{% for groupuser in group.moderators %}
+				<div class="col-sm-12 col-lg-4 mb-4">
+					{% partial 'component_usergroup/user-card-small'
+						groupuser=groupuser
+						group=group %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if group.unprivileged|length %}
+		<div class="row">
+			<h3 class="col-sm-12">Members</h3>
+			{% for groupuser in group.unprivileged %}
+				<div class="col-sm-12 col-lg-4 mb-4">
+					{% partial 'component_usergroup/user-card-small'
+						groupuser=groupuser
+						group=group %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+{% else %}
+	<p>Couldn't find that group</p>
+{% endif %}

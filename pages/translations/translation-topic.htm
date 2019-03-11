@@ -1,0 +1,28 @@
+title = "Forum Topic"
+url = "/translations/:groupslug/:topicslug"
+layout = "sidebar-left"
+
+[usergroup]
+slug={{ :groupslug }}
+
+[forumTopic forum_topic_main]
+memberPage = "forum/member"
+channelPage = "forum/channel"
+slug = {{ :topicslug }}
+==
+<?php
+function onEnd()
+{
+$this->page->title = $this['forum_topic_main']->getTopic()['subject'];
+}
+?>
+==
+
+
+{% put sidebar %}
+{% partial 'component_usergroup/usergroup-sidebar' %}
+{% endput %}
+
+{% component 'forum_topic_main' %}
+
+

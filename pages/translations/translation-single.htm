@@ -20,7 +20,7 @@ localeUrl[jp] = "/translation"
 {% if group %}
 
 	{% put sidebar %}
-	{% partial 'component_usergroup/usergroup-sidebar' %}
+	{% partial 'component_usergroup/usergroup-sidebar' urlPrefix='translations/translation' %}
 	{% endput %}
     
     <div class="card">
@@ -28,10 +28,27 @@ localeUrl[jp] = "/translation"
             <h1 id="group-title">{{group.name}}</h1>
             {{group.homepage_content_html|raw}}
         </div>
-        <div class="card-footer">
-            <button class="btn btn-outline-brand-purple btn-sm">
-            	<span class="fe fe-arrow-right-circle"></span> Join
-            </button>
+        <div class="card-footer d-flex">
+            {# left #}
+            {% if user %}
+                {% if user.isInGroup(group) %}
+                    <button
+                            data-request="onRemoveSelf"
+                            class="btn btn-outline-brand-purple btn-sm">
+                        <span class="fe fe-arrow-right-circle"></span> Leave this Group
+                    </button>
+                {% else %}
+                    <button
+                            data-request="onAddSelf"
+                            class="btn btn-outline-brand-purple btn-sm">
+                        <span class="fe fe-arrow-right-circle"></span> Join
+                    </button>
+                {% endif %}
+            {% else %}
+                <button class="btn btn-outline-brand-purple btn-sm">Sign-In to Join this group</button>
+            {% endif %}
+
+            <span class="flex-grow-1"></span>
         </div>
     </div>
     <div class="row">
@@ -40,7 +57,7 @@ localeUrl[jp] = "/translation"
 				<div class="card">
 					<div class="card-header">
     					<div class="card-options">
-    					    <a href="{{ 'mauticamps/mauticamp-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
+    					    <a href="{{ 'translations/translation-forum'|page({groupslug:group.slug}) }}" class="btn btn-secondary btn-sm">
     							View all
     						</a>
     					</div>

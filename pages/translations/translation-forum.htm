@@ -1,0 +1,49 @@
+title = "Translation Forum"
+url = "/translations/:groupslug/forum"
+layout = "sidebar-left"
+is_hidden = 0
+child_of = "translations/translation-single"
+hide_crumb = 0
+crumb_title = "Translation"
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[forumTopic forum_topic_main]
+slug = "{{ :slug }}"
+postsPerPage = 20
+memberPage = "user/profile-single"
+channelPage = "forum/channel"
+
+
+[usergroup]
+slug = "{{ :groupslug }}"
+==
+<?php
+function onEnd()
+{
+$this->page->title = $this['group']->name . ' Forum';
+}
+?>
+==
+{% if group %}
+
+	{#{% put pageBanner %}
+		{{ this.page.title }}
+	{% endput %}#}
+	{% put sidebar %}
+		{% partial 'component_usergroup/usergroup-sidebar' urlPrefix='translations/translation' %}
+	{% endput %}
+
+{% if channel %}
+<h4>Create a new discussion topic @ {{ group.forum_channel.title  }}  </h4>
+{% partial "@createform" returnUrl=topicPage|page  %}
+{% endif %}
+
+	{% if group.forum_channel %}
+		{% set channel = group.forum_channel %}
+		{% partial 'forum_channel_usergroup/default.htm' channel=group.forum_channel group=group %}
+	{% endif %}
+
+{% else %}
+	<p>Couldn't find that group</p>
+{% endif %}
