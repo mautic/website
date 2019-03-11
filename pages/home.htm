@@ -49,11 +49,11 @@ page = 1
 		<div class="card">
 			<div class="card-status bg-brand-purple"></div>
 			<div class="card-body text-center">
-				<h3 class="card-title">{{ 'Find Answers'|_ }}</h3>
-				<p>{{ 'Just getting started or stumble across a problem?<br/>Start here in your search for a solution'|_ }}.</p>
-				<p><a href="{{ 'forum/home'|page() }}" class="btn btn-brand-purple btn-lg" data-test="forum-button">
-						<icon class="fe fe-search"></icon>
-						{{ 'Find Answers'|_ }}</a></p>
+				<h3 class="card-title">{{ 'Getting Started'|_ }}</h3>
+				<p>{{ 'Here is a short guide to help get you started on what comes next in 4 easy steps'|_ }}.</p>
+				<p><a href="{{ 'help/help-post'|page( {slug: 'getting-started'} ) }}" class="btn btn-brand-purple btn-lg" data-test="forum-button">
+						<icon class="fe fe-download-cloud"></icon>
+						{{ 'First steps'|_ }}</a></p>
 			</div>
 		</div>
 	</div>
@@ -69,11 +69,23 @@ page = 1
 			</div>
 		</div>
 	</div>
+	<div class="col">
+		<div class="card">
+			<div class="card-status bg-brand-purple"></div>
+			<div class="card-body text-center">
+				<h3 class="card-title">{{ 'Find Answers'|_ }}</h3>
+				<p>{{ 'Just getting started or stumble across a problem?<br/>Start here in your search for a solution'|_ }}.</p>
+				<p><a href="{{ 'forum/home'|page() }}" class="btn btn-brand-purple btn-lg" data-test="forum-button">
+						<icon class="fe fe-search"></icon>
+						{{ 'Find Answers'|_ }}</a></p>
+			</div>
+		</div>
+	</div>
 </div>
 
 {# row: mini-cards #}
 <div class="row row-cards">
-	<div class="col-sm-6 col-lg-3">
+	<div class="col-sm-4 col-lg-4">
 		<div class="card p-3">
 			<div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-dark mr-3">
@@ -90,7 +102,7 @@ page = 1
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6 col-lg-3">
+	{#<div class="col-sm-6 col-lg-3">
 		<div class="card p-3">
 			<div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-dark mr-3">
@@ -105,13 +117,13 @@ page = 1
 							<small>Translations</small>
 						</a></h4>
 					<small class="text-muted">{{ "Join to us"|_ }}</small>
-					{#<small class="text-muted">{{ totalTranslations }} {{ 'fully translated'|_ }}</small>#}
+					#}{#<small class="text-muted">{{ totalTranslations }} {{ 'fully translated'|_ }}</small>#}{#
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>#}
 
-	<div class="col-sm-6 col-lg-3">
+	<div class="col-sm-4 col-lg-4">
 		<div class="card p-3">
 			<div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-dark mr-3">
@@ -134,7 +146,7 @@ page = 1
 		</div>
 	</div>
 
-	<div class="col-sm-6 col-lg-3">
+	<div class="col-sm-4 col-lg-4">
 		<div class="card p-3">
 			<div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-dark mr-3">
@@ -190,7 +202,6 @@ page = 1
 						</div>
 					</div>
 
-					{# card: recent help topics #}
 					<div class="col">
 						<div class="card">
 							<div class="card-header">
@@ -255,25 +266,32 @@ page = 1
 	</div>
 </div>
 
+{#
 <div class="row">
-	<div class="col">
+	#}
+{#<div class="col">
 		<div class="list-group list-group-transparent mb-0">
 			{% partial 'navigation/footer_list_social' %}
 		</div>
-	</div>
+	</div>#}{#
+
 	<div class="col">
 		<div class="list-group list-group-transparent mb-0">
 			{% partial 'navigation/footer_list_howtos' %}
 		</div>
 	</div>
-	<div class="col">
+	#}
+{#<div class="col">
 		<div class="list-group list-group-transparent mb-0">
 			{% partial 'navigation/footer_list_most-active' %}
 		</div>
-	</div>
-	<div class="col">
+	</div>#}{#
+
+	#}
+{#<div class="col">
 		<div class="list-group list-group-transparent mb-0">
 			{% partial 'navigation/footer_list_legal' %}
 		</div>
-	</div>
-</div>
+	</div>#}{#
+
+</div>#}
