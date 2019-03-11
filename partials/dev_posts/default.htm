@@ -13,13 +13,13 @@
 					<h4><a class="card-link" href="{{ post.url }}">{{ post.title }}</a></h4>
 					<div class="text-muted">{{ post.excerpt }}</div>
 					<div class="d-flex align-items-center pt-5 mt-auto">
-						{% if post.categories.count %} <strong>Category</strong>:  {% endif %}
+					{#	{% if post.categories.count %} <strong>Category</strong>:  {% endif %}
 						{% for category in post.categories %}
 							<a class="card-link ml-1" href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
-						{% endfor %}
-						<div class="ml-auto">
+						{% endfor %}#}
+						{#<div class="ml-auto">
 							<small class="d-block text-muted"><i class="fe fe-clock mr-1"></i>3 hours</small>
-						</div>
+						</div>#}
 					</div>
 				</div>
 			</div>
@@ -50,6 +50,7 @@
 	</ul>
 {% endif %}
 
+{#
 
 <div class="row">
 	<div class="col">
@@ -102,3 +103,4 @@
 		</div>
 	</div>
 </div>
+#}
