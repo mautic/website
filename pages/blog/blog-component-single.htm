@@ -1,5 +1,5 @@
 title = "Blog Post"
-url = "/blog/post/:slug/:mode?"
+url = "/blog/:category/:slug/:mode?"
 layout = "sidebar-right"
 is_hidden = 0
 child_of = "blog/blog-component-recent"
@@ -7,6 +7,8 @@ hide_crumb = 0
 remove_crumb_trail = 0
 crumbElementTitle = "page-title"
 crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 
 [viewBag]
 localeUrl[de] = "/recent-posts"
@@ -18,9 +20,14 @@ slug = "{{ :slug }}"
 categoryPage = "blog/blog-component-category"
 
 [editableBlogPost]
+
 [suggestable]
+
 [userProfile user]
+
 [globalRelationships relations]
+
+[registerVisit]
 ==
 <?php
 function onEnd()
@@ -36,11 +43,11 @@ $this['editing'] = $this->param('mode')==='edit' && $this['editable']===true;
 ?>
 ==
 {% if post %}
-	{% put sidebarBottom %}
-	{% partial 'sidebars/global_relations_lists' relationships=relations.parse(post) %}
-	{% endput %}
+{% put sidebarBottom %}
+{% partial 'sidebars/global_relations_lists' relationships=relations.parse(post) %}
+{% endput %}
 
-	{% component 'blog_posts_single' %}
+{% component 'blog_posts_single' %}
 {% else %}
-	<p>Couldn't find that post :'(</p>
+<p>Couldn't find that post :'(</p>
 {% endif %}
