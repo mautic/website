@@ -1,3 +1,5 @@
+# Governance
+
 Rules and policies are helpful to establish general guidelines and principles as well as providing transparency in how situations are handled.  
 
   This article outlines the rules and policies which govern the Mautic Core team. These rules are effective on publication and all Mautic Core team members must agree to observe and abide by the listed rules and protocol.  
