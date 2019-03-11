@@ -1,3 +1,5 @@
+# Mautic Trademark
+
 The Mautic Association acts as a steward for the Mautic brand, with the trademark and logo rights being owned by Mautic, Inc. Our goal is to grow the Mautic community by encouraging businesses of all sizes to bring creativity, innovation and contributions to the project.  We’ve developed this policy in an effort to preserve the Mautic trademark and brand, as well as to provide guidance and resources to those who wish to use the Mautic name, logo or trademark in any capacity. 
 
 
