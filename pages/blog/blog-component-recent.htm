@@ -7,6 +7,8 @@ hide_crumb = 1
 crumb_title = "Blog"
 remove_crumb_trail = 0
 crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 
 [viewBag]
 localeUrl[de] = "/recent-posts"
@@ -15,13 +17,12 @@ localeUrl[pgl] = "/recent-posts"
 
 [blogPosts blog_posts_recent]
 pageNumber = "{{ :page }}"
-categoryFilter = "marketer-blog"
+categoryFilter = "marketer"
 postsPerPage = 10
 noPostsMessage = "No posts found"
 sortOrder = "published_at desc"
 categoryPage = "blog/blog-component-category"
 postPage = "blog/blog-component-single"
-
 ==
 {% put sidebar %}
 <h4 class="pt-6">Popular Articles</h4>
