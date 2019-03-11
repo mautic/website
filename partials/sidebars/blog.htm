@@ -11,13 +11,28 @@ postPage = "blog/blog-component-single"
 slug = "{{ :slug }}"
 displayEmpty = 1
 categoryPage = "blog/blog-component-category"
+
+[topPosts]
+period = 2
+category = 0
+postPerPage = 5
+postPage = "blog/blog-component-single"
+slug = "{{ :slug }}"
 ==
 {%set categories = blogCategories.category %}
+{% for post in mostVisitedPosts %}
+<div class="post">
+	<div class="postImage"><img alt="" src="{{post.featured_images[0].path}}"></div>
+	<div class="post-content">
+		<a href="{{post.url}}"><h5>{{post.title}}</h5></a>
+	</div>
+</div>
+{% endfor %}
 
 <h4 class="pt-6 mt-6">Blog Categories</h4>
 <hr class="my-1" />
 <div class="list-group list-group-transparent mb-0">
- {% component 'blogCategories' %}
+	{% component 'blogCategories' %}
 </div>
 
 {% set posts =  recent_blog_posts.posts %}
@@ -25,9 +40,9 @@ categoryPage = "blog/blog-component-category"
 <hr class="my-1" />
 <div class="list-group list-group-transparent mb-0">
 	{% for post in posts %}
-    	<a href="{{ post.url }}" class="list-group-item list-group-item-action pl-0">
-    		<span class="icon mr-3"><i class="fe fe-file"></i></span>
-    			{{ post.title}}
-    	</a>
+	<a href="{{ post.url }}" class="list-group-item list-group-item-action pl-0">
+		<span class="icon mr-3"><i class="fe fe-file"></i></span>
+		{{ post.title}}
+	</a>
 	{% endfor %}
 </div>
