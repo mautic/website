@@ -69,7 +69,7 @@ $this->page->title = $this->download->name;
 {% endput %}
 
 <div class="row row-deck">
-	{% for download in downloads %}
+	{% for download in downloads if download.review_status == 'approved' %}
 		{% partial 'component_marketplace/card' download=download %}
 	{% endfor %}
 </div>
