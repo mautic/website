@@ -4,11 +4,14 @@ description = "Home. full-width content, no page header"
 security = "all"
 
 [votable]
+
+[SeoCmsPage]
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
 	{% component 'session' %}
+	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
 </head>

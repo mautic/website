@@ -7,11 +7,14 @@ security = "all"
 
 [localePicker]
 forceUrl = 0
+
+[SeoCmsPage]
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
 	{% component 'session' %}
+	{% component 'SeoCmsPage' %}
 	{% partial 'site/site-meta-common' %}
 	{% partial 'site/assets-common' %}
 </head>

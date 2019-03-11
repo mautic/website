@@ -10,11 +10,14 @@ main-ol-class = "breadcrumb bg-transparent pl-0"
 main-li-class = "breadcrumb-item"
 active-class = "active"
 disabled-class = "disabled"
+
+[SeoCmsPage]
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-	{% component 'session' %}
+	{% component'session' %}
+	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
 </head>
