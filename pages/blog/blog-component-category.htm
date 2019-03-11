@@ -7,6 +7,8 @@ hide_crumb = 0
 remove_crumb_trail = 0
 crumbElementTitle = "category-title"
 crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 
 [viewBag]
 localeUrl[de] = "/recent-posts"
@@ -26,11 +28,16 @@ postPage = "blog/blog-component-single"
 function onEnd()
 {
 	if ($this->category)
-	{
-		$this->page->title = $this->category->name;
-	}
+{
+$this->page->title = $this->category->name;
+}
 }
 ?>
 ==
+{% put sidebar %}
+<h4 class="pt-6">Popular Articles</h4>
+<hr class="py-1">
+{% partial 'sidebars/blog' %}
+{% endput %}
 <h1 id="category-title">{{category.name}}</h1>
 {% component 'blog_posts_category' %}
