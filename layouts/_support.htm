@@ -4,11 +4,14 @@ description = "Support. 12/3/9 header/sidebar/content"
 security = "all"
 
 [votable]
+
+[SeoCmsPage]
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
 	{% component 'session' %}
+	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
 </head>
