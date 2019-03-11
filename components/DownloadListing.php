@@ -8,6 +8,8 @@ class DownloadListing extends ComponentBase
 {
     public $downloads;
 
+    private $extensionRepo;
+
     public function componentDetails()
     {
         return [
@@ -46,10 +48,15 @@ class DownloadListing extends ComponentBase
 //            $all->where('tag.slug', $this->property('tag'));
         }
 
-        $this->downloads = $this->page['downloads'] = $all->get();
+        $downloads = $all->get();
+        foreach ($downloads as &$download) {
+            $download->extension = $this->hydrateFromRemote($download->repository_provider, $download->repository_url);
+        }
+
+        $this->downloads = $this->page['downloads'] = $downloads;
     }
 
-    private function hydrateFromRemote($provider, $remoteUrl)
+    public function hydrateFromRemote($provider, $remoteUrl)
     {
         $hydratedRepo = '';
         switch ($provider) {
