@@ -59,6 +59,7 @@ class Plugin extends PluginBase
         return [
             '\trka\MauticdotorgExtensions\Components\Votable' => 'votable',
             '\trka\MauticdotorgExtensions\Components\FilterableChannels' => 'filterableForumChannels',
+            '\trka\MauticdotorgExtensions\Components\FilterableTopics' => 'filterableTopics',
             '\trka\MauticdotorgExtensions\Components\UserProfile' => 'userProfile',
             '\trka\MauticdotorgExtensions\Components\UserProfiles' => 'userProfiles',
             '\trka\MauticdotorgExtensions\Components\RecentForumTopics' => 'recentForumTopics',
