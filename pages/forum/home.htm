@@ -1,6 +1,6 @@
-title = "Categories"
+title = "Forum"
 url = "/forum/:filter?"
-layout = "forum"
+layout = "blank"
 meta_title = "Get Answers"
 is_hidden = 0
 child_of = "community"
@@ -8,6 +8,7 @@ hide_crumb = 1
 crumb_title = "Find Answers"
 remove_crumb_trail = 0
 crumb_disabled = 0
+title_centered=1
 
 [viewBag]
 localeUrl[de] = "/mautic-community-forums"
@@ -42,4 +43,25 @@ $this->page->title = 'Latest Discussions';
 }
 ?>
 ==
+
+{% put before %}
+<div class="page-header d-block text-center">
+    <h1 class="p-5">{{ 'Forum'|_ }}</h1>
+</div>
+{% if  not input('search')|e and  topics.currentPage == 1 %}
+    {{ form_open({ method: 'get' }) }}
+    <div class="row col-6 mx-auto mb-6 pb-6 ">
+        <div class="input-group input-group-lg">
+            <input type="text" id="interest-search" name="search" class="form-control"
+                   placeholder="{{ 'What you want to find?'|_ }}" value="{{ input('search')|e }}">
+            <span class="input-group-append">
+          <input id="search" class="btn btn-brand-purple" type="submit" value="{{ 'Search'|_ }}"/>
+            </span>
+        </div>
+    </div>
+    {{ form_close() }}
+
+{% endif %}
+{% endput %}
+
 {% component 'forum_discussion_forum' %}
