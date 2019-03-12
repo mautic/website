@@ -1,5 +1,8 @@
 [viewBag]
 ==
+{% if channel.description %}
+	<p>{{ channel.description }}</p>
+{% endif %}
 <div class="row pb-2">
 	<div class="col-md-6">
 		{{ form_open({ method: 'get' }) }}
@@ -11,10 +14,10 @@
 	<div class="col-md-6 text-right">
 		{% if channel %}
 			{% if isGuest %}
-				<a href="#" class="btn btn-secondary" disabled>Log in to post a new topic</a>
+				<a href="{{ 'mauticians/login'|page() }}" class="btn btn-secondary" disabled>{{ 'Log in to post a new topic'|_ }}</a>
 			{% else %}
 				<a href="{{ topicPage|page }}?channel={{ channel.id }}" class="btn btn-brand-purple" data-test="newtopicbutton">
-					Ask a question
+					{{ 'Ask a question'|_ }}
 				</a>
 			{% endif %}
 		{% endif %}

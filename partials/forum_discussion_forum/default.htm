@@ -14,6 +14,12 @@
                                         {{ channel.count_topics|number_format(0,'',',') }} {{ 'conversations'|_ }}
                                     </div>
                                 </h3>
+                              {#  {% if channel.description %}
+                                    <small>{{ channel.description|truncate(100) }}</small>
+                                {% endif %}#}
+
+                               <p class="mt-2"> <a class="btn btn-outline-brand-purple btn-sm " href="{{ 'forum/channel'|page({channelslug:channel.slug}) }}">{{ 'Let\'s discuss'|_ }}</a></p>
+
                             </div>
                         </div>
                     </div>
