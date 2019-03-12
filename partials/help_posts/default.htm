@@ -25,14 +25,14 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            {{ post.title }}
+                            <a href="{{ post.url }}">{{ post.title }}</a>
                         </h3>
                     </div>
                     <div class="card-body">
                         {{ post.excerpt }}
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-outline-brand-purple" href="{{ post.url }}">Learn more</a>
+                        <a class="btn btn-outline-brand-purple btn-sm " href="{{ post.url }}">{{ 'Learn more'|_ }}</a>
                     </div>
                 </div>
             </div>
