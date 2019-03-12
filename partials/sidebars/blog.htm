@@ -14,11 +14,11 @@ categoryPage = "blog/blog-component-category"
 ==
 {%set categories = blogCategories.category %}
 
-<h4 class="pt-6 mt-6">Blog Categories</h4>
-<hr class="my-1" />
+<h4 class="mt-6">{{ 'Categories'|_ }}</h4>
 <div class="list-group list-group-transparent mb-0">
  {% component 'blogCategories' %}
 </div>
+{#
 
 {% set posts =  recent_blog_posts.posts %}
 <h4 class="pt-6 mt-6">Latest Articles</h4>
@@ -30,4 +30,4 @@ categoryPage = "blog/blog-component-category"
     			{{ post.title}}
     	</a>
 	{% endfor %}
-</div>
+</div>#}
