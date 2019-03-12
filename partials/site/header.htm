@@ -11,8 +11,6 @@ forceUrl = 0
                      alt="mautic logo">
             </a>
             <div class="d-flex order-lg-4 ml-auto">
-                <a href="/download" class="btn btn-outline-brand-purple"><i
-                            class="fe fe-download-cloud mr-2"></i> Download</a>
                {# <form class="input-icon my-lg-0 d-none d-md-block" action="{{ 'search-results' | page }}" method="get">
                     <input name="q" type="text" class="form-control header-search" placeholder="Search&hellip;"
                            autocomplete="on" tabindex="1">
@@ -77,7 +75,7 @@ forceUrl = 0
                 </div>
             {% else %}
                 <div class="nav-item d-md-flex pr-0">
-                    <a href="{{ 'mauticians/login'|page() }}" class="btn btn-brand-purple">Login</a>
+                    <a href="{{ 'mauticians/login'|page() }}" class="btn btn-brand-purple btn-sm">Login</a>
                 </div>
             {% endif %}
         </div>
@@ -93,14 +91,14 @@ forceUrl = 0
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg order-lg-first">
-                <ul class="nav nav-tabs border-0 justify-content-md-center">
+                <ul class="nav nav-tabs border-0">
                     {% partial 'navigation/nav-top' %}
                 </ul>
             </div>
-           {# <div class="col-lg-2 ml-auto text-right d-none d-lg-block">
-        #}{#        <a href="/download" class="btn btn-outline-brand-purple"><i
-                            class="fe fe-download-cloud mr-2"></i> Download</a>#}{#
-            </div>#}
+            <div class="col-lg-2 ml-auto text-right d-none d-lg-block">
+                <a href="/download" class="btn btn-outline-brand-purple btn-sm"><i
+                            class="fe fe-download-cloud mr-2"></i> Download</a>
+            </div>
         </div>
     </div>
 </div>
