@@ -1,6 +1,6 @@
 title = "Developer Post"
 url = "/developer/:slug"
-layout = "default"
+layout = "sidebar-right"
 is_hidden = 0
 child_of = "developers/home"
 hide_crumb = 0
@@ -17,6 +17,11 @@ localeUrl[de] = "/developer-post"
 localeUrl[fr] = "/developer-post"
 localeUrl[pgl] = "/developer-post"
 ==
+
+{% put sidebar %}
+{% partial 'dev_posts/sidebar' %}
+{% endput %}
+
 {% if post %}
 	{% component 'devPost' %}
 {% else %}

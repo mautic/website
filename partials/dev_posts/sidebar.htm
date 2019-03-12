@@ -1,0 +1,60 @@
+[viewBag]
+==
+<h4 class="pt-6">{{ 'For developers'|_ }}</h4>
+
+<div class="row">
+	<div class="list-group list-group-transparent">
+		<a href="https://github.com/mautic" target="_blank"
+		   class="list-group-item list-group-item-action d-flex">
+			<span class="icon mr-3"><i class="fe fe-github"></i></span>{{ 'GitHub Repositories'|_ }}
+		</a>
+	</div>
+	<div class="list-group list-group-transparent">
+		<a href="https://developers.mautic.org" target="_blank"
+		   class="list-group-item list-group-item-action d-flex align-items-center">
+			<span class="icon mr-3"><i class="fe fe-book-open"></i></span> {{ 'API Documentation'|_ }}
+		</a>
+		<a href="{{ 'forum/channel'|page({ channelslug: 'development'}) }}" class="list-group-item list-group-item-action d-flex align-items-center">
+			<span class="icon mr-3"><i class="fe fe-bookmark"></i></span> {{ 'Developer Forums'|_ }}
+		</a>
+		<a href="https://mautic.slack.com" class="list-group-item list-group-item-action d-flex align-items-center">
+			<span class="icon mr-3"><i class="fe fe-slack"></i></span> {{ 'Slack Channels'|_ }}
+		</a>
+
+		<a href="{{ 'marketplace/single'|page }}"
+		   class="list-group-item list-group-item-action d-flex align-items-center">
+			<span class="icon mr-3"><i class="fe fe-shopping-bag"></i></span> {{ 'Marketplace'|_ }}
+		</a>
+
+		{#	<a href="#" class="list-group-item list-group-item-action d-flex align-items-center active text-brand-purple">
+                <span class="icon mr-3"><i class="fe fe-life-buoy"></i></span>Getting Help
+            </a>
+            <a href="{{ 'forum/channel'|page({ slug: 'development'}) }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                <span class="icon mr-3"><i class="fe fe-bookmark"></i></span>Developer Forums
+            </a>
+            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                <span class="icon mr-3"><i class="fe fe-slack"></i></span>Slack Channels
+            </a>
+            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                <span class="icon mr-3"><i class="fe fe-user"></i></span>Mauticians
+            </a>#}
+	</div>
+
+
+	{#	<a href="#" class="list-group-item list-group-item-action d-flex align-items-center active text-brand-purple">
+            <span class="icon mr-3"><i class="fe fe-copy"></i></span>General Information
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+            <span class="icon mr-3"><i class="fe fe-database"></i></span>Server Requirements<span class="ml-auto badge badge-dark">LAMP/WAMP+</span>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+            <span class="icon mr-3"><i class="fe fe-clock"></i></span>Previous Releases<span class="ml-auto badge badge-dark">35</span>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+            <span class="icon mr-3"><i class="fe fe-file-text"></i></span>Licensing<span class="ml-auto badge badge-dark">MIT</span>
+        </a>#}
+
+</div>
+
+
+
