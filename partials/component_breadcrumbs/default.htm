@@ -1,32 +1,46 @@
 {% set crumbOptions = __SELF__.options %}
 {% if currentCrumb.show_crumb %}
-	<ol class="{{ crumbOptions['main-ol-class'] }}">
-		{% set activeCrumb = '' %}
-		{% for crumb in breadcrumbs %}
-			{% if crumb.in_crumb_trail %}
-				<li class="{{ crumbOptions['main-li-class'] }} {% if crumb.crumb_disabled %} {{ crumbOptions['disabled-class'] }} {% endif %} {% if loop.last %} {{ crumbOptions['active-class'] }} {% endif %}" {% if loop.last %} id="bcLast" {% endif %}>
-					{% if not loop.last and not crumb.crumb_disabled %} <a href="{{ crumb.baseFileName | page }}"> {% endif %} {{ crumb.title }} {% if not loop.last and not crumb.is_disabled %}</a>{% endif %}
-				</li>
-			{% endif %}
+    <ol class="{{ crumbOptions['main-ol-class'] }}">
+        {% set activeCrumb = '' %}
+        {% for crumb in breadcrumbs %}
+            {% if crumb.in_crumb_trail %}
+                <li class="{{ crumbOptions['main-li-class'] }} {% if crumb.crumb_disabled %} {{ crumbOptions['disabled-class'] }} {% endif %} {% if loop.last %} {{ crumbOptions['active-class'] }} {% endif %}" {% if loop.last %} id="bcLast" {% elseif crumb.elementTitle %} id="crumb-{{ crumb.elementTitle }}" {% endif %}>
+                    {% if not loop.last and not crumb.crumb_disabled %} <a
+                            href="{{ crumb.baseFileName | page }}"> {% endif %} {{ crumb.title }} {% if not loop.last and not crumb.is_disabled %}</a>{% endif %}
+                </li>
+            {% endif %}
 
-			{% if loop.last %}
-				{% set activeCrumb = crumb %}
-			{% endif %}
+            {% if loop.last %}
+                {% set activeCrumb = crumb %}
+            {% endif %}
 
-		{% endfor %}
-	</ol>
+        {% endfor %}
+    </ol>
 {% endif %}
 
-{# javascript to enable dynamic breadcrumbs. Helpful for ':slug' type routes #}
-{% if activeCrumb.elementTitle %}
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			var bcTitle = document.getElementById('{{ activeCrumb.elementTitle }}');
-			var bcActive = document.getElementById('bcLast');
+    {% set array = [] %}
+    {% for crumb in breadcrumbs|reverse %}
+        {% if crumb.elementTitle and crumb.elementTitle not in array and crumb.elementTitle != activeCrumb.elementTitle  %}
+            {% set array = array|merge([crumb.elementTitle]) %}
+        {% endif %}
+    {% endfor %}
 
-			if (bcTitle) {
-				bcActive.innerHTML = bcTitle.innerHTML;
-			}
-		});
-	</script>
+
+{# javascript to enable dynamic breadcrumbs. Helpful for ':slug' type routes #}
+{% if activeCrumb.elementTitle or array %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var bcTitle = document.getElementById('{{ activeCrumb.elementTitle }}');
+            var bcActive = document.getElementById('bcLast');
+
+            if (bcTitle) {
+                bcActive.innerHTML = bcTitle.innerHTML;
+            }
+
+            {% for a in array %}
+            var newContent = document.getElementById('{{ a }}').innerHTML;
+            document.getElementById('crumb-{{ a }}').innerHTML = newContent;
+            {% endfor %}
+        });
+    </script>
 {% endif %}

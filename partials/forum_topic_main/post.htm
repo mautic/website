@@ -5,8 +5,8 @@
 	{% if topic.first_post.id == post.id %}
 		<div class="col-12">
 			<small class="float-right text-muted mt-3">{% partial "@timestamp" date=post.created_at %}</small>
+			<small class="d-none" id="channel-title" ><a href="{{ topic.channel.url }}">{{ topic.channel.title }}</a></small>
 			<h1 id="post-title">{{ topic.subject }}</h1>
-			<h2 class="d-none" id="channel-title" slug="{{ topic.channel.slug }}">{{ topic.channel.title }}</h2>
 			<hr/>
 		</div>
 	{% endif %}
@@ -85,7 +85,7 @@
 		</div>
 	{% else %}
 		<div class="p-2 mt-4">
-			<p>{{ post.content_html|raw }}</p>
+			<p>{{ post.content_html|raw|nl2br	 }}</p>
 		</div>
 		<div class="col-12">
 			<div class="actions">

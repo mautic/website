@@ -3,6 +3,7 @@ url = "/mauticamps/:groupslug/forum"
 layout = "sidebar-left"
 is_hidden = 0
 child_of = "mauticamps/mauticamp-single"
+crumbElementTitle = "post-title"
 hide_crumb = 0
 crumb_title = "Discussions"
 remove_crumb_trail = 0
@@ -25,26 +26,26 @@ $this->page->title = $this['group']->name . ' Forum';
 ?>
 ==
 {% if group %}
-	{#{% put pageBanner %}
-		{{ this.page.title }}
-	{% endput %}#}
+    {#{% put pageBanner %}
+        {{ this.page.title }}
+    {% endput %}#}
 
-	{% put sidebar %}
-	{% partial 'component_usergroup/usergroup-sidebar' %}
-	{% endput %}
+    {% put sidebar %}
+    {% partial 'component_usergroup/usergroup-sidebar' %}
+    {% endput %}
 
+    {% if channel %}
+        <h4>Create a new discussion topic @ {{ group.forum_channel.title }}  </h4>
+        {% partial "@createform" returnUrl=topicPage|page %}
+    {% endif %}
 
-{% if channel %}
-<h4>Create a new discussion topic @ {{ group.forum_channel.title  }}  </h4>
-{% partial "@createform" returnUrl=topicPage|page  %}
-{% endif %}
+    {% if group.forum_channel %}
+        {% set channel = group.forum_channel %}
+        {% partial 'forum_channel_usergroup/default.htm' channel=group.forum_channel group=group %}
+    {% endif %}
 
-
-	{% if group.forum_channel %}
-		{% set channel = group.forum_channel %}
-		{% partial 'forum_channel_usergroup/default.htm' channel=group.forum_channel group=group %}
-	{% endif %}
+    {% partial 'mauticamps/bread' %}
 
 {% else %}
-	<p>Couldn't find that group</p>
+    <p>Couldn't find that group</p>
 {% endif %}

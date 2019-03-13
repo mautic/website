@@ -23,6 +23,8 @@ $this->page->title = $this['group']->name . ' Members';
 }
 ?>
 ==
+{% partial 'mauticamps/bread' %}
+
 {% if group %}
 	{% put sidebar %}
 	{% partial 'component_usergroup/usergroup-sidebar' %}
@@ -30,7 +32,6 @@ $this->page->title = $this['group']->name . ' Members';
 
 	{% set userisgroupadmin=user.hasGroupRole(group, 'admin') %}
 
-	<h1 class="d-none" id="group-title">{{ group.name }}</h1>
 
 	{% if group.administrators|length %}
 		<div class="row">
