@@ -2,12 +2,12 @@
 {% put sidebarTop %}
 	{# @todo: this should be injected conditionally by the post. #}
 	{# @todo: post model should support notices, similar to groups, to allow conditionally injecting #}
-	<div class="card">
+	{#<div class="card">
 		<img src="{{ post.featured_images[0].getPath() }}" class="card-img-top"/>
-		<div class="card-footer">
+		#}{#<div class="card-footer">
 			<a href="#" class="btn btn-brand-purple d-block">Read more in this series</a>
-		</div>
-	</div>
+		</div>#}{#
+	</div>#}
 {% endput %}
 
 {% put sidebar %}
@@ -17,10 +17,16 @@
 		{% set author = post.contributor %}
 		{% set contributed = true %}
 	{% endif %}
-{% partial 'component_usergroup/user-card-small' user=author %}
+	{% partial 'component_usergroup/user-card-small'
+	groupuser=author
+	group='' %}
 {% partial 'sidebars/blog' %}
+{#
+
 {% partial 'component_blog/suggested_edits' %}
 {% partial 'component_blog/form_suggest_edit' %}
+#}
+
 {% endput %}
 
 <div class="content">
