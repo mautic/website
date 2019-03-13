@@ -74,9 +74,11 @@ forceUrl = 0
                     </div>
                 </div>
             {% else %}
-                <div class="nav-item d-md-flex pr-0">
-                    <a href="{{ 'mauticians/login'|page() }}" class="btn btn-outline-brand-purple"><i
-                                class="fe fe-log-in mr-2"></i>  {{ 'Login to community'|_ }}</a>
+                <div class="pt-2" style="zoom:1.1">
+                    <a href="{{ 'account/login'|page }}"><span>{{ 'Sign in'|_ }}</span></a> {{ 'or'|_ }} <a
+                            href="{{ 'account/register'|page }}"><span>{{ 'register'|_ }}</span></a> {{ 'to Mautic community'|_ }}
+                    {#<a href="{{ 'mauticians/login'|page() }}" class="btn btn-outline-brand-purple"><i
+                                class="fe fe-log-in mr-2"></i>  {{ 'Login to community'|_ }}</a>#}
                 </div>
             {% endif %}
         </div>
@@ -98,7 +100,7 @@ forceUrl = 0
             </div>
             <div class="col-lg-2 ml-auto text-right d-none d-lg-block">
                 <a href="/download" class="btn btn-default"><i
-                            class="fe fe-download-cloud mr-2"></i> Download</a>
+                            class="fe fe-download-cloud mr-2"></i> {{ 'Download Mautic'|_ }}</a>
             </div>
         </div>
     </div>
