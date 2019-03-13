@@ -22,7 +22,6 @@ function onEnd()
 ?>
 ==
 {% import 'macros/user' as usermacros %}
-
 {% if group %}
 	{# title
 	{% put pageBanner %}
@@ -99,7 +98,7 @@ function onEnd()
 					</button>
 				{% endif %}
 			{% else %}
-				<button class="btn btn-outline-brand-purple btn-sm">Sign-In to Join this group</button>
+				<a href="{{ 'mauticians/login'|page() }}" class="btn btn-outline-brand-purple btn-sm">{{ 'Sign-In to Join this group'|_ }}</a>
 			{% endif %}
 
 			<span class="flex-grow-1"></span>
