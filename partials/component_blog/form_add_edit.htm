@@ -12,11 +12,11 @@ function onStart(){
 <form class="blog--form_new-user-content" id="blog--form_new-user-content">
 	<div class="form-group">
 		<label class="form-label">{{ 'Title'|_ }}</label>
-		<input type="text" class="form-control" name="title" placeholder="Title" value="{{ post ? post.title : '' }}">
+		<input type="text" id="user-contribute-content--post-title" class="form-control" name="title" placeholder="Title" value="{{ post ? post.title : '' }}">
 	</div>
 
 	<div class="form-group">
-		<label class="form-label">Tags</label>
+		<label class="form-label">{{ 'Tags'|_ }}</label>
 		<div class="selectize-control form-control multi" id="user-contribute-content--post-tags">
 			<div class="selectize-input items not-full has-options has-items">
 				<input name="global_tags" type="text" autocomplete="off" tabindex="" style="width: 4px;">
@@ -30,7 +30,25 @@ function onStart(){
 		</small>
 	</div>
 
+	{# type #}
 	<div class="form-group">
+		<div class="form-label">{{ 'Category'|_ }}</div>
+		<div class="selectgroup w-33">
+			<label class="selectgroup-item">
+				<input type="radio" name="type" value="3" class="selectgroup-input" 
+					   
+					   checked="true"
+				>
+				<span class="selectgroup-button">{{ 'Help Center'|_ }}</span>
+			</label>
+			<label class="selectgroup-item">
+				<input type="radio" name="type" value="2" class="selectgroup-input">
+				<span class="selectgroup-button">{{ 'Blog'|_ }}</span>
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group ">
 		<label for="" class="form-label sr-only">Post Content</label>
 		<div id="user-contribute-content--post-content" style="height: 75vh;">
 			{{ post ? post.content_html|raw : '' }}
@@ -68,13 +86,13 @@ function onStart(){
 			return editor.container.querySelector('.ql-editor').innerHTML;
 		}
 
-		var onChangeHandler = function (evt, ...args) {
+		var onChangeHandler = function (evt, args) {
 			var contentlength = this.getLength();
 		};
 
 		var editorsMap = Object.keys(editors);
 		editorsMap.forEach(function (k) {
-			editors[k].on('editor-change', function (evt, ...args) {
+			editors[k].on('editor-change', function (evt, args) {
 				onChangeHandler.call(editors[k], [evt, args]);
 			})
 		});
@@ -126,25 +144,27 @@ function onStart(){
 				data: fieldsOb,
 				loading: $.oc.stripeLoadIndicator,
 				success: function (data, status, request) {
-					console.log(...arguments)
+					location.href = '{{ 'mauticians/profile-contributions'|page({user:user.username}) }}';
 				},
 				error: function (request, status, error) {
-					var errMessages = request.responseJSON.messages;
-					var errFields = request.responseJSON.fields;
-					for (let k in errFields) {
-						document.querySelector('#user-edit-field-' + k).classList.add('is-invalid');
+					var errMessages = request.responseJSON.X_OCTOBER_ERROR_FIELDS;
+					for (k in errMessages) {
+						document.querySelector('#user-contribute-content--post-' + k).classList.add('is-invalid');
+						$.oc.flashMsg({
+						 'text': errMessages[k],
+						 'class': 'error',
+						 'interval': 5
+						 });
 					}
-					$.oc.flashMsg({
-						'text': errMessages.join('<br>'),
-						'class': 'error',
-						'interval': 3
-					});
+					return false;
 				}
 			});
 		};
 
 		$('#blog--form_new-user-content').on('submit', function () {
 			commitChanges(this);
+			return false;
+
 		});
 	</script>
 {% endput %}
