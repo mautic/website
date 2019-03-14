@@ -11,7 +11,7 @@ function onStart(){
 
 <form class="blog--form_new-user-content" id="blog--form_new-user-content">
 	<div class="form-group">
-		<label class="form-label">Title</label>
+		<label class="form-label">{{ 'Title'|_ }}</label>
 		<input type="text" class="form-control" name="title" placeholder="Title" value="{{ post ? post.title : '' }}">
 	</div>
 
