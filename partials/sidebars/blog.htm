@@ -29,11 +29,14 @@ slug = "{{ :slug }}"
 </div>
 {% endfor %}
 
-<h4 class="pt-6 mt-6">Blog Categories</h4>
-<hr class="my-1" />
+<a href="{{ 'mauticians/profile-contributions'|page({user:user.username}) }}" class="d-flex btn btn-outline-brand-purple">
+ <span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contribute Content'|_ }}
+</a>
+<h4 class="mt-6">{{ 'Categories'|_ }}</h4>
 <div class="list-group list-group-transparent mb-0">
 	{% component 'blogCategories' %}
 </div>
+{#
 
 {% set posts =  recent_blog_posts.posts %}
 <h4 class="pt-6 mt-6">Latest Articles</h4>
@@ -45,4 +48,4 @@ slug = "{{ :slug }}"
 		{{ post.title}}
 	</a>
 	{% endfor %}
-</div>
+</div>#}

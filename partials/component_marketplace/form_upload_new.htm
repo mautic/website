@@ -7,19 +7,7 @@ $this->addJs('assets/marketplace__form.js');
 ?>
 ==
 <form data-request="onAddNewMarketplaceDownload" class="marketplace--form_new-download">
-	{# repo url #}
-	<div class="form-group">
-		<label class="form-label">Repository URL</label>
-		  <div class="input-icon">
-            <span class="input-icon-addon">
-              <i class="fe fe-github"></i>
-            </span>
-            <input type="text" class="form-control" name="repository_url" placeholder="" value="">
-          </div>
-		<small class="form-text text-muted">
-			Enter the url of your github repo
-		</small>
-	</div>
+
 	{# name #}
 	<div class="form-group">
 		<label class="form-label">Mixin Name</label>
@@ -28,6 +16,7 @@ $this->addJs('assets/marketplace__form.js');
 			The name of your mixin, as it will show in the Marketplace.
 		</small>
 	</div>
+
 
 	{# file
 	<div class="form-group">
@@ -46,8 +35,23 @@ $this->addJs('assets/marketplace__form.js');
         			<label class="custom-file-label">Choose file</label>
         		</div>
         	</div>
+
+	{# repo url #}
+	<div class="form-group">
+		<label class="form-label">Repository URL</label>
+		<div class="input-icon">
+            <span class="input-icon-addon">
+              <i class="fe fe-github"></i>
+            </span>
+			<input type="text" class="form-control" name="repository_url" placeholder="" value="https://github.com/">
+		</div>
+		<small class="form-text text-muted">
+			Enter the url of your github repo
+		</small>
+	</div>
+
         	{# type #}
-        	<div class="form-group" style="">
+        	<div class="form-group d-none">
         		<div class="form-label">Mixin Type</div>
         		<div class="selectgroup w-33">
                   <label class="selectgroup-item">
@@ -65,7 +69,7 @@ $this->addJs('assets/marketplace__form.js');
                 </div>
         	</div>
 	{# description #}
-	<div class="form-group">
+	<div class="form-group d-none">
 		<label class="form-label">Description</label>
 		<textarea class="form-control" name="description" rows="12" placeholder=""></textarea>
 	</div>

@@ -1,7 +1,6 @@
 <h4 class="pt-6 mt-6">Suggested Edits</h4>
 <hr class="my-1" />
 <div class="list-group list-group-transparent mb-0">
-	{{ dump(post.suggested_edits.toArray) }}
 	{% for e in post.suggested_edits%}
 		{#{{ dump(e) }}#}
 		{#<a href="{{ post.url }}" class="list-group-item list-group-item-action pl-0">

@@ -1,28 +1,37 @@
 [viewBag]
 ==
-<div class="row">
-	{% for channel in channels %}
-	    {% if channel.relations.children %}
-		    {% for channel in channel.children %}
-        		<div class="col-lg-4">
-        			<div class="card">
-        				<div class="card-body bg-icon bg-{{channel.slug}}">
-        					<h3 class="card-title"><a class="card-link" href="{{ 'forum/channel'|page({channelslug:channel.slug}) }}">{{ channel.title }}</a>
-        					<div class="text-muted small pt-3">
-        						{{ channel.count_topics|number_format(0,'',',') }} {{'conversations'|_}}
-        					</div>
-        					</h3>
-        				</div>
-        			</div>
-        		</div>
-        	{% endfor %}
-        {% endif %}
-	{% endfor %}
-</div>
-<div class="row">
-    <div class="col">
-        <h2>{{'Latest Discussions'|_}}</h2>
-    </div>
-</div>
+{% if topics.currentPage == 1 and not input('search')|e %}
+    <h2 class="text-center">{{ 'Categories'|_ }}</h2>
+    <div class="row">
+        {% for channel in channels %}
+            {% if channel.relations.children %}
+                {% for channel in channel.children %}
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body bg-icon bg-{{ channel.slug }}">
+                                <h3 class="card-title"><a class="card-link"
+                                                          href="{{ 'forum/channel'|page({channelslug:channel.slug}) }}">{{ channel.title }}</a>
+                                    <div class="text-muted small pt-3">
+                                        {{ channel.count_topics|number_format(0,'',',') }} {{ 'conversations'|_ }}
+                                    </div>
+                                </h3>
+                                {#  {% if channel.description %}
+                                      <small>{{ channel.description|truncate(100) }}</small>
+                                  {% endif %}#}
 
+                                <p class="mt-2"><a class="btn btn-outline-brand-purple btn-sm "
+                                                   href="{{ 'forum/channel'|page({channelslug:channel.slug}) }}">{{ 'Let\'s discuss'|_ }}</a>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+{% if not input('search')|e and  topics.currentPage == 1 %}
+    <h2 class="mt-5 text-center">{{ 'Latest Discussions'|_ }}</h2>
+{% endif %}
 {% component 'forum_discussion_latest' %}

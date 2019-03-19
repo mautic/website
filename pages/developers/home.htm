@@ -1,6 +1,6 @@
 title = "Developers"
 url = "/developers"
-layout = "blank"
+layout = "sidebar-right"
 meta_title = "Developers & API"
 is_hidden = 0
 child_of = "mey_no_parent"
@@ -22,4 +22,10 @@ sortOrder = "published_at desc"
 categoryPage = "developers/home"
 postPage = "developers/post-single"
 ==
+
+{% put sidebar %}
+{% partial 'dev_posts/sidebar' %}
+{% endput %}
+
+
 {% component 'dev_posts' %}

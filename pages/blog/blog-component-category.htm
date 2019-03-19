@@ -35,9 +35,11 @@ $this->page->title = $this->category->name;
 ?>
 ==
 {% put sidebar %}
-<h4 class="pt-6">Popular Articles</h4>
-<hr class="py-1">
+{#<h4 class="pt-6">{{ 'Popular Articles'|_ }}</h4>
+<hr class="py-1">#}
 {% partial 'sidebars/blog' %}
 {% endput %}
+
 <h1 id="category-title">{{category.name}} Blog</h1>
+
 {% component 'blog_posts_category' %}

@@ -56,7 +56,7 @@ $this->page->title = $this->download->name;
 
 {% put before %}
 	<div class="page-header d-block text-center">
-		<h1 class="p-5">Customize it.</h1>
+		<h1 class="p-5">{{ 'Customize it'|_ }}</h1>
 	</div>
 	<div class="row col-6 mx-auto mb-6 pb-6">
 		<div class="input-group input-group-lg">
@@ -69,7 +69,7 @@ $this->page->title = $this->download->name;
 {% endput %}
 
 <div class="row row-deck">
-	{% for download in downloads %}
+	{% for download in downloads if download.review_status == 'approved' %}
 		{% partial 'component_marketplace/card' download=download %}
 	{% endfor %}
 </div>

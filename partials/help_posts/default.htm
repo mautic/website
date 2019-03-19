@@ -1,89 +1,95 @@
 ==
 {% set posts = __SELF__.posts %}
 
-<div class="row col-6 mx-auto mt-6 pt-6">
-     <div class="input-group input-group-lg">
-        <input type="text" class="form-control" placeholder="Search for help on...">
-        <span class="input-group-append">
-          <button class="btn btn-brand-purple" type="button">Search</button>
-        </span>
-      </div>
-</div>
-
-{% if posts.currentPage == 1 %}
-
 <div class="page-header d-block text-center">
-    <h1 class="p-5">Featured help articles</h1>
+    <h1 class="p-5">{{ 'Featured help articles'|_ }}</h1>
 </div>
 
-
-<div class="row row-deck">
-	{% for post in posts %}
-		    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                   {{ post.title }}
-                </h3>
-            </div>
-            <div class="card-body">
-                {{ post.excerpt }}
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-brand-purple" href="{{post.url}}">Learn more</a>
-            </div>
+<div class="row col-6 mx-auto mb-8">
+    <form class="card">
+        <div class="input-group input-group-lg">
+            <input type="text" name="search"  value="{{ input('search')|e }}" class="form-control" placeholder="{{ 'Search for help on...'|_ }}">
+            <span class="input-group-append">
+          <input class="btn btn-brand-purple" type="submit" value="{{ 'Search'|_ }}"></input>
+        </span>
         </div>
-    </div>
-	{% else %}
-		<h3>{{ noPostsMessage }}</h3>
-	{% endfor %}
-	<div class="col-lg-4 d-flex">
-        <div class="card">
-            <div class="card-body d-flex align-items-center mx-auto">
-                <h3><a href="{{ this.page.baseFileName|page}}?page=2" class="card-link">View More</a></h3><i class="fe fe-arrow-right pb-3 pl-1"></i>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
+
+{% if posts.currentPage != -112 %}
+
+
+    <div class="row row-deck">
+        {% for post in posts %}
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <a href="{{ post.url }}">{{ post.title }}</a>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        {{ post.excerpt }}
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-outline-brand-purple btn-sm " href="{{ post.url }}">{{ 'Learn more'|_ }}</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <h3>{{ noPostsMessage }}</h3>
+        {% endfor %}
+        {#<div class="col-lg-4 d-flex">
+            <div class="card">
+                <div class="card-body d-flex align-items-center mx-auto">
+                    <h3><a href="{{ this.page.baseFileName|page}}?page=2" class="card-link">View More</a></h3><i class="fe fe-arrow-right pb-3 pl-1"></i>
+                </div>
+            </div>
+        </div>#}
+    </div>
 
 {% else %}
 
-<div class="card mt-6">
-    <div class="table-responsive">
-		<table class="table card-table table-vcenter">
-			<tbody>
-				{% for post in posts %}
-				<tr>
-                    <td>
-                        <h5>
-                            <a href="{{ post.url }}" class="pull-right btn btn-brand-purple">Learn more</a>
-                            <a href="{{ post.url }}">{{ post.title }}</a>
-							<div class="pt-2 text-muted font-weight-normal">
-							    {{ post.excerpt }}
-							</div>
-						</h5>
-					</td>
-				</tr>
-				{% endfor %}
-            </tbody>
-		</table>
-	</div>
-</div>
+    <div class="card mt-6">
+        <div class="table-responsive">
+            <table class="table card-table table-vcenter">
+                <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td>
+                            <h5>
+                                <a href="{{ post.url }}" class="pull-right btn btn-brand-purple">Learn more</a>
+                                <a href="{{ post.url }}">{{ post.title }}</a>
+                                <div class="pt-2 text-muted font-weight-normal">
+                                    {{ post.excerpt }}
+                                </div>
+                            </h5>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-{% if posts.lastPage > 1 %}
-    <div class="pagination btn-group">
-		{% if posts.currentPage > 1 %}
-			<a class="btn btn-sm btn-secondary" href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a>
-		{% endif %}
-
-		{% for page in 1..posts.lastPage %}
-				<a class="btn btn-sm {{ posts.currentPage == page ? 'btn-brand-purple' : 'btn-secondary' }}" href="{{ this.page.baseFileName|page}}?page={{page}}">{{ page }}</a>
-		{% endfor %}
-
-		{% if posts.lastPage > posts.currentPage %}
-			<a class="btn btn-sm btn-secondary" href="{{ this.page.baseFileName|page}}?page={{posts.currentPage+1}}">Next &rarr;</a>
-		{% endif %}
-	</div>
 {% endif %}
 
+
+{% if posts.lastPage > 1 %}
+    <div class="pagination btn-group justify-content-md-center">
+        {% if posts.currentPage > 1 %}
+            <a class="btn btn-sm btn-secondary"
+               href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a>
+        {% endif %}
+
+        {% for page in 1..posts.lastPage %}
+            <a class="btn btn-sm {{ posts.currentPage == page ? 'btn-brand-purple' : 'btn-secondary' }}"
+               href="{{ this.page.baseFileName|page }}?page={{ page }}">{{ page }}</a>
+        {% endfor %}
+
+        {% if posts.lastPage > posts.currentPage %}
+            <a class="btn btn-sm btn-secondary"
+               href="{{ this.page.baseFileName|page }}?page={{ posts.currentPage+1 }}">Next &rarr;</a>
+        {% endif %}
+    </div>
 {% endif %}

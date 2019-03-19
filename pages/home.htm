@@ -61,11 +61,11 @@ page = 1
 		<div class="card">
 			<div class="card-status bg-brand-purple"></div>
 			<div class="card-body text-center">
-				<h3 class="card-title">{{ 'Product Updates'|_ }}</h3>
-				<p>{{ 'Interested in what has been released lately?<br/>Review updates to Mautic here'|_ }}.</p>
-				<p><a href="{{ 'forum/channel'|page( {channelslug:'announcements'} ) }}" class="btn btn-brand-purple btn-lg">
-						<icon class="fe fe-rss"></icon>
-						{{ "What's New"|_ }}</a></p>
+				<h3 class="card-title">{{ 'Find Answers'|_ }}</h3>
+				<p>{{ 'Just getting started or stumble across a problem?<br/>Start here in your search for a solution'|_ }}.</p>
+				<p><a href="{{ 'forum/home'|page() }}" class="btn btn-brand-purple btn-lg" data-test="forum-button">
+						<icon class="fe fe-search"></icon>
+						{{ 'Find Answers'|_ }}</a></p>
 			</div>
 		</div>
 	</div>
@@ -73,11 +73,11 @@ page = 1
 		<div class="card">
 			<div class="card-status bg-brand-purple"></div>
 			<div class="card-body text-center">
-				<h3 class="card-title">{{ 'Find Answers'|_ }}</h3>
-				<p>{{ 'Just getting started or stumble across a problem?<br/>Start here in your search for a solution'|_ }}.</p>
-				<p><a href="{{ 'forum/home'|page() }}" class="btn btn-brand-purple btn-lg" data-test="forum-button">
-						<icon class="fe fe-search"></icon>
-						{{ 'Find Answers'|_ }}</a></p>
+				<h3 class="card-title">{{ 'Product Updates'|_ }}</h3>
+				<p>{{ 'Interested in what has been released lately?<br/>Review updates to Mautic here'|_ }}.</p>
+				<p><a href="{{ 'forum/channel'|page( {channelslug:'announcements'} ) }}" class="btn btn-brand-purple btn-lg">
+						<icon class="fe fe-rss"></icon>
+						{{ "What's New"|_ }}</a></p>
 			</div>
 		</div>
 	</div>

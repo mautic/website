@@ -15060,6 +15060,7 @@ a.chip:hover {
 }
 
 .tag {
+	margin-bottom:10px;
 	font-size: 0.75rem;
 	color: #6e7687;
 	background-color: #e9ecef;

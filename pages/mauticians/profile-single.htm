@@ -89,7 +89,7 @@ $this['editing'] = true;
 			<div class="card">
 				{% if editing %}
 					<div class="card-header">
-						<h3 class="card-title">Professional Info</h3>
+						<h3 class="card-title">{{ 'Professional Info'|_ }}</h3>
 						<div class="progress progress-sm ml-auto" style="flex-basis: 30%">
 							<div class="progress-bar bg-red" style="width: 0%"></div>
 						</div>
@@ -102,7 +102,7 @@ $this['editing'] = true;
 					</div>
 				{% else %}
 					<div class="card-header">
-						<h3 class="card-title">Professional Info</h3>
+						<h3 class="card-title">{{ 'Professional Info'|_ }}</h3>
 					</div>
 					<div class="card-body">
 						{% if profile.mtcorg_professional %}
