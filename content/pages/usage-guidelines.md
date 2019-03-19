@@ -1,3 +1,21 @@
-We like our name. We hope you like it as well. We do request you to follow the following guideline when creating your Mautic related website.  
+# Mautic Usage Guidelines
 
-  We ask that anyone interested in creating a website, product, or service related to Mautic refrain from using “Mautic” in the domain name. Due to the Mautic trademark and a variety of reasons we ask you select an alternate naming convention. We’ve been told this is a requirement for preserving our trademark.
+We like our name. We hope you like it as well. 
+
+## Using Mautic in domain names
+
+We do request you to follow the following guideline when creating your Mautic related website.  
+
+We ask that anyone interested in creating a website, product, or service related to Mautic **refrain from using “Mautic” in the domain name**. 
+  
+Due to the Mautic trademark and a variety of reasons we ask you select an alternate naming convention. 
+
+We’ve been told this is a requirement for preserving our trademark.
+  
+Thank you for your understanding!
+
+## Where can I find more about the Mautic brand and trademark?
+
+You can find the Mautic logos and colours here: https://www.mautic.org/about/logos-and-graphics
+
+Read more about the Mautic Trademark here: https://www.mautic.org/about/trademark

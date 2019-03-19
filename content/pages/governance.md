@@ -1,3 +1,5 @@
+# Governance
+
 Rules and policies are helpful to establish general guidelines and principles as well as providing transparency in how situations are handled.  
 
   This article outlines the rules and policies which govern the Mautic Core team. These rules are effective on publication and all Mautic Core team members must agree to observe and abide by the listed rules and protocol.  
@@ -25,5 +27,9 @@ Rules and policies are helpful to establish general guidelines and principles as
  A Mautic Core membership can be revoked for any of the following reasons:  
 
   
- - Refusal to follow the rules and policies listed herein - Lack of activity for the previous 6 months - Willful negligence or intent to harm the Mautic project - Upon decision of the project leader 
-  Revoked members may re-apply for core membership following at 12 month period.
+ - Refusal to follow the rules and policies listed herein 
+ - Lack of activity for the previous 6 months 
+ - Willful negligence or intent to harm the Mautic project 
+ - Upon decision of the project leader 
+ 
+ Revoked members may re-apply for core membership following at 12 month period.

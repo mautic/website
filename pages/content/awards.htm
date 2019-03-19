@@ -3,6 +3,15 @@ url = "/awards"
 layout = "default"
 meta_title = "Mautic Awards"
 meta_description = "Mautic, award winning open source marketing automation software has a constantly growing list of awards and recognitions, some of those are listed here."
-bitly = "http://mau.tc/1ihBPuf"
+is_hidden = 0
+child_of = "content/about"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 ==
+{% put sidebar %}
+{% partial 'sidebars/about' %}
+{% endput %}
 {% content 'pages/awards.md' %}
