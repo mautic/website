@@ -60,6 +60,7 @@ class Plugin extends PluginBase
             '\trka\MauticdotorgExtensions\Components\Votable' => 'votable',
             '\trka\MauticdotorgExtensions\Components\FilterableChannels' => 'filterableForumChannels',
             '\trka\MauticdotorgExtensions\Components\FilterableTopics' => 'filterableTopics',
+            '\trka\MauticdotorgExtensions\Components\FilterableBlogCategories' => 'filterableBlogCategories',
             '\trka\MauticdotorgExtensions\Components\UserProfile' => 'userProfile',
             '\trka\MauticdotorgExtensions\Components\UserProfiles' => 'userProfiles',
             '\trka\MauticdotorgExtensions\Components\RecentForumTopics' => 'recentForumTopics',
