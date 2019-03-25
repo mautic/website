@@ -7,7 +7,7 @@
 <br>
 
 <div class="row">
-	{% for post in posts|slice(0,3) %}
+	{% for post in posts %}
     <div class="col col-lg-6">
 			<div class="card card-aside">
 				<a href="{{ post.url }}" class="card-aside-column my-auto"><img src="{{ post.featured_images[0].getPath() }}" class="mx-auto d-block"/></a>
@@ -33,7 +33,7 @@
 		</div>
 	</div>#}
 </div>
-
+{#
 {% if posts.lastPage > 1 %}
 	<ul class="pagination">
 		{% if posts.currentPage > 1 %}
@@ -50,7 +50,7 @@
 			<li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage+1) }) }}">Next &rarr;</a></li>
 		{% endif %}
 	</ul>
-{% endif %}
+{% endif %}#}
 
 
 
