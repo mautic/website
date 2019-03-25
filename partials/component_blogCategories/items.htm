@@ -1,13 +1,15 @@
 {% for category in categories %}
-{% set postCount = category.post_count %}
-<a href="{{ category.url }}" class="list-group-item list-group-item-action pl-0" ><span class="icon mr-3"><i class="fe fe-folder"></i></span>{{ category.name }}</a>
+    {% set postCount = category.post_count %}
+    {% if category.children|length < 1 %}
+        <a href="{{ category.url }}" class="list-group-item list-group-item-action pl-0"><span class="icon mr-3"><i
+                        class="fe fe-folder"></i></span>{{ category.name }}</a>
+    {% endif %}
 
-{% if category.children|length > 0 %}
-<ul class="category-list" >
-    {% partial 'component_blogCategories/items.htm'
-    categories=category.children
-    currentCategorySlug=currentCategorySlug
-    %}
-</ul>
-{% endif %}
+    {% if category.children|length > 1 %}
+        <ul class="category-list">
+            {% partial 'component_blogCategories/items.htm'
+            categories=category.children
+            currentCategorySlug=currentCategorySlug %}
+        </ul>
+    {% endif %}
 {% endfor %}

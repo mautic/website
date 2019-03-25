@@ -1,16 +1,17 @@
 [blogPosts recent_blog_posts]
 pageNumber = "{{ :page }}"
-categoryFilter = "marketer-blog"
+categoryFilter = "mautic-blogs"
 postsPerPage = 5
 noPostsMessage = "No posts found"
 sortOrder = "published_at desc"
 categoryPage = "blog/blog-component-category"
 postPage = "blog/blog-component-single"
 
-[blogCategories]
+[filterableBlogCategories]
 slug = "{{ :slug }}"
 displayEmpty = 1
 categoryPage = "blog/blog-component-category"
+categoryFilter = "mautic-blogs"
 
 [topPosts]
 period = 2
@@ -30,11 +31,12 @@ slug = "{{ :slug }}"
 {% endfor %}
 
 <a href="{{ 'mauticians/profile-contributions'|page({user:user.username}) }}" class="d-flex btn btn-outline-brand-purple">
- <span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contribute Content'|_ }}
+	<span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contribute Content'|_ }}
 </a>
+
 <h4 class="mt-6">{{ 'Categories'|_ }}</h4>
 <div class="list-group list-group-transparent mb-0">
-	{% component 'blogCategories' %}
+    {% partial 'component_blogCategories/items.htm' %}
 </div>
 {#
 
