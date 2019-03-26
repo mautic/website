@@ -30,7 +30,8 @@ class EditableBlogPost extends ComponentBase
             $form,
             [
                 'title' => 'required|min:3',
-                'status' => 'required',
+                //'status' => 'required',
+                'category' => 'required',
                 'content' => 'required|min:16'
             ]
         );
@@ -42,7 +43,8 @@ class EditableBlogPost extends ComponentBase
         //-- vals
         $postid = (int)$form['postid'];
         $title = $form['title'];
-        $status = $form['status'];
+        $category = $form['category'];
+        //$status = $form['status'];
         $content_html = $form['content'];
 
         //-- prelim. checks
@@ -69,6 +71,7 @@ class EditableBlogPost extends ComponentBase
         $postOb->title = $title;
         $postOb->content_html = $content_clean;
         $postOb->content = $content_clean;
+        $postOb->categories = $category;
         // $postOb->status = $status //@todo model support for status
         $postOb = $postOb->save();
 
