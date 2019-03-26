@@ -4,6 +4,7 @@ use Auth;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Post;
 use RainLab\User\Models\User;
+use trka\Marketplace\Classes\GhRepoClient;
 
 class UserProfile extends ComponentBase
 {
@@ -44,8 +45,10 @@ class UserProfile extends ComponentBase
         }
 
         if ($_profile) {
-            $_userforummessages = $_profile->forum_member->posts;
+            $_userforummessages = $_profile->forum_member->posts ->take(25);
         }
+
+        $this->processDownloads($_profile);
 
         $this->profile = $this->page['profile'] = $_profile;
         $this->page['messages'] = $_userforummessages;
@@ -91,7 +94,31 @@ class UserProfile extends ComponentBase
             'data' => $fields
         ];*/
 
-        return \Redirect::to('user/profile-single/' . $me->username);
+        return \Redirect::to('mauticians/profile-single/' . $me->username);
     }
 
+    /**
+     * @param $profile
+     */
+    private function processDownloads(&$profile)
+    {
+        $downloads = $profile['downloads'];
+        foreach ($downloads as $key=>$download) {
+            $profile['downloads'][$key]['extension'] = $this->hydrateFromRemote($download->repository_provider, $download->repository_url);
+        }
+    }
+
+    private function hydrateFromRemote($provider, $remoteUrl)
+    {
+        $hydratedRepo = '';
+        switch ($provider) {
+            case "github.com":
+                $path = str_replace("https://github.com/", "", $remoteUrl);
+                $hydratedRepo = new GhRepoClient($path);
+                break;
+            default;
+        }
+
+        return $hydratedRepo;
+    }
 }
