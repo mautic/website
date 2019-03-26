@@ -12,11 +12,13 @@
         {% endif %}
 
         <h3 class="mb-2 font-weight-bold">{{ user.name }} {{ user.surname }}</h3>
-        <p class="mb-1">{{ user.username }}</p>
+        <p class="mb-1">{{ user.username }} <br />
+          <small class="text-muted">{{ 'member since'|_ }}  {{ user.activated_at|date('M d, Y') }}</small>
+        </p>
         {#<p class="mb-4"><span class="text-muted">{{ usermacros.getUserSubline(user, " | ") }}</span></p>#}
         {% if user.mtcorg_location %}
             <p class="mb-0"><span class="text-muted">
-					{{ user.mtcorg_location }}</span></p>
+				{{ 'Location'|_ }}:	{{ user.mtcorg_location }}</span></p>
         {% endif %}
         <hr class="mt-2 mb-2">
         {#<ul class="social-links list-inline mb-0 mt-2">
@@ -54,6 +56,7 @@
     </div>
 </div>
 
+{#
 
 <div class="card p-3">
     <div class="d-flex align-items-center">
@@ -67,4 +70,4 @@
             <small class="text-muted">{{ user.name }} {{ 'became a Mautician'|_ }}</small>
         </div>
     </div>
-</div>
+</div>#}
