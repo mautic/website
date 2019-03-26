@@ -1,0 +1,12 @@
+==
+{% if profile.contributed_posts|length %}
+<div class="table-responsive">
+    <table class="table card-table table-vcenter text-nowrap">
+        <tbody>
+            {% for post in profile.contributed_posts|reverse %}
+                {% partial 'component_blog/table_row' post=post%}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

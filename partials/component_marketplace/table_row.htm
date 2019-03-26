@@ -1,0 +1,46 @@
+==
+{% import 'macros/user' as usermacros %}
+		{% set status_message = '' %}
+		{% set status_class = '' %}
+
+		{% if download.review_status == 'pending' %}
+            {% set status_message = 'Pending Review' %}
+            {% set status_class = 'bg-red d-none' %}
+        {% elseif download.review_status == 'under-review' %}
+            {% set status_message = 'Under Review' %}
+            {% set status_class = 'bg-orange' %}
+        {% elseif download.review_status == 'approved' %}
+            {% set status_message = 'Approved' %}
+            {% set status_class = 'bg-green' %}
+        {% endif %}
+
+{% if isOwnProfile or (not isOwnProfile and download.review_status == 'approved') %}
+    <tr>
+        <td>
+            {{ download.name }}
+        </td>
+        <td class="w-10">
+            {{ download.updated_at.diffForHumans }}
+        </td>
+        <td class="w-10">
+            {% if download.review_status != 'approved' %}
+                <span class="status-icon bg-warning"></span>
+            {% else %}
+                <span class="status-icon bg-success"></span>
+            {% endif %}
+            {{ status_message }}
+        </td>
+        {# <td>
+             <a href="{{ download.extension.repoUrl }}" target="_blank">{{ download.repository_provider }}</a>
+         </td>#}
+        {% if isOwnProfile %}
+            <td class="w-1">
+                <a href="javascript:void(0)" class="btn btn-secondary btn-sm">{{ 'Edit'|_ }}</a>
+            </td>
+        {% endif %}
+        <td class="w-1">
+            <a href="javascript:void(0)" class="btn btn-secondary btn-sm">{{ 'Preview'|_ }}</a>
+        </td>
+    </tr>
+{% endif %}
+
