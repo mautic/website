@@ -1,8 +1,8 @@
 title = "Blog Post"
-url = "/blog/:category/:slug/:mode?"
+url = "/blog/:category/:slug"
 layout = "sidebar-right"
 is_hidden = 0
-child_of = "blog/blog-component-recent"
+child_of = "blog/blog-component-category"
 hide_crumb = 0
 remove_crumb_trail = 0
 crumbElementTitle = "page-title"
@@ -46,7 +46,7 @@ $this['editing'] = $this->param('mode')==='edit' && $this['editable']===true;
 {% put sidebarBottom %}
 {% partial 'sidebars/global_relations_lists' relationships=relations.parse(post) %}
 {% endput %}
-
+    <span class="d-none" id="category-title"><a href="{{ 'blog/blog-component-category'|page(post.categories[0].slug) }}">{{ post.categories[0].name }}</a></span>
 {% component 'blog_posts_single' %}
 {% else %}
 <p>Couldn't find that post :'(</p>

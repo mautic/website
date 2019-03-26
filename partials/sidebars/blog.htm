@@ -21,14 +21,14 @@ postPage = "blog/blog-component-single"
 slug = "{{ :slug }}"
 ==
 {%set categories = blogCategories.category %}
-{% for post in mostVisitedPosts %}
+{#{% for post in mostVisitedPosts %}
 <div class="post">
 	<div class="postImage"><img alt="" src="{{post.featured_images[0].path}}"></div>
 	<div class="post-content">
 		<a href="{{post.url}}"><h5>{{post.title}}</h5></a>
 	</div>
 </div>
-{% endfor %}
+{% endfor %}#}
 
 <a href="{{ 'mauticians/profile-contributions'|page({user:user.username}) }}" class="d-flex btn btn-outline-brand-purple">
 	<span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contribute Content'|_ }}

@@ -28,28 +28,37 @@ $this['editing'] = true;
     {% partial 'component_userProfile/user-sidebar' user=profile %}
     {% endput %}
 
-
+    {% set category='help-with-mautic' %}
+    {% set category_id=16 %}
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ 'Help Center contributions'|_ }}</h3>
-            <a href="#" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+            {% if isOwnProfile %}
+                <a href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, category: category, mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+            {% endif %}
         </div>
-        {% partial 'component_blog/table' profile=profile %}
+        {% partial 'component_blog/table' profile=profile category=category category_id=category_id %}
     </div>
 
+    {% set category='mautic-blogs' %}
+    {% set category_id=11 %}
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ 'Blog contributions'|_ }}</h3>
-            <a href="#" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+            {% if isOwnProfile %}
+                <a href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, category: category , mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+            {% endif %}
 
         </div>
-        {% partial 'component_blog/table' profile=profile %}
+        {% partial 'component_blog/table' profile=profile category=category category_id=category_id %}
     </div>
 
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ 'Marketplace contributions'|_ }}</h3>
-            <a href="#" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+            {% if isOwnProfile %}
+                <a href="#" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+            {% endif %}
         </div>
 
         <div class="table-responsive">
@@ -93,12 +102,17 @@ $this['editing'] = true;
     </div>
 
 
+    {% set max=3 %}
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ 'Discussion Activity'|_ }}</h3>
+            <h3 class="card-title">{{ 'Discussion Activity'|_ }} &nbsp;<span class="badge badge-brand-purple">{{ messagesCount }}</span></h3>
         </div>
-        <div class="card-body ">
-        </div>
+        {% for post in messages|slice(0,max) %}
+            {% partial 'forum_discussion_forum/row' post=post %}
+        {% endfor %}
+        {% if messages|length > max %}
+        <a  href="{{ 'mauticians/profile-forum'|page({user:user.username}) }}" class="btn">{{ 'More'|_ }}</a>
+        {% endif %}
     </div>
 
 

@@ -1,0 +1,15 @@
+==
+<li class="list-group-item py-5 media forum-post" data-post-id="{{ post.id }}"
+    id="post-{{ post.id }}">
+    <div class="media-body">
+        <div class="media-heading">
+            <a href="{{ 'forum/topic'|page({slug:post.topic.slug}) }}">
+                <small class="text-muted">in {{ post.topic.channel.title }}
+                    > {{ post.topic.subject }}</small>
+            </a>
+        </div>
+        <div class="text">
+            {{ post.content }}
+        </div>
+    </div>
+</li>

@@ -1,0 +1,12 @@
+==
+{% if messages|length %}
+<div class="table-responsive">
+    <table class="table card-table table-vcenter text-nowrap">
+        <tbody>
+            {% for post in messages|reverse %}
+                {% partial 'forum_discussion_forum/table_row' post=post%}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

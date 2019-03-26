@@ -8,7 +8,6 @@ function onStart(){
 }
 ?>
 ==
-
 <form class="blog--form_new-user-content" id="blog--form_new-user-content">
 	<div class="form-group">
 		<label class="form-label">{{ 'Title'|_ }}</label>
@@ -31,7 +30,14 @@ function onStart(){
 	</div>
 
 	{# type #}
-	<div class="form-group">
+
+	{% if this.param.category == 'help-with-mautic' %}
+		<input type="hidden" name="category" value="16">
+		{% else %}
+		<input type="hidden" name="category" value="11">
+	{% endif %}
+
+	{#<div class="form-group">
 		<div class="form-label">{{ 'Category'|_ }}</div>
 		<div class="selectgroup w-33">
 			<label class="selectgroup-item">
@@ -46,7 +52,7 @@ function onStart(){
 				<span class="selectgroup-button">{{ 'Blog'|_ }}</span>
 			</label>
 		</div>
-	</div>
+	</div>#}
 
 	<div class="form-group ">
 		<label for="" class="form-label sr-only">Post Content</label>
@@ -57,7 +63,7 @@ function onStart(){
 
 	<div class="control-bar pull-right">
 		<input type="hidden" name="postid" value="{{ post ? post.id : 0 }}">
-		<div class="selectgroup">
+	{#	<div class="selectgroup">
 			<label class="selectgroup-item">
 				<input type="radio" name="status" value="draft" class="selectgroup-input" checked="">
 				<span class="selectgroup-button">Save as Draft</span>
@@ -66,8 +72,8 @@ function onStart(){
 				<input type="radio" name="status" value="submitted" class="selectgroup-input">
 				<span class="selectgroup-button">Submit for Approval</span>
 			</label>
-		</div>
-		<button type="submit" class="btn btn-brand-purple">Submit</button>
+		</div>#}
+		<button type="submit" class="btn btn-brand-purple">{{ 'Submit for Approval'|_ }}</button>
 	</div>
 </form>
 
@@ -144,7 +150,7 @@ function onStart(){
 				data: fieldsOb,
 				loading: $.oc.stripeLoadIndicator,
 				success: function (data, status, request) {
-					location.href = '{{ 'mauticians/profile-contributions'|page({user:user.username}) }}';
+					location.href = '{{ 'mauticians/profile-single'|page({user:user.username}) }}';
 				},
 				error: function (request, status, error) {
 					var errMessages = request.responseJSON.X_OCTOBER_ERROR_FIELDS;

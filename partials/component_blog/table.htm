@@ -1,12 +1,22 @@
 ==
 {% if profile.contributed_posts|length %}
-<div class="table-responsive">
-    <table class="table card-table table-vcenter text-nowrap">
-        <tbody>
+    <div class="table-responsive">
+        <table class="table card-table table-vcenter text-nowrap">
+            <tbody>
             {% for post in profile.contributed_posts|reverse %}
-                {% partial 'component_blog/table_row' post=post%}
+                {% set break = true %}
+                {% if post.categories %}
+                    {% for cat in post.categories %}
+                        {% if cat.slug == category or cat.parent_id == category_id %}
+                            {% set break = false %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if not break %}
+                    {% partial 'component_blog/table_row' post=post %}
+                {% endif %}
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 {% endif %}

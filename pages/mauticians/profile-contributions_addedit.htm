@@ -1,5 +1,5 @@
 title = "User - Marketplace"
-url = "/mauticians/:user/contributions/:mode?/:slug?/"
+url = "/mauticians/:user/contributions/:category?/:mode?/:slug?/"
 layout = "sidebar-left"
 is_hidden = 0
 child_of = "mey_no_parent"
@@ -20,7 +20,6 @@ categoryPage = "blog/blog-component-category"
 	{% put sidebar %}
 	{% partial 'component_userProfile/user-sidebar' user=profile %}
 	{% endput %}
-
 	{% if isOwnProfile %}
 		<div class="row">
 			<div class="col-12">

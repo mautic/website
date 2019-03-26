@@ -2,11 +2,7 @@ title = "User - Forum Activity"
 url = "/mauticians/:user/forum"
 layout = "sidebar-left"
 is_hidden = 0
-
-[viewBag]
-localeUrl[de] = "/user-forum-activity"
-localeUrl[fr] = "/user-forum-activity"
-localeUrl[pgl] = "/user-forum-activity"
+hide_crumb = 1
 
 [userProfile]
 username = "{{ :user }}"
@@ -22,16 +18,9 @@ function onEnd(){
 	{% endput %}
 
 	<div class="row">
-		<div class="col-12 page-header d-flex">
-			<h1 class="page-title-icon mb-1">User Discussion Activity</h1>
-		</div>
 
 		<div class="col-12">
 			<div class="card">
-				<div class="card-header">
-					<h3 class="card-title">{{ 'Discussion Activity'|_ }}</h3>
-				</div>
-
 				{% if messages|length %}
 					<ul class="list-group card-list-group">
 						{% for post in messages %}
