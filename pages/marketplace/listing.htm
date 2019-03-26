@@ -60,16 +60,15 @@ $this->page->title = $this->download->name;
 	</div>
 	<div class="row col-6 mx-auto mb-6 pb-6">
 		<div class="input-group input-group-lg">
-			<input type="text" id="interest-search" class="form-control" placeholder="What do you need it to do?">
+			<input type="text" id="interest-search" class="form-control" placeholder="{{ 'What do you need it to find?'|_ }}">
 			<span class="input-group-append">
-          <button id="search" class="btn btn-brand-purple" type="button">Go!</button>
         </span>
 		</div>
 	</div>
 {% endput %}
 
 <div class="row row-deck">
-	{% for download in downloads if download.review_status == 'approved' %}
+	{% for download in downloads|reverse if download.review_status == 'approved' %}
 		{% partial 'component_marketplace/card' download=download %}
 	{% endfor %}
 </div>

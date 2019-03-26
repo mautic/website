@@ -16,8 +16,8 @@
 	{# @todo @note I did this first using a custom twig filter. That sacrifices native translations and a bit of other flexibility. turns out, this is better.  #}
 	{% set subline = [] %}
 	{% if user.mtcorg_location %} {% set subline = subline|merge([user.mtcorg_location]) %} {% endif %}
-	{% set points = user.points %}
-	{% if points %} {% set subline = subline|merge([points ~ " points"]) %} {% endif %}
+	{#{% set points = user.points %}
+	{% if points %} {% set subline = subline|merge([points ~ " points"]) %} {% endif %}#}
 
 	{{ subline|join(separator) }}
 {% endmacro %}

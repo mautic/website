@@ -1,5 +1,5 @@
 title = "User - Marketplace"
-url = "/mauticians/:user/marketplace"
+url = "/mauticians/:user/marketplace/:mode/:slug?"
 layout = "sidebar-left"
 is_hidden = 0
 child_of = "mey_no_parent"
@@ -16,6 +16,7 @@ localeUrl[pgl] = "/user-marketplace"
 username = "{{ :user }}"
 
 [addNewExtension]
+slug = "{{ :slug }}"
 ==
 <?php
 function onEnd(){
@@ -28,19 +29,20 @@ $this->page->title = $this->profile->name . ' ' . $this->profile->surname . ' / 
 	{% partial 'component_userProfile/user-sidebar' user=profile %}
 	{% endput %}
 
-	<div class="row">
-		<div class="col-12 page-header d-flex">
-			<h1 class="page-title-icon mb-1">User Marketplace Mixins</h1>
+	{% if isOwnProfile %}
+		<div class="card">
+			<div class="card-header">
+				{% if this.param.mode == 'new' %}
+					<h3 class="card-title">{{ 'Add new extension'|_ }}</h3>
+					{% else %}
+					<h3 class="card-title">{{ 'Edit extension'|_ }}</h3>
+				{% endif %}
+			</div>
+			<div class="card-body">
+				{% partial 'component_marketplace/form_upload_new' download=download %}
+			</div>
 		</div>
-	</div>
-
-	<div class="row row-deck">
-		{% if profile.downloads|length %}
-			{% for download in profile.downloads %}
-				{% partial 'component_marketplace/card' download=download %}
-			{% endfor %}
-		{% endif %}
-	</div>
+	{% endif %}
 {% else %}
 	<h3>Not Found</h3>
 {% endif %}

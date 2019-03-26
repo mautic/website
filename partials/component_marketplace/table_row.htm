@@ -33,14 +33,16 @@
         {# <td>
              <a href="{{ download.extension.repoUrl }}" target="_blank">{{ download.repository_provider }}</a>
          </td>#}
-        {% if isOwnProfile %}
+        {% if download.review_status == 'approved' %}
             <td class="w-1">
-                <a href="javascript:void(0)" class="btn btn-secondary btn-sm">{{ 'Edit'|_ }}</a>
+                <a href="{{ 'marketplace/single'|page({ slug: download.slug }) }}" class="btn btn-secondary btn-sm">{{ 'View'|_ }}</a>
             </td>
+        {% elseif isOwnProfile %}
+                <td class="w-1">
+                    <a href="{{ 'mauticians/profile-marketplace_addedit'|page({user:user.username, slug: download.slug ,  mode: 'edit' }) }}"
+                       class="btn btn-secondary btn-sm">{{ 'Edit'|_ }}</a>
+                </td>
         {% endif %}
-        <td class="w-1">
-            <a href="javascript:void(0)" class="btn btn-secondary btn-sm">{{ 'Preview'|_ }}</a>
-        </td>
     </tr>
 {% endif %}
 

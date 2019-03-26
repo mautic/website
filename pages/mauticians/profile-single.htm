@@ -57,7 +57,7 @@ $this['editing'] = true;
         <div class="card-header">
             <h3 class="card-title">{{ 'Marketplace contributions'|_ }}</h3>
             {% if isOwnProfile %}
-                <a href="#" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+                <a href="{{ 'mauticians/profile-marketplace_addedit'|page({user:user.username, mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
             {% endif %}
         </div>
 
