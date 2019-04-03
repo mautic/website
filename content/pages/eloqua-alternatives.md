@@ -2,7 +2,9 @@
 
 Tired of spending ridiculous amounts of money for marketing automation? Maybe you just don't like the constant nagging to sign-up. **Mautic is the perfect choice.** Free and open source. Download and put on your own server or sign-up for a free hosted account.
 
-[Download Mautic ](download) [Free Hosted Version](https://www.mautic.com)
+<a href="/download" class="btn btn-brand-purple btn-lg"> <icon class="fe fe-download-cloud"></icon> Download Mautic</a>
+
+<a href="https://www.mautic.com" class="btn btn-brand-purple btn-lg"> <icon class="fe mtc-mautic"></icon> Free Hosted Version</a>
 
 ## 6 Reasons Why Mautic is Amazing.
 
