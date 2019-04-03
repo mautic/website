@@ -1,3 +1,4 @@
+<h1>Previous Releases</h1>
 <table class="table table-bordered">
 <thead>
 <tr>
