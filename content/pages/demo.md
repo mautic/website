@@ -17,7 +17,7 @@ Don’t wait - get started with Mautic’s marketing automation today!
 
 
 
-[** Create Free Hosted Account](https://mautic.com/signup-free-account/)  
+<a href="https://mautic.com/signup-free-account/" class="btn btn-brand-purple btn-lg"><icon class="fe fe-arrow-right"></icon>Create a free hosted account</a> 
 
     
 
