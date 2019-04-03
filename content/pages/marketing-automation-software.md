@@ -47,4 +47,4 @@ This is a pretty exciting process. When a business implements marketing automati
 
 ------
 
-[Mautic](https://www.mautic.org/) is an open source marketing automation software available completely for free and as software you can install on your own website or server. Access the latest, cutting-edge in marketing platforms without a high monthly fee. [Download](https://www.mautic.org/download) or [setup a free hosted account](https://mautic.com/).
+[Mautic](https://www.mautic.org/) is an open source marketing automation software available completely for free and as software you can install on your own website or server. Access the latest, cutting-edge in marketing platforms without a high monthly fee. [Download](https://www.mautic.org/download) or [setup a hosted account](https://mautic.com/).
