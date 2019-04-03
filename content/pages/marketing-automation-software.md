@@ -3,9 +3,6 @@
 
 Okay so let’s take a very introductory look at marketing automation what it is, and how you can use it in your business. Always start with a question...**what is marketing automation?** Although the term of marketing automation may be a bit confusing or different to you I’m sure you are familiar with the concept. We will begin by looking at what exactly marketing automation is and then how you can apply these steps to your business.  
 
-
-
-
 ### Starting with an IP address
 
 ![](https://medium2.global.ssl.fastly.net/max/2000/1*bQaQFx5sJYA3gApXBYqYpw.jpeg)
@@ -17,10 +14,20 @@ When someone comes to your website they’re basically just an IP address. Yes, 
 
 Let's break down each of the next three into their own section. Read them and come back or finish and then dive into the details later:
 
-[column size="one-third"][![How to build a great landing page](https://www.mautic.org/wp-content/uploads/2015/07/above-736879_1280-300x204.jpg)
-](https://www.mautic.org/marketing-automation-software/landing-page/)[Landing Pages to Collect More Data](https://www.mautic.org/marketing-automation-software/landing-page/)[/column][column size="one-third"][![Marketing drip campaign workflows](https://www.mautic.org/wp-content/uploads/2015/07/dripflow_campaign-300x219.jpg)
-](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign)[Beginning a Drip Marketing Campaign](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign/)[/column][column size="one-third" last="true"][![Decision trees can be beautiful](https://www.mautic.org/wp-content/uploads/2015/07/decision_tree-300x200.jpg)
-](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)[Create a Decision Tree](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)[/column]
+<div class="row">
+  <div class="col-md-4" markdown="1">
+ [![How to build a great landing page](https://www.mautic.org/wp-content/uploads/2015/07/above-736879_1280-300x204.jpg)
+](https://www.mautic.org/marketing-automation-software/landing-page/)[Landing Pages to Collect More Data](https://www.mautic.org/marketing-automation-software/landing-page/)
+  </div>
+  <div class="col-md-4" markdown="1">
+  [![Marketing drip campaign workflows](https://www.mautic.org/wp-content/uploads/2015/07/dripflow_campaign-300x219.jpg)
+](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign)[Beginning a Drip Marketing Campaign](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign/)
+  </div>
+    <div class="col-md-4" markdown="1">
+  [![Decision trees can be beautiful](https://www.mautic.org/wp-content/uploads/2015/07/decision_tree-300x200.jpg)
+](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)[Create a Decision Tree](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)
+  </div>
+</div>
 
 Welcome back (if you left) or don't forget to come back and read these! Let's keep moving with next steps and one of the biggest results you're going to fall in love with when using marketing automation.
 
