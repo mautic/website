@@ -17,15 +17,15 @@ Let's break down each of the next three into their own section. Read them and co
 <div class="row">
   <div class="col-md-4" markdown="1">
  [![How to build a great landing page](https://www.mautic.org/wp-content/uploads/2015/07/above-736879_1280-300x204.jpg)
-](https://www.mautic.org/marketing-automation-software/landing-page/)[Landing Pages to Collect More Data](https://www.mautic.org/marketing-automation-software/landing-page/)
+](https://www.mautic.org/marketing-automation-software/landing-page/)[Landing Pages to Collect More Data](/marketing-automation-software/landing-page/)
   </div>
   <div class="col-md-4" markdown="1">
   [![Marketing drip campaign workflows](https://www.mautic.org/wp-content/uploads/2015/07/dripflow_campaign-300x219.jpg)
-](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign)[Beginning a Drip Marketing Campaign](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign/)
+](https://www.mautic.org/marketing-automation-software/drip-marketing-campaign)[Beginning a Drip Marketing Campaign](/marketing-automation-software/drip-marketing-campaign/)
   </div>
     <div class="col-md-4" markdown="1">
   [![Decision trees can be beautiful](https://www.mautic.org/wp-content/uploads/2015/07/decision_tree-300x200.jpg)
-](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)[Create a Decision Tree](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)
+](https://www.mautic.org/marketing-automation-software/decision-tree-workflows/)[Create a Decision Tree](/marketing-automation-software/decision-tree-workflows/)
   </div>
 </div>
 
