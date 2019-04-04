@@ -7,6 +7,8 @@ hide_crumb = 0
 remove_crumb_trail = 0
 crumbElementTitle = "page-title"
 crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 
 [viewBag]
 localeUrl[de] = "/help-post"
@@ -16,6 +18,16 @@ localeUrl[pgl] = "/help-post"
 [blogPost helpPost]
 slug = "{{ :slug }}"
 categoryPage = "help/help-featured"
+==
+<?php
+function onEnd()
+{
+if ($this->post)
+{
+$this->page->title = $this->post->title;
+}
+}
+?>
 ==
 {% put sidebar %}
 
