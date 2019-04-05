@@ -48,11 +48,11 @@ $this->page->title = $this->download->name;
     {% put sidebar %}
 
     {# sidebar card: user #}
-    {% partial 'user/user_card_small' user=download.user %}
     <div class="card">
         <a href="{{ extension.repoUrl }}" target="_blank" class="btn btn-brand-purple d-block"><i
                     class="fe fe-github mr-2"></i> Repository</a>
     </div>
+    {% partial 'user/user_card_small' user=download.user %}
     {% set release = extension.allReleases|slice(0,1)[0] %}
     {#<div class="card">
         <div class="card-body p-3 text-center">
@@ -75,18 +75,44 @@ $this->page->title = $this->download->name;
 
 
     {# sidebar card: latest release #}
-    <div class="card p-3">
+   {# <div class="card p-3">
         <div class="d-flex align-items-center">
                 <span class="stamp stamp-md bg-dark mr-3">
                   <i class="fe fe-bookmark"></i>
                 </span>
             <div>
-                <h4 class="m-0"><a target="_blank" href="{{ release.uri }}" class="card-link">
-                        {{ release.name }}
+                <h4 class="m-0"><small class="text-muted">{{ 'Latest release'|_ }}</small> <a target="_blank" href="{{ release.uri }}" class="card-link">{{ release.name }}
                     </a></h4>
-                <small><span class="text-muted">Latest stable release</span> {{ release.published|date("m/d/Y") }}</small>
+                <small>{{ release.published|date("m/d/Y") }}</small>
             </div>
         </div>
+    </div>#}
+
+    {# sidebar card: release history #}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ 'Releases'|_ }}</h3></div>
+        <table class="table card-table">
+            <thead>
+            <tr>
+                <th>{{ 'Version'|_ }}</th>
+                <th class="text-right">{{ 'Release Date'|_ }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for release in extension.allReleases|slice(0, 3) %}
+                <tr>
+                    <td><a href="{{ release.uri }}" target="_blank">{{ release.name }}</a></td>
+                    <td class='text-right'>{{ release.published|date("m/d/Y") }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if extension.allReleases|length > 3 %}
+        <a href="https://github.com/{{ extension.repoPath }}/releases"
+           class="btn btn-secondary"
+           target="_blank">{{ 'View all'|_ }}</a>
+        {% endif %}
     </div>
 
     {# sidebar card: support #}
@@ -105,33 +131,6 @@ $this->page->title = $this->download->name;
                 <small class="text-muted">{{ extension.stats.open_issues }} {{ 'open issues'|_ }}</small>
             </div>
         </div>
-    </div>
-
-    {# sidebar card: release history #}
-    <div class="card">
-        <div class="card-header">
-            <div class='card-options'>
-                <a href="https://github.com/{{ extension.repoPath }}/releases"
-                   class="btn btn-secondary btn-sm"
-                   target="_blank">{{ 'View all'|_ }}</a>
-            </div>
-            <h3 class="card-title">Previous Releases</h3></div>
-        <table class="table card-table">
-            <thead>
-            <tr>
-                <th>Version</th>
-                <th class="text-right">Release Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for release in extension.allReleases|slice(1, 5) %}
-                <tr>
-                    <td><a href="{{ release.uri }}" target="_blank">{{ release.name }}</a></td>
-                    <td class='text-right'>{{ release.published|date("m/d/Y") }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
 
     {#{% partial 'sidebars/global_relations_lists' relationships=relations.parse(download) %}#}

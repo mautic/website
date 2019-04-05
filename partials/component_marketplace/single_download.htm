@@ -4,7 +4,7 @@
 
 {% set release = extension.allReleases|slice(0,1)[0] %}
 
-<div class="card card-aside">
+<div class="card card-aside d-none">
 	{#<a href="#" class="card-aside-column" style="/*background-image: url({{ download.package_icon.getPath() }})*/"></a>#}
 	<div class="card-body d-flex flex-column">
 		{#<a href="{{ extension.repoUrl }}" target="_blank" class="pull-right btn btn-brand-purple d-block"><i
@@ -72,6 +72,9 @@
         					{% endfor %}
         				</div>
     				</div>#}
+					<a href="{{ extension.repoUrl }}" target="_blank" class="btn btn-brand-purple d-block">
+						<i class="fe fe-github mr-2"></i> Repository</a>
+
 			</div>
 		</div>
 	</div>

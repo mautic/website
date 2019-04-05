@@ -56,14 +56,15 @@ $this->page->title = $this->download->name;
 
 {% put before %}
 	<div class="page-header d-block text-center">
-		<h1 class="p-5">{{ 'Customize it'|_ }}</h1>
+		<h1 class="p-5">{{ 'Marketplace'|_ }}</h1>
 	</div>
 	<div class="row col-6 mx-auto mb-6 pb-6">
-		<div class="input-group input-group-lg">
+		<div class="input-group input-group-lg ">
 			<input type="text" id="interest-search" class="form-control" placeholder="{{ 'What do you need it to find?'|_ }}">
 			<span class="input-group-append">
         </span>
 		</div>
+		<a class="btn btn-outline-brand-purple mt-5 ml-auto mr-auto " href="{{ 'mauticians/profile-marketplace_addedit'|page({user:user.username, mode: 'add'}) }}">{{ 'Promote your bundles for Mautic'|_ }}</a>
 	</div>
 {% endput %}
 
