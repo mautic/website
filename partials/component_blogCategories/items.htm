@@ -6,7 +6,7 @@
     {% endif %}
 
     {% if category.children|length > 1 %}
-        <ul class="category-list">
+        <ul class="category-list pl-0">
             {% partial 'component_blogCategories/items.htm'
             categories=category.children
             currentCategorySlug=currentCategorySlug %}
