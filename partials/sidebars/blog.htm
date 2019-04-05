@@ -30,9 +30,10 @@ slug = "{{ :slug }}"
 </div>
 {% endfor %}#}
 
-<a href="{{ 'mauticians/profile-contributions'|page({user:user.username}) }}" class="d-flex btn btn-outline-brand-purple">
-	<span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contribute Content'|_ }}
+<a href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, mode: 'add', category: 'mautic-blogs'}) }}" class="d-flex btn btn-outline-brand-purple">
+    <span class="icon mr-3"><i class="fe fe-book-open"></i></span>{{ 'Contribute blog content'|_ }}
 </a>
+
 
 <h4 class="mt-6">{{ 'Categories'|_ }}</h4>
 <div class="list-group list-group-transparent mb-0">
