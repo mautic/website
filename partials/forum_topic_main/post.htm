@@ -99,23 +99,23 @@
 						<span id="accepted_{{ post.id }}" class="post-accepted">{% partial 'forum_topic_main/_post-accepted-icons' %}</span>
 					</a>
 					{# @devnote: spacer is important for ux. without it, it's very easy for dom space to cause vote to toggle accepted #}
-					<span class="spacer mx-2"></span>
-					{# upvote #}
+					{#<span class="spacer mx-2"></span>
+					#}{# upvote #}{#
 					<a href="javascript;"
 					   class="vote upvote"
 					   data-request="onVote"
 					   data-request-data="vote:'up', item:{{ post.id }}, itemtype:'rainlab.forum.post'">
 						<i class="fa fa-caret-up">&nbsp;</i>
 					</a>
-					{# votes count #}
+					#}{# votes count #}{#
 					<span id="votesCnt">{{ post.mtcorg_points }}</span>
-					{# downvote #}
+					#}{# downvote #}{#
 					<a href="javascript;"
 					   class="vote upvote pl-1"
 					   data-request="onVote"
 					   data-request-data="vote:'down', item:{{ post.id }}, itemtype:'rainlab.forum.post'">
 						<i class="fa fa-caret-down">&nbsp;</i>
-					</a>
+					</a>#}
 				</div>
 				{% if topic.canPost %}
 					<a href="javascript:;"
