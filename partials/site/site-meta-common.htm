@@ -21,4 +21,4 @@
 {% set metattitile = this.page.meta_title ? this.page.meta_title : this.page.title %}
 <meta name="description" content="{{ this.page.meta_description }}">
 <meta name="title" content="{{ metattitile }}">
-<title>{{this.theme.config.site.name}} | {{ metattitile }}</title>
+<title>{{ metattitile }} | {{this.theme.config.site.name}}</title>
