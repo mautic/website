@@ -20,6 +20,10 @@ disabled-class = "disabled"
 	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
+  <title>{{ post.powerseo_title | generateTitle}}</title>
+  <meta name="keywords" content="{{post.powerseo_keywords}}">
+  <meta name="description" content="{{post.powerseo_description}}">
+  <meta name="robots" content="{{post.powerseo_robot_index}},{{post.powerseo_robot_follow}}">
 </head>
 <body class="">
 <div class="page">
