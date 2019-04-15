@@ -1,12 +1,13 @@
 {% set crumbOptions = __SELF__.options %}
 {% if currentCrumb.show_crumb %}
-    <ol class="{{ crumbOptions['main-ol-class'] }}">
+        <ol class="{{ crumbOptions['main-ol-class'] }}" itemscope itemtype="http://schema.org/BreadcrumbList">
         {% set activeCrumb = '' %}
+        {% set crumbPosition = 0 %}
         {% for crumb in breadcrumbs %}
             {% if crumb.in_crumb_trail %}
-                <li class="{{ crumbOptions['main-li-class'] }} {% if crumb.crumb_disabled %} {{ crumbOptions['disabled-class'] }} {% endif %} {% if loop.last %} {{ crumbOptions['active-class'] }} {% endif %}" {% if loop.last %} id="bcLast" {% elseif crumb.elementTitle %} id="crumb-{{ crumb.elementTitle }}" {% endif %}>
-                    {% if not loop.last and not crumb.crumb_disabled %} <a
-                            href="{{ crumb.baseFileName | page }}"> {% endif %} {{ crumb.title }} {% if not loop.last and not crumb.is_disabled %}</a>{% endif %}
+            {% set crumbPosition = crumbPosition+1 %}
+                <li class="{{ crumbOptions['main-li-class'] }} {% if crumb.crumb_disabled %} {{ crumbOptions['disabled-class'] }} {% endif %} {% if loop.last %} {{ crumbOptions['active-class'] }} {% endif %}" {% if loop.last %} id="bcLast" {% elseif crumb.elementTitle %} id="crumb-{{ crumb.elementTitle }}" {% endif %} itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    {% if not loop.last and not crumb.crumb_disabled %} <a itemprop="item" href="{{ crumb.baseFileName | page }}"> {% endif %} <span itemprop="name">{{ crumb.title }}</span> <meta itemprop="position" content="{{crumbPosition}}" />{% if not loop.last and not crumb.is_disabled %}</a>{% endif %}
                 </li>
             {% endif %}
 
