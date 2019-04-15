@@ -1,5 +1,17 @@
 [viewBag]
 ==
+<script type="application/ld+json">
+{
+  "@context":"http://schema.org",
+  "@type":"DiscussionForumPosting",
+  "@id":"{{ topic.url }}",
+  "headline":"{{ topic.subject }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.member.user.name }} {{ post.member.user.surname }}"
+  }
+}
+</script>
 <div class="row">
 	{# topic subject header #}
 	{% if topic.first_post.id == post.id %}
