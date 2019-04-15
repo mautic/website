@@ -17,10 +17,7 @@ disabled-class = "disabled"
 	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
-  <title></title>
-  <meta name="keywords" content="{{post.powerseo_keywords}}">
-  <meta name="description" content="{{post.powerseo_description}}">
-  <meta name="robots" content="{{post.powerseo_robot_index}},{{post.powerseo_robot_follow}}">
+  <title>{{ topic.subject }} | Mautic Community Forums</title>
 </head>
 <body class="">
 <div class="page">
