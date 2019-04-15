@@ -16,8 +16,7 @@
 	{# topic subject header #}
 	{% if topic.first_post.id == post.id %}
 		<div class="col-12">
-			<small class="float-right text-muted mt-3">{% partial "@timestamp" date=post.created_at %}</small>
-			<small class="d-none" id="channel-title" ><a href="{{ topic.channel.url }}">{{ topic.channel.title }}</a></small>
+<a href="{{ post.url }}#post-{{ post.id }}"><small class="float-right text-muted">{% partial __SELF__ ~ "::timestamp" date=post.created_at %}</small></a>			<small class="d-none" id="channel-title" ><a href="{{ topic.channel.url }}">{{ topic.channel.title }}</a></small>
 			<h1 id="post-title">{{ topic.subject }}</h1>
 			<hr/>
 		</div>
