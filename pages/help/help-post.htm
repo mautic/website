@@ -29,8 +29,45 @@ $this->page->title = $this->post->title;
 }
 ?>
 ==
+<script type="application/ld+json">
+{
+  "@context":"http://schema.org",
+  "@type":"BlogPosting",
+  "url":"{{ ''| page }}",
+  "headline":"{{ post.title }}",
+  "image": "https://www.mautic.org/storage/app/media/logos/notagline/vertical/Mautic_Logo_Vertical_RGB_LB.png",
+  "datePublished":"{{ post.published_at.toIso8601String() }}",
+  "articleBody":"{{ post.content_html }}",
+  "keywords": "{{post.powerseo_keywords}}",  
+  "publisher": [
+      {
+      "@type": "Organization",
+      "name": "Mautic",
+      "logo": "https://www.mautic.org/storage/app/media/logos/notagline/vertical/Mautic_Logo_Vertical_RGB_LB.png",
+      "foundingDate": "2014",
+         "founders": [
+            {
+                "@type": "Person",
+                "name": "David Hurley"
+            } 
+                     ],
+     "sameAs": [ 
+     "http://facebook.com/MauticCommunity",
+     "http://twitter.com/MauticCommunity",
+     "https://www.linkedin.com/groups/8221750",
+     "https://www.youtube.com/channel/UCcc9_x7_gNICPkrbG2NU9Xw"
+                ]
+     }        ],
+  "dateCreated": "{{ post.created_at.toIso8601String() }}",
+  "dateModified": "{{ post.modified_at.toIso8601String() }}",
+  "description": "{{post.powerseo_description}}",
+   "author": {
+    "@type": "Person",
+    "name": "{{ post.contributor.name}} - Mautic Community"
+  }
+}
+</script>
 {% put sidebar %}
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function (){
         function createAnchor(id, name) {
