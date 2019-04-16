@@ -12,14 +12,22 @@ active-class = "active"
 disabled-class = "disabled"
 
 [SeoCmsPage]
+
+[cookieConsent]
+message = "This website uses cookies to ensure you get the best experience on our website."
+dismiss = "Got it!"
+learnMore = "More info"
+link = "/privacy-policy"
+theme = "light-bottom"
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
 	{% component 'session' %}
-	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
+	<title>{{ this.page.title|_ }} | Mautic Community Forums</title>
+
 </head>
 <body class="">
 <div class="page">

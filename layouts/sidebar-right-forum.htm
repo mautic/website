@@ -9,12 +9,18 @@ main-ol-class = "breadcrumb  bg-transparent pl-0"
 main-li-class = "breadcrumb-item"
 active-class = "active"
 disabled-class = "disabled"
+
+[cookieConsent]
+message = "This website uses cookies to ensure you get the best experience on our website."
+dismiss = "Got it!"
+learnMore = "More info"
+link = "/privacy-policy"
+theme = "light-bottom"
 ==
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
 	{% component 'session' %}
-	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
   <title>{{ topic.subject }} | Mautic Community Forums</title>
@@ -22,6 +28,7 @@ disabled-class = "disabled"
 <body class="">
 <div class="page">
 	<div class="page-main">
+</script>
 		{% partial 'site/header' %}
 		<div class="my-3 my-md-5">
 			<div class="container">
