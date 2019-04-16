@@ -80,6 +80,7 @@ $this['editing'] = true;
             <h3 class="card-title">{{ 'Group membership'|_ }}</h3>
         </div>
         <div class="card-body ">
+			{% set user=profile %}
             {% if user.usergroups|length %}
                 {% for group in user.usergroups if group.group_type == 'mauticamp' %}
                     <div class="tag tag-brand-purple">
