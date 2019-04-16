@@ -75,6 +75,7 @@ function onEnd()
 			{% endfor %}
 		{% endif %}
 				<div class="card-body">
+			<img src="{{ group.group_image.path }}"><br /><br />
 			<h1 id="group-title">{{ group.name }}</h1>
 			{{ group.homepage_content_html|raw }}
 		</div>
