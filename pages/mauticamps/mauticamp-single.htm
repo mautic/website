@@ -74,11 +74,8 @@ function onEnd()
 				</div>
 			{% endfor %}
 		{% endif %}
-		<div class="card-body">
-			<h1 class="d-none" id="group-title">{{ group.name }}</h1>
-			<div>
-				<p>{{ group.description|raw }}</p>
-			</div>
+				<div class="card-body">
+			<h1 id="group-title">{{ group.name }}</h1>
 			{{ group.homepage_content_html|raw }}
 		</div>
 		<div class="card-footer d-flex">
