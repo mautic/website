@@ -1,5 +1,5 @@
 title = "Category Page"
-url = "/blog/:slug/:page?"
+url = "/blog/category/:slug/:page?"
 layout = "sidebar-right"
 is_hidden = 0
 child_of = "blog/blog-component-recent"
@@ -30,6 +30,7 @@ function onEnd()
 	if ($this->category)
 {
 $this->page->title = $this->category->name;
+$this->layout->components['SeoCmsPage']->seo_title = $this->category->name;
 }
 }
 ?>
@@ -41,5 +42,4 @@ $this->page->title = $this->category->name;
 {% endput %}
 
 <h1 id="category-title">{{category.name}} Blog</h1>
-
 {% component 'blog_posts_category' %}

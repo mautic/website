@@ -21,8 +21,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ml-1 col-6"><a href="{{ post.url }}"><img src="{{ post.featured_images[0].getPath() }}"
-                                                                          class="rounded border"/></a></div>
+                    {%  if post.featured_images[0].getPath() %}
+                        <div class="ml-1 col-6"><a href="{{ post.url }}"><img src="{{ post.featured_images[0].getPath() }}" class="rounded border" /></a></div>
+                    {% endif %}
                 </div>
             </div>
         </div>

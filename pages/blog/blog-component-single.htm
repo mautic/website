@@ -28,6 +28,9 @@ categoryPage = "blog/blog-component-category"
 [globalRelationships relations]
 
 [registerVisit]
+
+[SeoBlogPost]
+post = "post"
 ==
 <?php
 function onEnd()
@@ -46,8 +49,9 @@ $this['editing'] = $this->param('mode')==='edit' && $this['editable']===true;
 {% put sidebarBottom %}
 {% partial 'sidebars/global_relations_lists' relationships=relations.parse(post) %}
 {% endput %}
-    <span class="d-none" id="category-title"><a href="{{ 'blog/blog-component-category'|page(post.categories[0].slug) }}">{{ post.categories[0].name }}</a></span>
-{% component 'blog_posts_single' %}
+    <span class="d-none" id="category-title"><a href="{{ post.categories[0].url }}">{{ post.categories[0].name }}</a></span>
+    {% component 'blog_posts_single' %}
+    {% component 'SeoBlogPost' data=post %}
 {% else %}
 <p>Couldn't find that post :'(</p>
 {% endif %}
