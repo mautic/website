@@ -1,16 +1,23 @@
 title = "Profile - Edit"
 url = "/mauticians/:user/:mode"
 layout = "sidebar-left"
+meta_title = "Profile Edit"
 is_hidden = 0
 child_of = "mey_no_parent"
 hide_crumb = 1
 remove_crumb_trail = 0
 crumb_disabled = 0
+robot_index = "noindex"
+robot_follow = "nofollow"
 
 [RainLab\User\Components\Account account]
+paramCode = "code"
+forceSecure = 0
 
 [userProfile]
 username = "{{ :user }}"
+
+[SeoCmsPage]
 ==
 <?php
 function onEnd()
@@ -38,7 +45,9 @@ $this['editing'] = true;
 
             <div class="page-title-actions mb-1 ml-auto">
                 <small class="mr-5">
-                    <a href="{{ 'mauticians/profile-single'|page({user:profile.username}) }}" class="">{{ 'return to profile'|_ }}</a>
+                    <a href="{{ 'mauticians/profile-single'|page({user:profile.username}) }}"
+                                             class="">{{ 'return to profile'|_ }}
+                    </a>
                 </small>
                 {% if isOwnProfile %}
                     {% if editing %}

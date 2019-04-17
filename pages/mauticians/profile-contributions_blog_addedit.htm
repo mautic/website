@@ -1,0 +1,43 @@
+title = "User - Marketplace"
+url = "/mauticians/:user/contributions/:category?/:mode?/:slug?/"
+layout = "sidebar-left"
+is_hidden = 0
+child_of = "mey_no_parent"
+hide_crumb = 1
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[userProfile]
+username = "{{ :user }}"
+
+[blogPost blog_posts_single]
+slug = "{{ :slug }}"
+categoryPage = "blog/blog-component-category"
+
+[editableBlogPost]
+==
+{% if profile %}
+	{% put sidebar %}
+	{% partial 'component_userProfile/user-sidebar' user=profile %}
+	{% endput %}
+
+	{% if isOwnProfile %}
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">{{ 'Add new Content to Blog'|_ }}</h3>
+						<div class="card-options">
+							<a href="{{ 'mauticians/profile-single'|page({user:profile.username}) }}"
+							   class="">{{ 'return to profile'|_ }}
+							</a>
+						</div>
+					</div>
+					<div class="card-body">
+						{% partial 'component_blog/form_add_edit' %}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endif %}

@@ -6,6 +6,8 @@ child_of = "mey_no_parent"
 hide_crumb = 1
 remove_crumb_trail = 0
 crumb_disabled = 0
+robot_index = "noindex"
+robot_follow = "nofollow"
 
 [viewBag]
 localeUrl[de] = "/user-marketplace"
@@ -16,7 +18,6 @@ localeUrl[pgl] = "/user-marketplace"
 username = "{{ :user }}"
 
 [addNewExtension]
-slug = "{{ :slug }}"
 ==
 <?php
 function onEnd(){
@@ -37,6 +38,11 @@ $this->page->title = $this->profile->name . ' ' . $this->profile->surname . ' / 
 					{% else %}
 					<h3 class="card-title">{{ 'Edit extension'|_ }}</h3>
 				{% endif %}
+				<div class="card-options">
+					<a href="{{ 'mauticians/profile-single'|page({user:profile.username}) }}"
+					   class="">{{ 'return to profile'|_ }}
+					</a>
+				</div>
 			</div>
 			<div class="card-body">
 				{% partial 'component_marketplace/form_upload_new' download=download %}

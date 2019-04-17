@@ -16,18 +16,22 @@ categoryPage = "blog/blog-component-category"
 
 [editableBlogPost]
 ==
-{#category shold be  help-with-mautic or mautic-blogs#}
-
 {% if profile %}
 	{% put sidebar %}
 	{% partial 'component_userProfile/user-sidebar' user=profile %}
 	{% endput %}
+
 	{% if isOwnProfile %}
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">{{ 'Add new Content'|_ }}</h3>
+						<h3 class="card-title">{{ 'Add new Content to Help Center'|_ }}</h3>
+						<div class="card-options">
+							<a href="{{ 'mauticians/profile-single'|page({user:profile.username}) }}"
+							   class="">{{ 'return to profile'|_ }}
+							</a>
+						</div>
 					</div>
 					<div class="card-body">
 						{% partial 'component_blog/form_add_edit' %}

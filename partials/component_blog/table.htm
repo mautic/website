@@ -1,4 +1,5 @@
 ==
+{% set exist = false %}
 {% if profile.contributed_posts|length %}
     <div class="table-responsive">
         <table class="table card-table table-vcenter text-nowrap">
@@ -12,11 +13,15 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                {% if not break %}
+                {% if not break and (post.published == 1 or isOwnProfile) %}
                     {% partial 'component_blog/table_row' post=post %}
+                    {% set exist = true %}
                 {% endif %}
             {% endfor %}
             </tbody>
         </table>
     </div>
 {% endif %}
+    {% if not exist %}
+        <div class="card-body">{{ 'No contributions yet'|_ }}</div>
+    {% endif %}
