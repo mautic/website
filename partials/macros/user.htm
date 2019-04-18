@@ -2,11 +2,7 @@
 	getDisplayAvatar(userInstance, "avatar-md mr-3", 64)`
 #}
 {% macro getDisplayAvatar(user, containerClasses, thumbSize, avatarStatus) %}
-	{% if user.avatar %}
 		<div class="avatar {{ containerClasses }}" style="background-image: url({{ user.avatarThumb(thumbSize) }})">{{ avatarStatus|raw }}</div>
-	{% else %}
-		<div class="avatar {{ containerClasses }}">{{ user.name|split(' ')[0]|first|upper }}{{ user.name|split(' ')[1]|first|upper }} {{ avatarStatus|raw }}</div>
-	{% endif %}
 {% endmacro %}
 
 {# usage:
