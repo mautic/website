@@ -9,6 +9,7 @@ function onStart(){
 ?>
 ==
 <form class="blog--form_new-user-content" id="blog--form_new-user-content">
+	<small class="form-text text-muted">Thank you for submitting content for the Mautic community website.  All content submissions will be reviewed by members of the Blog Working Group and may be subject to editing as appropriate.</small> <br />
 	<div class="form-group">
 		<label class="form-label">{{ 'Title'|_ }}</label>
 		<input type="text" id="user-contribute-content--post-title" class="form-control" name="title" placeholder="Title" value="{{ post ? post.title : '' }}">
@@ -55,6 +56,7 @@ function onStart(){
 	</div>#}
 
 	<div class="form-group ">
+		<small class="form-text text-muted">Markdown preferred, HTML also OK!</small>
 		<label for="" class="form-label sr-only">Post Content</label>
 		<div id="user-contribute-content--post-content" style="height: 75vh;">
 			{{ post ? post.content_html|raw : '' }}
