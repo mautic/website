@@ -1,7 +1,7 @@
 ==
 {% set posts = __SELF__.posts %}
 <div class="page-header d-block text-center">
-    <h1 class="p-5">Help Centre</h1>
+    <h1 class="p-5">{{ 'Help Center'|_ }}</h1>
 </div>
 
 <div class="row col-6 mx-auto mb-8">
@@ -13,7 +13,9 @@
         </span>
         </div>
     </form>
-    <a class="btn btn-outline-brand-purple m-auto " href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, mode: 'add', category: 'help-with-mautic'}) }}">{{ 'Contribute to the help center'|_ }}</a>
+    {% if user %}
+        <a class="btn btn-outline-brand-purple m-auto " href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, mode: 'add', category: 'help-with-mautic'}) }}">{{ 'Contribute to the Help Center'|_ }}</a>
+    {% endif %}
 </div>
 
 {% if posts.currentPage != -112 %}

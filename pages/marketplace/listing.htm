@@ -7,6 +7,8 @@ child_of = "mey_no_parent"
 hide_crumb = 0
 remove_crumb_trail = 0
 crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 
 [viewBag]
 localeUrl[de] = "/marketplace"
@@ -25,7 +27,6 @@ $this->page->title = $this->download->name;
 }
 ?>
 ==
-
 {% put scripts %}
 	<script type="text/javascript">
 		function submitSearch() {
@@ -60,11 +61,13 @@ $this->page->title = $this->download->name;
 	</div>
 	<div class="row col-6 mx-auto mb-6 pb-6">
 		<div class="input-group input-group-lg ">
-			<input type="text" id="interest-search" class="form-control" placeholder="{{ 'What do you need it to find?'|_ }}">
+			<input type="text" id="interest-search" class="form-control" placeholder="{{ 'What are you trying to find?'|_ }}">
 			<span class="input-group-append">
         </span>
 		</div>
+		{% if user %}
 		<a class="btn btn-outline-brand-purple mt-5 ml-auto mr-auto " href="{{ 'mauticians/profile-marketplace_addedit'|page({user:user.username, mode: 'add'}) }}">{{ 'Submit your Mautic Mixins'|_ }}</a>
+		{% endif %}
 	</div>
 {% endput %}
 
@@ -73,4 +76,3 @@ $this->page->title = $this->download->name;
 		{% partial 'component_marketplace/card' download=download %}
 	{% endfor %}
 </div>
-
