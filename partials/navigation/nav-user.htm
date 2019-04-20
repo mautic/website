@@ -1,11 +1,11 @@
 ==
 <a class="dropdown-item" href="{{ 'mauticians/profile-single'|page({user:user.username, mode:''}) }}" data-test="own-profile-link">
-	<i class="dropdown-icon fe fe-user"></i> Profile
+	<i class="dropdown-icon fe fe-user"></i> {{ 'Profile'|_ }}
 </a>
 <div class="dropdown-divider"></div>
 <a class="dropdown-item" href="{{ 'help/help-featured'|page() }}">
-	<i class="dropdown-icon fe fe-help-circle"></i> Need help?
+	<i class="dropdown-icon fe fe-help-circle"></i> {{ 'Need help?'|_ }}
 </a>
 <a class="dropdown-item" href="#" data-request="onLogout" data-request-data="redirect: '/'" data-test="logout-link">
-	<i class="dropdown-icon fe fe-log-out"></i> Sign out
+	<i class="dropdown-icon fe fe-log-out"></i> {{ 'Sign out'|_ }}
 </a>
