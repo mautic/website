@@ -66,8 +66,8 @@ class UserProfile extends ComponentBase
         $validator = \Validator::make(
             $fields,
             [
-                'name'         => ['required', 'min:3'],
-                'surname'      => ['required', 'min:3'],
+                'name'         => ['min:3'],
+                'surname'      => ['min:3'],
                 'location'     => ['min:8'],
                 'about'        => ['min:8'],
                 'professional' => ['min:8'],
