@@ -41,7 +41,7 @@ $this['editing'] = true;
                 <a href="{{ 'mauticians/profile-contributions_helpcenter_addedit'|page({user:user.username, category: category, mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
             {% endif %}
         </div>
-        {% partial 'component_blog/table' profile=profile category=category category_id=category_id %}
+        {% partial 'component_blog/table' buttonsPartialNew='help_posts/table_row_action_buttons' profile=profile category=category category_id=category_id %}
     </div>
 
     {% set category='mautic-blogs' %}
