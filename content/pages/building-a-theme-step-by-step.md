@@ -43,7 +43,7 @@
 <pre>{
  "name": <strong>"Theme"</strong>,
  "author": <strong>"Author"</strong>,
- "authorUrl": <strong>"http://www.mautic.org"</strong>,
+ "authorUrl": <strong>"https://www.mautic.org"</strong>,
  "features": [
   <strong>"email",
   "page",

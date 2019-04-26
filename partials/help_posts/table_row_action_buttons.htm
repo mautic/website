@@ -1,0 +1,10 @@
+==
+{% if post.published == 0 %}
+    {% if isOwnProfile %}<a
+        href="{{ 'mauticians/profile-contributions_helpcenter_addedit'|page({user:user.username, mode:'edit', slug:post.slug }) }}" class="btn btn-secondary btn-sm">
+        {{ 'Edit'|_ }}</a>
+    {% endif %}
+{% else %}
+    <a href="{{ 'blog/blog-component-single'|page({slug:post.slug, category: post.categories[0].slug}) }}"
+       class="btn btn-secondary btn-sm">{{ 'View'|_ }}</a>
+{% endif %}

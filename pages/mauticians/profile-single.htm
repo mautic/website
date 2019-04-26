@@ -1,13 +1,17 @@
 title = "Profile - Single"
 url = "/mauticians/:user"
-layout = "sidebar-left"
+layout = "sidebar-left-single-mautician"
 is_hidden = 0
 child_of = "mey_no_parent"
 hide_crumb = 1
 remove_crumb_trail = 0
 crumb_disabled = 0
+robot_index = "index"
+robot_follow = "follow"
 
 [RainLab\User\Components\Account account]
+paramCode = "code"
+forceSecure = 0
 
 [userProfile]
 username = "{{ :user }}"
@@ -34,10 +38,10 @@ $this['editing'] = true;
         <div class="card-header">
             <h3 class="card-title">{{ 'Help Center contributions'|_ }}</h3>
             {% if isOwnProfile %}
-                <a href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, category: category, mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+                <a href="{{ 'mauticians/profile-contributions_helpcenter_addedit'|page({user:user.username, category: category, mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
             {% endif %}
         </div>
-        {% partial 'component_blog/table' profile=profile category=category category_id=category_id %}
+        {% partial 'component_blog/table' buttonsPartialNew='help_posts/table_row_action_buttons' profile=profile category=category category_id=category_id %}
     </div>
 
     {% set category='mautic-blogs' %}
@@ -46,7 +50,7 @@ $this['editing'] = true;
         <div class="card-header">
             <h3 class="card-title">{{ 'Blog contributions'|_ }}</h3>
             {% if isOwnProfile %}
-                <a href="{{ 'mauticians/profile-contributions_addedit'|page({user:user.username, category: category , mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
+                <a href="{{ 'mauticians/profile-contributions_blog_addedit'|page({user:user.username, category: category , mode: 'new' }) }}" class="btn btn-outline-brand-purple btn-sm ml-auto">{{ 'Add new'|_ }}</a>
             {% endif %}
 
         </div>
@@ -69,6 +73,8 @@ $this['editing'] = true;
                     {% for download in profile.downloads|reverse %}
                         {% partial 'component_marketplace/table_row' download=download isOwnProfile=isOwnProfile %}
                     {% endfor %}
+                {% else %}
+                    <div class="card-body">{{ 'No contributions yet'|_ }}</div>
                 {% endif %}
                 </tbody>
             </table>
@@ -80,7 +86,7 @@ $this['editing'] = true;
             <h3 class="card-title">{{ 'Group membership'|_ }}</h3>
         </div>
         <div class="card-body ">
-			{% set user=profile %}
+        {% set user=profile %}
             {% if user.usergroups|length %}
                 {% for group in user.usergroups if group.group_type == 'mauticamp' %}
                     <div class="tag tag-brand-purple">
@@ -98,6 +104,8 @@ $this['editing'] = true;
                            data-original-title="{{ group.name }}"></i>
                     </a>
                 {% endfor %}
+            {% else %}
+                {{ 'No group membership yet'|_ }}
             {% endif %}
         </div>
     </div>

@@ -8,7 +8,9 @@ $this->addJs('assets/marketplace__form.js');
 ==
 <form data-request="onAddNewMarketplaceDownload" class="marketplace--form_new-download">
     <input type="hidden" name="downloadid" value="{{ download ? download.id : 0 }}">
-
+<p>Mixins must have a GitHub repository to be eligible for submission to the Marketplace. Please provide the name of the mixin and your GitHub repository link below.</p>
+<p>The Marketplace Working Group will review your submission and will be in touch if we have any questions.</p>
+<p>We use your Readme file to provide information about the plugin, so please ensure it is complete. We also recommend you review GitHub's guidance on <a href="https://help.github.com/en/articles/creating-a-default-community-health-file-for-your-organization" target="_blank">creating a default community health file for your organisation</a>.
     {# name #}
     <div class="form-group">
         <label class="form-label">{{ 'Name'|_ }}</label>
@@ -48,7 +50,7 @@ $this->addJs('assets/marketplace__form.js');
                    value="{{ download ? download.repository_url : '' }}">
         </div>
         <small class="form-text text-muted">
-            {{ 'Enter the url of your github repo'|_ }}
+            {{ 'Enter the url of your GitHub repo'|_ }}
         </small>
     </div>
 

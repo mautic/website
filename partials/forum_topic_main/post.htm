@@ -24,7 +24,7 @@
 
 	<div class="col-12">
 		{% if topic.first_post.id != post.id %}
-			<small class="float-right text-muted">{% partial __SELF__ ~ "::timestamp" date=post.created_at %}</small>
+			<a href="{{ post.url }}#post-{{ post.id }}"><small class="float-right text-muted">{% partial __SELF__ ~ "::timestamp" date=post.created_at %}</small></a>
 		{% endif %}
 		<div class="pull-left avatar avatar-md mr-4" style="background-image: url({{ post.member.user.avatarThumb(50) }})"></div>
 		<a href="{{ 'mauticians/profile-single'|page({user:post.member.user.username}) }}" class="author font-weight-bold text-dark">{{ post.member.user.name }} {{ post.member.user.surname }}</a>
