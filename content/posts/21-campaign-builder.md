@@ -17,4 +17,4 @@ Watch the video for more!
 
 <script src="//fast.wistia.com/embed/medias/4rhew7f0jr.jsonp" async></script><script src="//fast.wistia.com/assets/external/E-v1.js" async></script> 
 
-If you’d like to suggest a topic, please head over to the #[support](https://mautic.slack.com/archives/support) channel and message @imrodmartin.
+If you’d like to suggest a topic, please head over to the #[support](https://discord.gg/mautic) channel on Discord and message @imrodmartin.
