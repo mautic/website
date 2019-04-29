@@ -19,4 +19,4 @@ Please email security [at] mautic.org with as many of the details as possible. T
 
 ### Getting Involved
 
-There are many ways in which you can be involved with Mautic. Please review these areas on the [Get Involved page](index.php?option=com_content&view=article&id=23&catid=9&Itemid=120).
+There are many ways in which you can be involved with Mautic. Please review these areas on the [Get Involved page](/get-involved).
