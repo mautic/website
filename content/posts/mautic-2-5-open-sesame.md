@@ -31,7 +31,7 @@ Features and Functionality
 
 Marketers must be better equipped to meet the needs of their audience online. Each connection you make with your customer requires even more relevance and personalization. With a more agile approach to development, you’ll begin to see more frequent updates giving you an even more open, integrated solution that drives audience engagement. 
 
-The Mautic 2.5 update has been released to Mautic Cloud and self-hosted users. For more information about this update, please check the [release notes here](https://github.com/mautic/mautic/releases/tag/2.5.0). If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Slack](https://www.mautic.org/slack) or our social channels ([Facebook](https://www.facebook.com/trymautic) & [Twitter](https://www.twitter.com/trymautic)) and we will do our best to answer them.
+The Mautic 2.5 update has been released to Mautic Cloud and self-hosted users. For more information about this update, please check the [release notes here](https://github.com/mautic/mautic/releases/tag/2.5.0). If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Discord](https://discord.gg/mautic) or our social channels ([Facebook](https://www.facebook.com/trymautic) & [Twitter](https://www.twitter.com/trymautic)) and we will do our best to answer them.
 
 
 ### Video

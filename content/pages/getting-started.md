@@ -30,7 +30,7 @@
     </div>
     <div class="card-body">
         <p>
-        	Once you’ve installed Mautic you will need to create a few standard cron jobs to have your software process various tasks. These cron jobs can be created through a cPanel or added through command line. If you are unfamiliar or uncomfortable with this step then we’d recommend [asking in the forums](https://www.mautic.org/community) or in the live [Slack chat](https://www.mautic.org/slack). Here is a list of the cron jobs you’ll need to create.  
+        	Once you’ve installed Mautic you will need to create a few standard cron jobs to have your software process various tasks. These cron jobs can be created through a cPanel or added through command line. If you are unfamiliar or uncomfortable with this step then we’d recommend [asking in the forums](https://www.mautic.org/community) or in the live [Discord chat](https://discord.gg/mautic). Here is a list of the cron jobs you’ll need to create.  
         </p>
         <div class="card">
             <div class="card-body">

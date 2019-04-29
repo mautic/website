@@ -78,7 +78,7 @@ Everyone knows that no person is an island. It takes a team to be successful. Ar
  
 - Skill: Troubleshooting & idea generation: <highlight><strong>25 points/answer</strong><highlight></highlight></highlight> 
 
-- Answer questions in [Slack](https://www.mautic.org/slack) - must be acknowledged by asker as answer to challenge 
+- Answer questions in [Discord](https://discord.gg/mautic) - must be acknowledged by asker as answer to challenge 
 - Answer questions in the [Forums](https://www.mautic.org/community) - must be acknowledged by asker as answer to challenge
 
 - Skill: Create support articles: <highlight><strong>500 points</strong><highlight></highlight></highlight> 

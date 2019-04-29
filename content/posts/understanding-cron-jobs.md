@@ -1,6 +1,6 @@
 Do you have your Mautic forms, landing pages and campaign emails ready to go but nothing is happening? If you're using the** self-hosted** version of Mautic, you need to check your CRON jobs.
 
-### Cron jobs are one of the most frequent topics in our Slack chats.
+### Cron jobs are one of the most frequent topics in our Discord chats.
 
 Cron is a time-based job scheduler in Unix-like computer operating systems. Cron schedules jobs (commands or shell scripts) to run at fixed times, dates, or intervals.  **Mautic requires cron jobs to update contacts, campaigns and execute campaign actions.**  Mautic also optionally uses cron jobs to send emails and perform other related tasks.
 
@@ -33,4 +33,4 @@ There are several optional cron jobs, depending on your configuration.  You can
 
 Make sure you subscribe to our [YouTube channel.](https://www.youtube.com/channel/UCcc9_x7_gNICPkrbG2NU9Xw)
 
-If you’d like to suggest a topic, please head over to the #[support](https://mautic.slack.com/archives/support) channel and message @imrodmartin.
+If you’d like to suggest a topic, please head over to the #[support](https://discord.gg/mautic) channel and message @imrodmartin.

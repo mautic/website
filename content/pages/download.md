@@ -1,7 +1,7 @@
 # Start using marketing automation today!
 
 
-The latest release of Mautic is available as an installable package below. For another format or to see the files first, take a look at the [Github repository](https://github.com/mautic/mautic). <strong>Questions?</strong> Check out the [quick start guide](https://www.mautic.org/getting-started/) or head over to our [forum](https://www.mautic.org/community), or [Slack](http://www.mautic.org/slack) where you can interact with our community and find answers to many of the challenges you might face.
+The latest release of Mautic is available as an installable package below. For another format or to see the files first, take a look at the [Github repository](https://github.com/mautic/mautic). <strong>Questions?</strong> Check out the [quick start guide](https://www.mautic.org/getting-started/) or head over to our [forum](https://www.mautic.org/community), or [Discord](https://discord.gg/mautic) where you can interact with our community and find answers to many of the challenges you might face.
 
 <hr />
 

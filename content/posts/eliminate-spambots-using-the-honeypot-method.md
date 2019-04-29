@@ -1,7 +1,7 @@
 ![](https://www.mautic.org/wp-content/uploads/2017/05/honey-823614_1920-1024x448.jpg)
 
 
-*<span style="font-size:18px"> Today we're highlighting a unique approach to eliminating spam bots provided by community member Joan Nin (Slack: @ninjoan).</span>*
+*<span style="font-size:18px"> Today we're highlighting a unique approach to eliminating spam bots provided by community member Joan Nin (Discord: @ninjoan).</span>*
 
 ------
 

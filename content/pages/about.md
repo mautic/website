@@ -26,4 +26,4 @@ Of course because Mautic is built and grown as a result of the community involve
 
 ### More Information
 
-If you’re interested in learning more about Mautic or its founder, David, then dig in or join the [community on Slack](https://www.mautic.org/slack).
+If you’re interested in learning more about Mautic or its founder, David, then dig in or join the [community on Discord](https://discord.gg/mautic).

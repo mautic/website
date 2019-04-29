@@ -62,6 +62,6 @@ The powerful features we’ve packed into release 2.1 are just that. Powerful. T
 
 ### Mautic 2.1 Upgrade Details:
 
-For more detailed information about the release for self-hosted users, please follow this link to the [Mautic 2.1 Release Notes](https://mautic.org/community/index.php/5223-2-1-0-released). If you experience any challenges accessing or using these incredible new features, please be sure to connect with us on [Slack](https://www.mautic.org/slack) and the [Community Forum](https://www.mautic.org/community).
+For more detailed information about the release for self-hosted users, please follow this link to the [Mautic 2.1 Release Notes](https://mautic.org/community/index.php/5223-2-1-0-released). If you experience any challenges accessing or using these incredible new features, please be sure to connect with us on [Discord](https://discord.gg/mautic) and the [Community Forum](https://www.mautic.org/community).
 
 Thank you for being an important part of the Mautic community!

@@ -1,6 +1,6 @@
 ![backup](https://www.mautic.org/wp-content/uploads/2017/09/cloudBackupDropbox-1024x576.jpg)
 
-*We're excited to continue sharing content developed by the Mautic community. This solution and post was developed and written by Joan Nin (Slack: @ninjoan).*
+*We're excited to continue sharing content developed by the Mautic community. This solution and post was developed and written by Joan Nin (Discord: @ninjoan).*
 
 Are you looking for ways to make a backup of your Mautic instance fast, easy and automatic? This tutorial will give you the ability to backup your Mautic database to your Dropbox account.
 

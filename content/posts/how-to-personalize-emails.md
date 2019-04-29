@@ -14,4 +14,4 @@ Here's your Mautic Minute:
 
 <script src="//fast.wistia.com/embed/medias/p0ie1sxgx0.jsonp" async></script><script src="//fast.wistia.com/assets/external/E-v1.js" async></script> 
 
-If you’d like to suggest a topic, please head over to the #[support](https://mautic.slack.com/archives/support) channel and message @imrodmartin.
+If you’d like to suggest a topic, please head over to the #[support](https://discord.gg/mautic) channel and message @imrodmartin.

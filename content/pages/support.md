@@ -7,11 +7,11 @@ If you have a question that may have been asked before, or one that you imagine 
 
 [Join Forums](/forums)
 
-### Community Slack
+### Community Discord Chat
 
-If you are looking for a quick answer to a relatively simple question, or maybe just need someone to tell you where you should look, the Slack channels are a good resource. This is where live conversation happens and you can quickly get involved in Mautic (be sure to check out all the different channels) 
+If you are looking for a quick answer to a relatively simple question, or maybe just need someone to tell you where you should look, the Discord channels are a good resource. This is where live conversation happens and you can quickly get involved in Mautic (be sure to check out all the different channels) 
 
-[Join Slack](/slack)
+[Join Discord](https://discord.gg/mautic)
 
 ### Issue Reporting
 

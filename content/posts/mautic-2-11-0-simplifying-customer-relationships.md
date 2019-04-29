@@ -50,6 +50,6 @@ Simplification takes a careful attention to the things that will help make what 
 
 A huge thank you to those in the community who made the effort to load the beta release of 2.11.0 and test these features, functionality, and fixes that were part of this release. 
 
-For more detailed information, you can find the [release notes here](https://www.mautic.org/community/index.php/8695-2-11-0-released). If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Slack](https://www.mautic.org/slack) or our social channels ([Facebook](https://www.facebook.com/MauticCommunity/) & [Twitter](https://www.twitter.com/MauticCommunity/)) and we will do our best to help.
+For more detailed information, you can find the [release notes here](https://www.mautic.org/community/index.php/8695-2-11-0-released). If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Discord](https://discord.gg/mautic) or our social channels ([Facebook](https://www.facebook.com/MauticCommunity/) & [Twitter](https://www.twitter.com/MauticCommunity/)) and we will do our best to help.
 
 If you're not a community member, we would encourage you to join us! [Download Mautic](https://www.mautic.org/download/) today and start growing your business.

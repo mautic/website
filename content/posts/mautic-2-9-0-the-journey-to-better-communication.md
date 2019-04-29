@@ -83,7 +83,7 @@ Reporting
 
 We’re grateful for the those of you who made the effort to load the beta release of 2.9.0 and test the variety of features, functionality and fixes that were part of this release. Mautic would not be where it is today without the incredible community that we have. 
 
-For more detailed information on this release, you can find the [release notes here](https://github.com/mautic/mautic/releases/2.9.0). If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Slack](https://www.mautic.org/slack/) or our social channels ([Facebook](https://www.facebook.com/MauticCommunity/) & [Twitter](https://twitter.com/mauticcommunity)) and we will do our best to help.
+For more detailed information on this release, you can find the [release notes here](https://github.com/mautic/mautic/releases/2.9.0). If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Discord](https://discord.gg/mautic) or our social channels ([Facebook](https://www.facebook.com/MauticCommunity/) & [Twitter](https://twitter.com/mauticcommunity)) and we will do our best to help.
 
 
 ### Links to Tutorial Videos

@@ -41,4 +41,4 @@ https://www.youtube.com/watch?v=TRJQdkGNJSc
 
 
 
-If you'd like to suggest a topic, please head over to the [#support](https://mautic.slack.com/archives/support) channel and message @imrodmartin.
+If you'd like to suggest a topic, please head over to the [#support](https://discord.gg/mautic) channel and message @imrodmartin.

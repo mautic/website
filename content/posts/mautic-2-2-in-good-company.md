@@ -99,6 +99,6 @@ Do you have a unique goal that marketing automation could help you accomplish? S
 ### Mautic 2.2.0 Upgrade Details:
 
 
-For more detailed information about the release for self-hosted users, please follow this link to the Mautic 2.2.0 [Release Notes](https://github.com/mautic/mautic/releases/tag/2.2.0). Mautic Cloud users have already been updated to Mautic 2.2.0. If you experience any challenges accessing or using these incredible new features, please be sure to connect with us on [Slack](https://www.mautic.org/slack) and the [Community Forum](https://www.mautic.org/community).
+For more detailed information about the release for self-hosted users, please follow this link to the Mautic 2.2.0 [Release Notes](https://github.com/mautic/mautic/releases/tag/2.2.0). Mautic Cloud users have already been updated to Mautic 2.2.0. If you experience any challenges accessing or using these incredible new features, please be sure to connect with us on [Discord](https://discord.gg/mautic) and the [Community Forum](https://www.mautic.org/community).
 
 Thank you for being an important part of the Mautic community!

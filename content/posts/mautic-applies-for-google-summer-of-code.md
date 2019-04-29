@@ -14,6 +14,6 @@ Chad Windnagle has volunteered to lead the Mautic application this year. Chad h
 
 ## Get Involved!
 
-If anyone has questions, ideas or interests in learning more about GSoC or in particular Mautic’s application or focus areas please contact Chad directly at [chad.windnagle@mautic.org](mailto:chad.windnagle@mautic.org) for more information. (Hint: there might be a faster response found on the [Mautic Slack chat](https://www.mautic.org/slack)).
+If anyone has questions, ideas or interests in learning more about GSoC or in particular Mautic’s application or focus areas please contact Chad directly at [chad.windnagle@mautic.org](mailto:chad.windnagle@mautic.org) for more information. (Hint: there might be a faster response found on the [Mautic Discord chat](https://discord.gg/mautic)).
 
 There will be more details, timelines, and suggestions shared once the application is received and accepted by Google. At that time more information will be published on the [Mautic blog](https://www.mautic.org/blog) along with various [social](https://twitter.com/mautic) [media](https://facebook.com/trymautic) channels.

@@ -18,7 +18,7 @@ Hungry
 
 #### Why did you decide to become involved with Mautic and what is your favorite part about the Mautic community?
 
-I started by joining the Mautic Slack, and simply wanted to learn as much as I could. After getting a feel for the community after a few weeks, whenever I felt like I had even a rough idea about a potential solution—I'd share it. I'm always interested in solving the problem by introducing a specific use case or methodology. I've noticed that often times, you can get stuck trying to use an application in a specific way _that you expect to "just work" based on previous experience_, but often times we have to challenge these preconceptions.
+I started by joining the Mautic Slack (now Discord), and simply wanted to learn as much as I could. After getting a feel for the community after a few weeks, whenever I felt like I had even a rough idea about a potential solution—I'd share it. I'm always interested in solving the problem by introducing a specific use case or methodology. I've noticed that often times, you can get stuck trying to use an application in a specific way _that you expect to "just work" based on previous experience_, but often times we have to challenge these preconceptions.
 
 
 #### What is the most wonderful compliment anyone has ever given you?

@@ -299,7 +299,7 @@ The menu on the left allows you to get where you're going quickly. You can easil
 
 One screenshot could never give you the complete picture of all that Mautic can do. If you're **ready** to see more of the incredible user interface that makes Mautic such an **intuitive** and user-friendly platform then simply [download](https://mautic.org/download) the latest or setup a **free** [hosted](https://mautic.com) account.
 
-Maybe you need **more information** but you don't have to take our word for it. Here's a few **testimonials** from our outstanding community. We're not picking just the best either! Come join the **discussion** in our Slack chat and talk to other people for yourself!
+Maybe you need **more information** but you don't have to take our word for it. Here's a few **testimonials** from our outstanding community. We're not picking just the best either! Come join the **discussion** in our [Discord](https://discord.gg/mautic) chat and talk to other people for yourself!
 
 [hr]
 

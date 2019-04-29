@@ -6,7 +6,7 @@
 
 A primary goal of the Mautic community is to support you and your business in the development, use and implementation of Mautic. It’s to be inclusive and add value to the largest number of participants, with the most varied and diverse backgrounds possible. As such, we are committed to providing a friendly, safe and welcoming environment for all.
 
-This code of conduct outlines our expectations for all those who participate in our community, whether in-person or online (primarily [Slack](http://www.mautic.org/slack) and the [Community Forum](http://www.mautic.org/community)), as well as the consequences for unacceptable behavior.
+This code of conduct outlines our expectations for all those who participate in our community, whether in-person or online (primarily [Discord](https://discord.gg/mautic) and the [Community Forum](http://www.mautic.org/community)), as well as the consequences for unacceptable behavior.
 
 We invite all those who participate in Mautic activities online to help us create safe and positive experiences for everyone.
 

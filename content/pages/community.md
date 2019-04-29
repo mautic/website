@@ -223,7 +223,7 @@
           <span class="icon mr-3"><i class="fe fe-linkedin"></i></span>LinkedIn <span class="ml-auto badge badge-dark">3,902</span>
         </a>
         <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
-          <span class="icon mr-3"><i class="fe fe-slack"></i></span>Slack <span class="ml-auto badge badge-dark">4,620</span>
+          <span class="icon mr-3"><i class="fe fe-speech-bubble"></i></span>Discord <span class="ml-auto badge badge-dark">4,620</span>
         </a>
       </div>
     </div>
@@ -261,7 +261,7 @@
           <span class="icon mr-3"><span class="avatar avatar-sm">KA</span></span> Kevin Ard <span class="ml-auto badge badge-dark">Website</span>
         </a>
         <a href="#" class="list-group-item list-group-item-action d-flex align-items-center px-3">
-          <span class="icon mr-3"><span class="avatar avatar-sm">PL</span></span> Paul Linhardtst <span class="ml-auto badge badge-dark">Slack</span>
+          <span class="icon mr-3"><span class="avatar avatar-sm">PL</span></span> Paul Linhardtst <span class="ml-auto badge badge-dark">Discord</span>
         </a>
       </div>
     </div>

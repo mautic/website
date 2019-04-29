@@ -5,7 +5,7 @@ One of the most powerful ways to engage people is through a story. A couple of w
 
 We're thrilled to continue writing this story of open with you. Equipping you with more tools to share your stories in a meaningful and compelling way. The features in Mautic 2.0 will change the way you market. They will begin to help you connect systems in your business, ultimately creating memorable customer experiences at each and every lifecycle stage.
 
-We can’t wait to see how you use these features! We’d encourage you to visit the [Community Forum](https://www.mautic.org/community), [Slack](https://www.mautic.org/slack), [Facebook](https://www.facebook.com/trymautic), [Twitter](https://www.twitter.com/mautic) and other channels to share all the incredible things you’re doing with Mautic. Have you developed a unique campaign? Are you providing incredible value and seeing the results? Share it with the community!
+We can’t wait to see how you use these features! We’d encourage you to visit the [Community Forum](https://www.mautic.org/community), [Discord](https://discord.gg/mautic), [Facebook](https://www.facebook.com/trymautic), [Twitter](https://www.twitter.com/mautic) and other channels to share all the incredible things you’re doing with Mautic. Have you developed a unique campaign? Are you providing incredible value and seeing the results? Share it with the community!
 
 ------
 
@@ -113,7 +113,7 @@ To help you better understand these incredible new features, we've assembled a s
 
 We couldn’t be more thrilled to share this release with you. Our vision of open marketing is grounded in connecting, collaborating and sharing value to change the way we communicate. With the features found in 2.0, along with your innovative ideas, we believe that this vision is becoming a reality.
 
-If you operate a self-hosted version of Mautic, we want to be sure to share the following details before you upgrade. If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Slack](https://www.mautic.org/slack) or our social channels ([Facebook](https://www.facebook.com/trymautic) & [Twitter](https://twitter.com/mautic)) and we will do our best to help.
+If you operate a self-hosted version of Mautic, we want to be sure to share the following details before you upgrade. If you have any questions, please be sure to reach out to us via the [Community Forums](https://www.mautic.org/community), [Discord](https://discord.gg/mautic) or our social channels ([Facebook](https://www.facebook.com/trymautic) & [Twitter](https://twitter.com/mautic)) and we will do our best to help.
 
 
 ## Important Mautic 2.0 Upgrade Details:

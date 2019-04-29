@@ -15,7 +15,7 @@ However, questions about how Mautic should be used, ways to get involved, questi
 And lastly, if all goes well I hope we will hold more of these in the future. I’m not going to dig into specifics about what to expect (Remember this is our first one, we’re going to be learning as we go). But here’s what you need to know now:
 
 **What:** Mautic’s First Ever AMA
-**Where:** [Mautic’s Slack Channel](https://www.mautic.org/slack/) – # ama
+**Where:** [Mautic’s Discord Channel](https://discord.gg/mautic) – # ama
 **When:** December 21, 2017
 **Time:** 10:00AM EST ([The World Clock Meeting Planner – Details](https://www.timeanddate.com/worldclock/meetingdetails.html?year=2017&month=12&day=21&hour=15&min=0&sec=0&p1=43))
 **What To Bring:** Your questions!

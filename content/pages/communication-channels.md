@@ -8,9 +8,9 @@ The Mautic community is a global community which can be found and joined through
 
          
 #### Group Chats
- Mautic uses the awesomeness of Slack to provide quick chats between groups and interactions between people. Ask questions, give answers, or just hang out with friends in the community.   
+ Mautic uses the awesomeness of Discord to provide quick chats between groups and interactions between people. Ask questions, give answers, or just hang out with friends in the community.   
 
- [View Chats](get-involved/group-chats)  
+ [Join the Mautic community on Discord](https://discord.gg/mautic)  
 
       
 #### Mautic Blog

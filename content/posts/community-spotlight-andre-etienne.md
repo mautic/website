@@ -18,7 +18,7 @@ That’s a hard one, I’d say...insistent.
 
 #### Why did you decide to become involved with Mautic and what is your favorite part about the Mautic community?
 
-When I started using Mautic I had so many ideas on ways to expand the system for CRM use, task management and for client use. Once I found the Mautic Slack community I was able to speak to many of the contributors and the people that basically helped me lay a foundation for all the start-up businesses I’ve worked with over the years; so as much as I wanted to expand Mautic there is no place better to do so than the slack community by contributing.
+When I started using Mautic I had so many ideas on ways to expand the system for CRM use, task management and for client use. Once I found the Mautic Slack (now Discord) community I was able to speak to many of the contributors and the people that basically helped me lay a foundation for all the start-up businesses I’ve worked with over the years; so as much as I wanted to expand Mautic there is no place better to do so than the slack community by contributing.
 
 The best part of the community is how open and fast it is to learn from many different people, great place to converse and good networking.
 

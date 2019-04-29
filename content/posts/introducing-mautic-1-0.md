@@ -37,7 +37,7 @@ The time has come. The day we have all <s>waited for</s>, **worked tirelessly fo
  Access the code at [GitHub](https://github.com/mautic)  
 
      **  
- Chat on [Slack](http://mautic.slack.com)  
+ Chat on [Discord](https://discord.gg/mautic)  
 
     
 ### A massive thank you!

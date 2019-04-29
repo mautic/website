@@ -5,7 +5,7 @@ It’s been nearly three years since Mautic's founder David Hurley sat down and 
 
 As I reflect on that post, we find ourselves meeting and in many cases exceeding our expectations. We are indeed meeting the needs of small businesses, adding incredible features and gaining access to bigger markets. But this has not happened without the incredible support from our community. 
 
-With every update, we see individual names of people who are making incredible contributions to Mautic. Every time I survey the forums or Slack, there are passionate, driven people who have dedicated themselves to see this community and solution grow.
+With every update, we see individual names of people who are making incredible contributions to Mautic. Every time I survey the forums or Discord, there are passionate, driven people who have dedicated themselves to see this community and solution grow.
 
 But this growth hasn’t been without it’s challenges. Developing a feature rich solution that meets the demands of a growing industry, while tackling the many bugs that gets in the way, can be trying. But we are as committed as ever to listening to you, responding to your needs and exceeding user expectations, every step of the way.
 
@@ -25,7 +25,7 @@ There are a number of key growth areas that we’d like to tackle in the near te
 
 
 
-I have reached out to many of you already in an effort to ensure that everyone that connects with Mautic, feels supported to grow their business. But if I haven't connected with you, I'd like to say "hello" and please feel free to reach out to me (via [Slack](https://www.mautic.org/slack): @jseevers or [email](mailto:jeff.seevers@mautic.org)) and introduce yourself, or provide a comment below. I’ll be working diligently to bring content, process and structure to the work being done in and around our growing community.
+I have reached out to many of you already in an effort to ensure that everyone that connects with Mautic, feels supported to grow their business. But if I haven't connected with you, I'd like to say "hello" and please feel free to reach out to me (via [Discord](https://discord.gg/mautic): @jseevers or [email](mailto:jeff.seevers@mautic.org)) and introduce yourself, or provide a comment below. I’ll be working diligently to bring content, process and structure to the work being done in and around our growing community.
 
 ![](https://www.mautic.org/wp-content/uploads/2017/06/IMG_5965.gif)
 

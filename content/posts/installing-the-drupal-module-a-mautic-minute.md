@@ -21,4 +21,4 @@ Watch the video for step by step instructions.
 
 https://www.youtube.com/watch?v=lWiN8xT5k0w
 
-If you'd like to suggest a topic, please head over to the [#support](https://mautic.slack.com/archives/support) channel and message @imrodmartin.
+If you'd like to suggest a topic, please head over to the [#support](https://discord.gg/mautic) channel and message @imrodmartin.

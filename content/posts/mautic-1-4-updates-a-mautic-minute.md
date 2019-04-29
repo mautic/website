@@ -34,4 +34,4 @@ https://www.youtube.com/watch?v=NK8Bx4_JVkU
 
 A big thank you to the following community members for contributing to this release: @Dcoutelle, @FarhadF, @hissy, @jkuchar, @kuzmany, @LAN-Laurene, @nickion, @nithinga, @pelboxsolutions, @rafas, @Salamek, @sandergo90, @teobogdan87
 
-If you’d like to suggest a topic, please head over to the #[support](https://mautic.slack.com/archives/support) channel and message @imrodmartin.
+If you’d like to suggest a topic, please head over to the #[support](https://discord.gg/mautic) channel and message @imrodmartin.

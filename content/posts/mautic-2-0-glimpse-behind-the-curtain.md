@@ -3,7 +3,7 @@
 
 Our community is the best there is. Each of you have taken valuable time to push Mautic to the absolute limits. You connect, collaborate and innovate, moving us all forward. All while bringing life to our mission, moving horizons. 
 
-The team at Mautic has been watching and listening. Each and every Slack comment, forum question, support ticket and Facebook post collectively let's us know what you care about. We believe that the features found in 2.0 are quite literally, game changers. In anticipation of this release, we’d like to give you a glimpse behind the curtain.
+The team at Mautic has been watching and listening. Each and every Discord comment, forum question, support ticket and Facebook post collectively let's us know what you care about. We believe that the features found in 2.0 are quite literally, game changers. In anticipation of this release, we’d like to give you a glimpse behind the curtain.
 
 <script src="//fast.wistia.com/embed/medias/djfz3vi0pp.jsonp" async></script><script src="//fast.wistia.com/assets/external/E-v1.js" async></script><span class="wistia_embed wistia_async_djfz3vi0pp popover=true popoverAnimateThumbnail=true videoFoam=true" style="display:inline-block;height:100%;width:100%"> </span>
   

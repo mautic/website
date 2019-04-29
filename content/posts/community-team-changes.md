@@ -5,7 +5,7 @@ Everyone gets excited when a new version of Mautic is released. We all rush to t
 
 
 
-> Maybe it wasn’t a new release announcement where you first ran into Jeff. That’s easy to imagine because he stays busy in so many different areas of the Mautic community, whether it was the forums, the social media channels, or the Slack channels you could find Jeff working, talking, always looking for ways to empower people and encourage volunteers.
+> Maybe it wasn’t a new release announcement where you first ran into Jeff. That’s easy to imagine because he stays busy in so many different areas of the Mautic community, whether it was the forums, the social media channels, or the Slack (now Discord) channels you could find Jeff working, talking, always looking for ways to empower people and encourage volunteers.
 
 Wherever you may have met Jeff I am sure it was a memorable moment. He’s been a friendly face around Mautic for a good part of the last year. And because of that familiarity it makes the future a little bit harder. I am both a little sad and also excited to share that Jeff will be moving on from Mautic to other things. I’m saddened because the Mautic community will lose a powerful advocate and a strong voice in the day to day Mautic dealings. But I’m excited because even as Jeff seeks out a new challenge in a different role I know Mautic will continue to be a part of his life. His dedication and commitment to what we are doing in Mautic will not end simply due to a change in his title or company.
 

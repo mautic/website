@@ -6,7 +6,7 @@ It is an exciting time for everyone involved with Mautic. We take pride in the s
 
  
 ### Details:
- Join us on [ Slack](https://mautic.slack.com) as we discuss the product roadmap in real-time on the [ #dev chat](https://mautic.slack.com/messages/dev/ title) this Wednesday March 18, 2015 at 11AM EST. ([Check local time](http://www.timeanddate.com/worldclock/fixedtime.html?msg=Roadmap+Development+Chat&iso=20150318T11&p1=207))  
+ Join us on [ Discord](https://discord.gg/mautic) as we discuss the product roadmap in real-time on the [ #dev chat](https://discord.gg/mautic) this Wednesday March 18, 2015 at 11AM EST. ([Check local time](http://www.timeanddate.com/worldclock/fixedtime.html?msg=Roadmap+Development+Chat&iso=20150318T11&p1=207))  
 
      
 

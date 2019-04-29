@@ -59,7 +59,7 @@ Whether you are moving prospects through a meaningful buying journey, or adding 
 
 We trust that these features, improvements and bug fixes will enable you and your entire business to respond to to each problem statement with clear focus and attention.
 
-Release 2.8 encourages big picture thinking, while taking incredible strides to bring that picture to life for marketers. This release is now available for [download](https://www.mautic.org/download) to our open source community. For more detailed information, you can find the [release notes here](https://github.com/mautic/mautic/releases/tag/2.8.0). If you have any questions or find new challenges that arise, join our feedback team and reach out to us on the [Community Forums](https://www.mautic.org/community), [Slack](https://www.mautic.org/slack), or social channels ([Facebook](https://www.facebook.com/trymautic) & [Twitter](https://www.twitter.com/mautic)) and we will respond as soon as we are able. 
+Release 2.8 encourages big picture thinking, while taking incredible strides to bring that picture to life for marketers. This release is now available for [download](https://www.mautic.org/download) to our open source community. For more detailed information, you can find the [release notes here](https://github.com/mautic/mautic/releases/tag/2.8.0). If you have any questions or find new challenges that arise, join our feedback team and reach out to us on the [Community Forums](https://www.mautic.org/community), [Discord](https://discord.gg/mautic), or social channels ([Facebook](https://www.facebook.com/trymautic) & [Twitter](https://www.twitter.com/mautic)) and we will respond as soon as we are able. 
 
 ------
 
