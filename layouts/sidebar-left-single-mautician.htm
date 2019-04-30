@@ -23,6 +23,7 @@ theme = "light-bottom"
 <html lang="en" dir="ltr">
 <head>
 	{% component'session' %}
+	{% component 'SeoCmsPage' %}
 	{% partial 'site/assets-common' %}
 	{% partial 'site/site-meta-common' %}
 	<title>{{ user.name }} {{ user.surname }}'s Mautician Profile | Mautic Community</title>
